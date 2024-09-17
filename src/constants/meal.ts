@@ -1,0 +1,31 @@
+import { MealType } from "@/types/api-responses/meal";
+
+export const mealTypeOptions: {
+  value: MealType;
+  label: string;
+}[] = [
+  {
+    label: "Ontbijt",
+    value: "breakfast",
+  },
+  {
+    label: "Snacks 1",
+    value: "snacks1",
+  },
+  {
+    label: "Lunch",
+    value: "lunch",
+  },
+  {
+    label: "Snacks 2",
+    value: "snacks2",
+  },
+  {
+    label: "Diner",
+    value: "dinner",
+  },
+  {
+    label: "Snacks 3",
+    value: "snacks3",
+  },
+];

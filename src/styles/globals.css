@@ -1,0 +1,96 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"); */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-open-sans text-app-black;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+@layer components {
+  .__focus_visible,
+  .__fv {
+    @apply outline-none focus-visible:ring-1 ring-app-black ring-offset-1;
+  }
+  .__fc {
+    @apply outline-none focus:ring-1 ring-inset ring-app-black ring-offset-1;
+  }
+  .__h1 {
+    @apply text-[50px]/[62px] tracking-[5%] font-bold;
+  }
+  .__h2 {
+    @apply text-[46px]/[58px] tracking-[5%] font-bold;
+  }
+  .__h3 {
+    @apply text-2xl font-semibold;
+  }
+  .__h4 {
+    @apply text-xl font-semibold;
+  }
+  .__h5 {
+    @apply text-base font-medium;
+  }
+  .__h6 {
+    @apply text-sm font-medium;
+  }
+  .__body_16 {
+    @apply text-base;
+  }
+  .__body_18 {
+    @apply text-lg;
+  }
+  .__body_25 {
+    @apply text-[25px]/[normal] tracking-[0.25px] font-semibold;
+  }
+  .__c_all {
+    @apply flex items-center justify-center;
+  }
+}
+
+select:invalid {
+  opacity: 0.5;
+  color: black;
+}
+select::-ms-expand {
+  display: none;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}
+
+[data-radix-popper-content-wrapper] {
+  z-index: 999999 !important;
+}
+
+.scroll-to-top {
+  @apply !bg-app-primary [&_svg]:!fill-white !size-10 !rounded-md !shadow-none !z-50 flex justify-center items-center [&_svg]:w-5;
+}
+
+.toaster li {
+  @apply !rounded-md;
+}
+.toaster li div[data-icon] {
+  @apply size-7 flex justify-center items-center rounded;
+}
+.toaster li[data-type="error"] div[data-icon] {
+  @apply bg-red-500/25 text-red-500;
+}
+.toaster li[data-type="info"] div[data-icon] {
+  @apply bg-blue-500/25 text-blue-500;
+}
+.toaster li[data-type="success"] div[data-icon] {
+  @apply bg-green-500/25 text-green-500;
+}
+.toaster li[data-type="warning"] div[data-icon] {
+  @apply bg-yellow-500/25 text-yellow-500;
+}
+.toaster li[data-type="loading"] div[data-icon] {
+  @apply bg-gray-200;
+}
