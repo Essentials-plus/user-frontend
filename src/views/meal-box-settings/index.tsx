@@ -93,6 +93,17 @@ const MealBoxSettings = () => {
     }
   };
 
+  // const viewOnStripeMutation = useMutation({
+  //   mutationKey: ["view-on-stripe"],
+  //   mutationFn: () =>
+  //     userApiClient.post<ApiResponseSuccessBase<{ url: string }>>(
+  //       "/plan/view-on-stripe",
+  //     ),
+  //   onSuccess(data) {
+  //     window.location.href = data.data.data.url;
+  //   },
+  // });
+
   return (
     <SettingsPageLayout title="Instellingen">
       {isLoading || !data ? (
@@ -125,15 +136,25 @@ const MealBoxSettings = () => {
             ) : (
               <>
                 {planStatus == "active" ? (
-                  <ConfirmationModal
-                    header="Abonnement opzeggen"
-                    description="Weet u zeker dat u het abonnement wilt opzeggen? U kunt het opnieuw activeren"
-                    onConfirm={cancelSubscription}
-                    loading={loading}
-                    // loading={true}
-                  >
-                    <Button>Annuleer of pauzeer mijn maaltijdbox</Button>
-                  </ConfirmationModal>
+                  <div className="flex justify-end gap-2">
+                    <ConfirmationModal
+                      header="Abonnement opzeggen"
+                      description="Weet u zeker dat u het abonnement wilt opzeggen? U kunt het opnieuw activeren"
+                      onConfirm={cancelSubscription}
+                      loading={loading}
+                      // loading={true}
+                    >
+                      <Button>Annuleer of pauzeer mijn maaltijdbox</Button>
+                    </ConfirmationModal>
+
+                    {/* <Button
+                      size={"sm"}
+                      onClick={() => viewOnStripeMutation.mutate()}
+                      loading={viewOnStripeMutation.isPending}
+                    >
+                      View on Stripe
+                    </Button> */}
+                  </div>
                 ) : (
                   <ConfirmationModal
                     header="Reactive Subscription"

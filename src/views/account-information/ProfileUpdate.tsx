@@ -56,7 +56,7 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
     try {
       // d = await filesUploader(d);
 
-      await userApiClient.put("/user/profile", {
+      const res = await userApiClient.put("/user/profile", {
         name: d.name,
         surname: d.surname,
         city: d.city,
@@ -83,7 +83,7 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
         // profile: d.profile,
       });
 
-      toast.success("User updated");
+      toast.success(res.data?.message || "User info updated");
       onClose();
     } catch (error) {
       toast.error(getClientErrorMsg(error));

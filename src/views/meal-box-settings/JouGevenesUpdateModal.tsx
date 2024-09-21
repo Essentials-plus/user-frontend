@@ -65,7 +65,7 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
     try {
       // d = await filesUploader(d);
 
-      await userApiClient.put("/user/profile", d);
+      const res = await userApiClient.put("/user/profile", d);
 
       await clientRefetch(["get-user"]);
 
@@ -74,8 +74,7 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
       //   email: d.email,
       //   profile: d.profile,
       // });
-
-      toast.success("User updated");
+      toast.success(res.data?.message || "Meal plan info updated");
       onClose();
     } catch (error) {
       toast.error(getClientErrorMsg(error));
