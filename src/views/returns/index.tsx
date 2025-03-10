@@ -5,7 +5,7 @@ const Returns = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/returns-hero-img.jpg"
+        // imgSrc="/imgs/returns-hero-img.jpg"
         title="Retourneren"
         accentColor="#FFBE34"
       />

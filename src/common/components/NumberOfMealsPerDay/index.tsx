@@ -26,7 +26,7 @@ const NumberOfMealsPerDay = ({
   return (
     <div>
       <p className="text-sm font-bold">Aantal maaltijden per dag:</p>
-      <div className="mt-2 flex border border-black rounded w-fit overflow-hidden">
+      <div className="mt-2 flex w-fit overflow-hidden rounded border border-black">
         {mealsPerDay.map((item) => (
           <button
             type="button"

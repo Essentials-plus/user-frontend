@@ -87,10 +87,10 @@ const TabSection = ({ meals }: Props) => {
 
   return (
     <>
-      <div className="relative z-50 border border-black rounded-3xl shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)] bg-white max-w-[1132px] mx-auto px-12 py-10">
+      <div className="relative z-50 mx-auto max-w-[1132px] rounded-3xl border border-black bg-white px-12 py-10 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)]">
         <div className="flex items-center">
           <div className="flex items-center gap-x-10">
-            <h3 className="font-oswald text-2xl uppercase shrink-0">
+            <h3 className="shrink-0 font-oswald text-2xl uppercase">
               Laten we starten
             </h3>
             <div className="grid grid-cols-[1fr,1fr,100px,100px,100px,1fr] gap-x-2.5">
@@ -152,10 +152,10 @@ const TabSection = ({ meals }: Props) => {
             </div>
           </div>
         </div>
-        <p className="text-right text-sm font-semibold text-app-black mt-2.5">
+        <p className="mt-2.5 text-right text-sm font-semibold text-app-black">
           Je calorie behoefte per dag is:{" "}
           {typeof userKcalForAWeek === "number" ? (
-            <span className="font-bold text-base">
+            <span className="text-base font-bold">
               {userKcalForAWeek.toFixed(2)}
             </span>
           ) : (
@@ -167,17 +167,17 @@ const TabSection = ({ meals }: Props) => {
       <section className="mt-10">
         <Tabs.Root orientation="horizontal" defaultValue="home-tab-1">
           <div className="container">
-            <div className="max-w-[736px] w-full mx-auto">
-              <Tabs.List className="w-full flex items-center justify-between">
+            <div className="mx-auto w-full max-w-[736px]">
+              <Tabs.List className="flex w-full items-center justify-between">
                 {homeTabs.map(({ tabKey, trigger: { icon, title } }, i) => (
                   <Tabs.Trigger key={i} value={tabKey} className="group">
-                    <div className="relative h-[180px] group-data-[state=active]:text-app-darker-green text-[#C4C4C4]/[.85]">
+                    <div className="relative h-[180px] text-[#C4C4C4]/[.85] group-data-[state=active]:text-app-darker-green">
                       <div className="">{icon}</div>
-                      <h5 className="mt-3 uppercase text-xl font-oswald">
+                      <h5 className="mt-3 font-oswald text-xl uppercase">
                         {title}
                       </h5>
 
-                      <PolygonShape className="absolute bottom-0 left-0 w-full hidden group-data-[state=active]:block" />
+                      <PolygonShape className="absolute bottom-0 left-0 hidden w-full group-data-[state=active]:block" />
                     </div>
                   </Tabs.Trigger>
                 ))}
@@ -188,15 +188,15 @@ const TabSection = ({ meals }: Props) => {
          
         </div> */}
           <div className="relative isolate">
-            <div className="absolute left-0 h-full w-[calc(50%+634px+16px+76px)] bg-app-grey z-[-1] rounded-r-[80px]"></div>
-            <div className="container pt-[76px] pb-10">
-              {homeTabs.map(({ content: { cards }, tabKey, contentKey }, i) => (
+            <div className="absolute left-0 z-[-1] h-full w-[calc(50%+634px+16px+76px)] rounded-r-[80px] bg-app-grey"></div>
+            <div className="container pb-10 pt-[76px]">
+              {homeTabs.map(({ tabKey, contentKey }, i) => (
                 <Tabs.Content key={i} value={tabKey}>
                   <div className="grid grid-cols-2 gap-8 font-montserrat">
                     {filteredMeals?.[contentKey].map((m, cIndex) => (
                       <div
                         key={cIndex}
-                        className="bg-white overflow-hidden rounded-[20px] grid grid-cols-[200px,auto] items-center"
+                        className="grid grid-cols-[200px,auto] items-center overflow-hidden rounded-[20px] bg-white"
                       >
                         <div className="h-full">
                           <Image
@@ -204,7 +204,7 @@ const TabSection = ({ meals }: Props) => {
                             width={183}
                             height={174}
                             alt={m.mealName}
-                            className="object-cover w-full aspect-square"
+                            className="aspect-square w-full object-cover"
                           />
                         </div>
 
@@ -213,37 +213,37 @@ const TabSection = ({ meals }: Props) => {
                           <div className="mt-6 flex justify-between">
                             <div>
                               <p className="text-sm text-app-black">Calorie</p>
-                              <p className="text-sm font-bold text-app-dark-blue mt-2">
+                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
                                 {m.totalNeedOfKCal} kcal
                               </p>
                             </div>
-                            <div className="w-px h-11 bg-app-grey"></div>
+                            <div className="h-11 w-px bg-app-grey"></div>
                             <div>
                               <p className="text-sm text-app-black">Proteine</p>
-                              <p className="text-sm font-bold text-app-dark-blue mt-2">
+                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
                                 {m.totalNeedOfProteins} gr
                               </p>
                             </div>
-                            <div className="w-px h-11 bg-app-grey"></div>
+                            <div className="h-11 w-px bg-app-grey"></div>
                             <div>
                               <p className="text-sm text-app-black">
                                 Koolhydraten
                               </p>
-                              <p className="text-sm font-bold text-app-dark-blue mt-2">
+                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
                                 {m.totalNeedOfCarbohydrates} gr
                               </p>
                             </div>
-                            <div className="w-px h-11 bg-app-grey"></div>
+                            <div className="h-11 w-px bg-app-grey"></div>
                             <div>
                               <p className="text-sm text-app-black">Vetten</p>
-                              <p className="text-sm font-bold text-app-dark-blue mt-2">
+                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
                                 {m.totalNeedOfFats} gr
                               </p>
                             </div>
-                            <div className="w-px h-11 bg-app-grey"></div>
+                            <div className="h-11 w-px bg-app-grey"></div>
                             <div>
                               <p className="text-sm text-app-black">Vezels</p>
-                              <p className="text-sm font-bold text-app-dark-blue mt-2">
+                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
                                 {m.totalNeedOfFiber} gr
                               </p>
                             </div>

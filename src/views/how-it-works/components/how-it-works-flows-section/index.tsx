@@ -6,8 +6,8 @@ const HowItWorksFlowsSection = () => {
   return (
     <section className="my-[100px] space-y-[100px]">
       <Flow
-        title="1. BEREKEN JOUW UNIEKE CALORIEEN BEHOEFTE"
-        description="Doorloop ons simpel registratie systeem en bereken hiermee automatisch hoeveel calorieën jou lichaam nodig heeft om jou doelen te behalen. Geef ons ook aan hoeveel dagen van de week jij dit schema wilt volgen."
+        title="1. Bereken jouw persoonlijke caloriebehoefte"
+        description="Om je te helpen met een maaltijdplan dat past bij jouw lichaam en doelen, beginnen we met een eenvoudige berekening. Tijdens het aanmeldproces vragen we om wat basisinformatie, zoals je leeftijd, gewicht, lengte en activiteitenniveau. Dit helpt ons te bepalen hoeveel calorieën je nodig hebt om gezond te blijven, aan te komen, of juist af te vallen. Geen zorgen als dit nieuw voor je is; we leggen alles uit en doen het rekenen voor jou!"
         imgSrc="/imgs/how-it-works/flow-1.png"
         imgLabel={{
           children: "Bereken",
@@ -15,8 +15,8 @@ const HowItWorksFlowsSection = () => {
         }}
       />
       <Flow
-        title="2. KIES JOUW RECEPTEN  "
-        description="Na je registratie kun je elke week je favoriete maaltijden selecteren. Elke maaltijd is afgestemd op jouw dagelijkse behoeft om er voor te zorgen dat je alles uit je voeding haalt om al je doelen te behalen."
+        title="2. Kies de maaltijden die je lekker vindt"
+        description="Na het berekenen van je caloriebehoefte kun je elke week kiezen uit verschillende maaltijden die speciaal voor jou zijn samengesteld. Elke maaltijd past binnen jouw energiebehoefte, zodat je precies krijgt wat je nodig hebt om je doel te bereiken. Je hoeft geen kookexpert te zijn; we kiezen recepten die lekker en makkelijk te maken zijn. Blader simpelweg door de opties en klik op de gerechten die je wilt ontvangen!"
         imgSrc="/imgs/how-it-works/flow-2.png"
         imgLabel={{
           children: "Kies",
@@ -25,8 +25,8 @@ const HowItWorksFlowsSection = () => {
         reverseLayout
       />
       <Flow
-        title="3. WEKELIJKS THUISBEZORGD"
-        description="Jouw maaltijdboxen met de beste ingrediënten worden per dag verpakt en in de juiste porties compleet thuis bezorgd zodat jij het gemak hebt om direct aan de slag te kunnen gaan en geen tijd verliest met voorbereiding en/of boodschappen. Ook voorkomen we samen overschot aan voedsel, WIN-WIN dus!"
+        title="3. Wekelijkse levering aan huis"
+        description="Geen tijd om boodschappen te doen? Wij zorgen ervoor dat alle ingrediënten die je nodig hebt, netjes bij jou thuis worden bezorgd. Je ontvangt een box met verse producten, allemaal klaar voor gebruik. Op die manier hoef je niet na te denken over wat je in huis moet halen - wij doen het werk voor je! Dit zorgt ook voor minder voedselverspilling, omdat je precies krijgt wat je nodig hebt."
         imgSrc="/imgs/how-it-works/flow-3.png"
         imgLabel={{
           children: "Bezorg",
@@ -34,8 +34,8 @@ const HowItWorksFlowsSection = () => {
         }}
       />
       <Flow
-        title="4. KOOK MET DE GEZONDSTE INGREDIENTEN"
-        description="Onze ingrediënten worden vers ingekocht en direct verzonden. Hierdoor geniet jij van de verste ingrediënten. Geniet volop van variatie in jou unieke maaltijdplan dankzij onze wekelijks wisselende recepten. Maaltijden perfect afgestemd op jouw doelen, vers gekookt en gemakkelijk in elkaar gezet, waar wacht je nog op?"
+        title="4. Koken met de beste, verse ingrediënten"
+        description="Nu komt het leukste gedeelte: koken en genieten van je maaltijden! Wij leveren alleen de meest verse en gezonde ingrediënten, zodat je elke week kunt genieten van gevarieerde en smakelijke gerechten. Elk recept is gemakkelijk te volgen en we sturen ook instructies mee. Dus zelfs als je niet vaak kookt, zul je merken dat het eenvoudig is om een heerlijke en voedzame maaltijd op tafel te zetten."
         imgSrc="/imgs/how-it-works/flow-4.png"
         imgLabel={{
           children: "Kook",
@@ -69,14 +69,14 @@ const Flow = ({
       <div className="container">
         <div className="grid grid-cols-[auto,600px] items-center gap-x-[100px]">
           <div className={cn(reverseLayout && "order-2")}>
-            <h2 className="__h2 text-app-darker-green uppercase font-oswald font-normal">
+            <h2 className="__h2 font-oswald font-normal uppercase text-app-darker-green">
               {title}
             </h2>
-            <p className="__body_18 text-app-black max-w-[500px] mt-4">
+            <p className="__body_18 mt-4 max-w-[500px] text-app-black">
               {description}
             </p>
           </div>
-          <div className="bg-app-dark-grey/20 rounded-[20px] overflow-hidden relative">
+          <div className="relative overflow-hidden rounded-[20px] bg-app-dark-grey/20">
             <div
               {...imgLabelProps}
               className={cn(

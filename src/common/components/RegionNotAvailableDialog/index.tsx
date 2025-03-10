@@ -22,7 +22,7 @@ const RegionNotAvailableDialog = (props: ComponentProps<typeof Dialog>) => {
 
   return (
     <Dialog {...props}>
-      <DialogContent className="max-md:max-w-[95vw] max-w-[750px] p-0 overflow-hidden">
+      <DialogContent className="max-w-[750px] overflow-hidden p-0 max-md:max-w-[95vw]">
         <div className="grid grid-cols-1 md:grid-cols-[45%,auto]">
           <div>
             <Image
@@ -30,16 +30,16 @@ const RegionNotAvailableDialog = (props: ComponentProps<typeof Dialog>) => {
               alt="Dialog Image"
               width={1400}
               height={570}
-              className="h-[250px] md:h-full object-cover"
+              className="h-[250px] object-cover md:h-full"
             />
           </div>
 
           <div className="p-5 md:px-7 md:py-8">
             <div className="text-slate-700">
-              <h3 className="font-bold text-2xl md:text-3xl text-slate-900">
+              <h3 className="text-2xl font-bold text-slate-900 md:text-3xl">
                 Het spijt ons!
               </h3>
-              <div className="space-y-2 mt-4">
+              <div className="mt-4 space-y-2">
                 <p>
                   Momenteel breiden wij onze regio&apos;s uit, zodat wij u ook
                   van dienst kunnen zijn.
@@ -70,7 +70,7 @@ const RegionNotAvailableDialog = (props: ComponentProps<typeof Dialog>) => {
                         placeholder="E-mail"
                       />
                       {validationError && (
-                        <p className="text-sm text-red-500 mt-1.5">
+                        <p className="mt-1.5 text-sm text-red-500">
                           {validationError}
                         </p>
                       )}

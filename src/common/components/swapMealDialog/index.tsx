@@ -30,11 +30,11 @@ const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }: Props) => {
           size={"sm"}
           intent={"outline-primary"}
         >
-          <FiRefreshCw className="w-3.5 h-3.5 duration-100" />
+          <FiRefreshCw className="size-3.5 duration-100" />
           Ruilen
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-xl:max-w-[95vw] xl:max-w-[1300px] overflow-hidden max-h-[95dvh] overflow-y-auto">
+      <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] xl:max-w-[1300px]">
         <h3 className="text-xl font-semibold">
           Alsjeblieft kies uw <span className="capitalize">{meal.meal}</span>:
         </h3>
@@ -44,9 +44,9 @@ const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }: Props) => {
           columnsCountBreakPoints={{ 350: 1, 1150: 2 }}
         >
           <Masonry gutter="20px">
-            {swapableMeals.map((m, i) => (
+            {swapableMeals.map((m) => (
               <button
-                key={"sdg" + i}
+                key={m.id}
                 onClick={() => {
                   if (m.id != meal.id) {
                     onMealSwap && onMealSwap(m);

@@ -11,7 +11,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, InputProps>(
     return (
       <div>
         {label && (
-          <label className="pb-2 text-sm font-bold inline-block">{label}</label>
+          <label className="inline-block pb-2 text-sm font-bold">{label}</label>
         )}
         <textarea
           className={cn(

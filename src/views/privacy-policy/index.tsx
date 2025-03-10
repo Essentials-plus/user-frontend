@@ -5,7 +5,7 @@ const PrivacyPolicy = () => {
   return (
     <div>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/privacy-policy-hero-img.jpg"
+        // imgSrc="/imgs/privacy-policy-hero-img.jpg"
         title="Privacy"
         accentColor="#317773"
       />

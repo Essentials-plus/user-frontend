@@ -1,8 +1,8 @@
 const DescriptionSection = () => {
   return (
-    <section className="mt-[76px] mb-[101px]">
+    <section className="mb-[101px] mt-[76px]">
       <div className="container">
-        <div className="max-w-[1010px] mx-auto">
+        <div className="mx-auto max-w-[1010px]">
           <p className="text-lg font-semibold">
             Locatie: Tilburg | Aantal uur: 40 (full time) | Contract: Flexibel |
             Opleiding: MBO | Werkervaring: +1 jaar
@@ -27,7 +27,7 @@ const DescriptionSection = () => {
           <div className="mt-12">
             <h4 className="__h4">Over het werk</h4>
             <div className="mt-3">
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>Per direct aan de slag;</li>
                 <li>
                   Full time inzetbaar: 40 uur per week, van maandag t/m vrijdag
@@ -62,7 +62,7 @@ const DescriptionSection = () => {
 
           <div className="mt-12">
             <h4 className="__h4">Wat mag je van ons verwachten:</h4>
-            <ul className="list-disc list-inside mt-3">
+            <ul className="mt-3 list-inside list-disc">
               <li>
                 Leuke baan bij een nuchter bedrijf met Europese groeiambitie;
               </li>
@@ -80,7 +80,7 @@ const DescriptionSection = () => {
             <h4 className="__h4">Stuur een mailtje met je motivatie:</h4>
             <a
               href={`mailto:vacature@essentialsplus.eu`}
-              className="h-10 px-10 __c_all text-lg font-bold text-white bg-app-darker-green rounded-md w-fit duration-200 hover:bg-app-dark-green/80 mt-3"
+              className="__c_all mt-3 h-10 w-fit rounded-md bg-app-darker-green px-10 text-lg font-bold text-white duration-200 hover:bg-app-dark-green/80"
             >
               vacature@essentialsplus.eu
             </a>

@@ -1,11 +1,12 @@
 import publicApiClient from "@/api-clients/public-api-client";
+import routes from "@/config/routes";
 import { User } from "@/types/api-responses/users";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
   pages: {
-    signIn: "/log-in",
+    signIn: routes.logIn,
   },
   session: {
     strategy: "jwt",

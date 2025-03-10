@@ -1,29 +1,53 @@
-import React from "react";
-import Button from "@/common/components/ui/button";
+import { getRawDataByIdentifierQueryOptions } from "@/api-clients/user-api-client/queries";
+import { button } from "@/common/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
+
+export const lifestyleHeroSectionApiIdentifier = "products-page.hero-section";
 
 const HeroSection = () => {
+  const heroSectionQuery = useQuery(
+    getRawDataByIdentifierQueryOptions({
+      identifier: lifestyleHeroSectionApiIdentifier,
+    }),
+  );
+  const data = heroSectionQuery.data?.data?.data;
+
+  if (Object.values(data || {}).length <= 0) return null;
+
   return (
-    <section className="min-h-[calc(100vh-93.74px)] flex items-center relative max-w-[100vw] overflow-x-hidden">
+    <section className="relative flex min-h-[calc(100vh-93.74px)] max-w-[100vw] items-center overflow-x-hidden">
       <div className="container">
-        <div className="max-w-[659px] ml-auto pl-28">
-          <h1 className="__h1 uppercase">The E+ Lifestyle</h1>
-          <p className="__body_18 font-medium mt-5 mb-10 max-w-[60%]">
-            Maak je essentials compleet!
-          </p>
-          <Button>Bekijk de producten</Button>
+        <div className="ml-auto max-w-[659px] pl-28">
+          <h1 className="__h1 uppercase">{data?.title}</h1>
+          <div
+            className="__body_18 prose mb-10 mt-5 font-medium"
+            dangerouslySetInnerHTML={{
+              __html: data?.description,
+            }}
+          />
+          <Link
+            href={data?.buttonUrl}
+            className={button({ className: "w-fit" })}
+          >
+            {data?.buttonText}
+          </Link>
         </div>
       </div>
 
-      <div className="absolute top-0 left-0 max-w-[50%] h-full bg-app-darker-green overflow-hidden">
+      <Link
+        href={data?.buttonUrl}
+        className="absolute left-0 top-0 block h-full w-1/2 overflow-hidden bg-app-darker-green"
+      >
         <Image
-          src={"/imgs/lifestyle-products/lifestyle-products-hero.png"}
-          alt="how it works"
+          src={data?.image}
+          alt={data?.title}
           width={1039}
           height={840}
-          className="h-full w-full object-cover "
+          className="size-full object-cover "
         />
-      </div>
+      </Link>
     </section>
   );
 };

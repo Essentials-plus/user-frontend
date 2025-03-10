@@ -8,7 +8,7 @@ const YourGoalsSection = () => {
         <h2 className="mx-auto max-w-[1148px] text-4xl font-semibold">
           Behaal je doelen met een persoonlijk supplementen advies{" "}
         </h2>
-        <p className="max-w-[1148px] mx-auto __body_18 mt-6">
+        <p className="__body_18 mx-auto mt-6 max-w-[1148px]">
           Het supplementeren van je voeding is niet altijd nodig, maar kan wel
           een handje helpen. Onze experts creëren voor jou een op maat gemaakt
           supplementen gebaseerd op je voorkeuren en leefstijl. Haal je doelen
@@ -18,7 +18,7 @@ const YourGoalsSection = () => {
         </p>
 
         <div className="mt-14">
-          <div className="max-w-[1148px] mx-auto">
+          <div className="mx-auto max-w-[1148px]">
             <h2 className="mb-16 text-4xl font-semibold">
               Ons standaard aanbevolen supplementen
             </h2>
@@ -116,7 +116,7 @@ const SingleRow = ({
         <div className="flex justify-center">
           <div className="relative isolate">
             <div
-              className="w-[125px] aspect-square rounded-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-[-1]"
+              className="absolute left-1/2 top-1/2 z-[-1] aspect-square w-[125px] -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{ background: circleColor }}
             ></div>
             <Image
@@ -128,18 +128,18 @@ const SingleRow = ({
             />
           </div>
         </div>
-        <h4 className="mt-3.5 mb-2 text-lg font-bold text-center">
+        <h4 className="mb-2 mt-3.5 text-center text-lg font-bold">
           {product.title}
         </h4>
-        <p className="__body_18 text-center mb-2">{product.prcie}</p>
-        <div className="flex justify-center mb-2">
-          <button className="rounded-lg border-2 border-app-dark-green h-10 px-5">
+        <p className="__body_18 mb-2 text-center">{product.prcie}</p>
+        <div className="mb-2 flex justify-center">
+          <button className="h-10 rounded-lg border-2 border-app-dark-green px-5">
             In winkelmandje +
           </button>
         </div>
         <a
           href="#"
-          className="text-sm underline mx-auto block text-center w-fit"
+          className="mx-auto block w-fit text-center text-sm underline"
         >
           Bekijk product
         </a>

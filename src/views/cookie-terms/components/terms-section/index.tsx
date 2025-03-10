@@ -10,29 +10,41 @@ const TermsSection = () => {
             verwijderen.
             <br />
             <br />
-            <strong>Onze gegevens</strong> <br />
-            Adresgegevens <br />
-            EssentialsPlus BV <br />
-            huppelepupweg 12 <br />
-            5000 RS, Tilburg <br /> <br />
-            <strong>Contactgegevens</strong> <br />
-            Telefoonnummer: xxxx <br />
-            KvK-nummer: xxxx <br />
-            www.essentialsplus.eu <br />
-            mail@essentialsplus.eu <br /> <br />
-            <strong>Wat zijn cookies?</strong> <br /> Cookies zijn kleine
-            tekstbestanden waarin informatie wordt opgeslagen. Deze
-            tekstbestanden plaatsen wij of andere partijen op je computer of
-            mobiele apparaat. Bij je volgende bezoek lezen wij in het
-            tekstbestand bijvoorbeeld je voorkeuren of inloggegevens. Hierdoor
-            hoef je niet elke keer je voorkeuren aan te geven en kunnen wij de
-            website gebruiksvriendelijker maken. Onder het kopje ‘overzicht
-            cookies’ zie je welke cookies wij plaatsen en waarvoor deze gebruikt
-            worden. Let op: Als je geen toestemming geeft voor het plaatsen van
-            cookies kunnen wij niet garanderen dat onze website of een deel
-            daarvan naar behoren werkt. Het verwerken van cookies brengt, in
-            beginsel, met zich mee dat wij jouw persoonsgegevens verwerken. Zie
-            voor meer informatie hierover onze{" "}
+            <strong>Onze gegevens</strong>
+            <br />
+            Adresgegevens
+            <br />
+            Essentialsplus VOF
+            <br />
+            Vivaldistraat 16
+            <br />
+            5049 JN, Tilburg
+            <br />
+            <br />
+            <strong>Contactgegevens</strong>
+            <br />
+            Telefoonnummer: +31 6 81 03 31 43
+            <br />
+            KvK-nummer: 80126928
+            <br />
+            www.essentialsplus.eu
+            <br />
+            mail@essentialsplus.eu
+            <br />
+            <br />
+            <strong>Wat zijn cookies?</strong>
+            <br /> Cookies zijn kleine tekstbestanden waarin informatie wordt
+            opgeslagen. Deze tekstbestanden plaatsen wij of andere partijen op
+            je computer of mobiele apparaat. Bij je volgende bezoek lezen wij in
+            het tekstbestand bijvoorbeeld je voorkeuren of inloggegevens.
+            Hierdoor hoef je niet elke keer je voorkeuren aan te geven en kunnen
+            wij de website gebruiksvriendelijker maken. Onder het kopje
+            ‘overzicht cookies’ zie je welke cookies wij plaatsen en waarvoor
+            deze gebruikt worden. Let op: Als je geen toestemming geeft voor het
+            plaatsen van cookies kunnen wij niet garanderen dat onze website of
+            een deel daarvan naar behoren werkt. Het verwerken van cookies
+            brengt, in beginsel, met zich mee dat wij jouw persoonsgegevens
+            verwerken. Zie voor meer informatie hierover onze{" "}
             <a href="https://www.orangefit.nl/privacy" target="_blank">
               Privacyverklaring.
             </a>

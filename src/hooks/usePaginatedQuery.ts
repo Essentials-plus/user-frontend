@@ -3,21 +3,21 @@ import {
   QueryKey,
   UndefinedInitialDataOptions,
   useQuery,
-} from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+} from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const usePaginatedQuery = <
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
 >(
   options: ({
     // eslint-disable-next-line no-unused-vars
     page,
   }: {
     page: number;
-  }) => UndefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>
+  }) => UndefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>,
 ) => {
   const [totalPage, setTotalPage] = useState<undefined | number>(undefined);
 
@@ -26,12 +26,12 @@ const usePaginatedQuery = <
     ...options({ page: activePage }),
   });
 
+  const pageCount = (query as any).data?.meta?.pageCount;
   useEffect(() => {
-    const pageCount = (query as any).data?.meta?.pageCount;
-    if (typeof pageCount !== 'number') return;
+    if (typeof pageCount !== "number") return;
 
     setTotalPage(pageCount);
-  }, [query]);
+  }, [pageCount]);
 
   const fetchPage = (page: number) => {
     setActivePage(page);

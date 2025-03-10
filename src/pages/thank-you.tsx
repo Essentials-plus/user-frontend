@@ -1,11 +1,12 @@
+import routes from "@/config/routes";
 import Link from "next/link";
 
 const ThankYou = () => {
   return (
-    <main className="relative flex flex-1 flex-col overflow-hidden px-4 py-8 sm:px-6 lg:px-8 min-h-[70vh]">
+    <main className="relative flex min-h-[70vh] flex-1 flex-col overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
       <div className="absolute inset-0 text-slate-900/[0.07] [mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]">
         <svg
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 size-full"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
@@ -33,8 +34,8 @@ const ThankYou = () => {
             email ontvangen met details van de bestelling.
           </div>
           <Link
-            className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 mt-6"
-            href="/"
+            className="mt-6 inline-flex justify-center rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-700"
+            href={routes.home}
           >
             <span>Ga naar homepagina</span>
           </Link>

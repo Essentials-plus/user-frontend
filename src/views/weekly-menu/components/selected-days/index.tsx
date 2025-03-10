@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   totalDays: number;
   activeDay: number;
+  // eslint-disable-next-line no-unused-vars
   onDayClick: (d: number) => any;
 };
 
@@ -13,7 +14,7 @@ function SelectedDays({ activeDay, onDayClick, totalDays }: Props) {
         const isActive = activeDay == i + 1;
         return (
           <button
-            key={"gdf" + i}
+            key={i + 1}
             onClick={() => onDayClick(i + 1)}
             className={cn(
               "rounded-full p-2 text-center text-sm space-y-1 pt-3 __focus_visible",

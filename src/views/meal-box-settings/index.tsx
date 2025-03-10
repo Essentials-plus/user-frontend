@@ -3,6 +3,7 @@ import { getUserQueryOptions } from "@/api-clients/user-api-client/queries";
 import SettingsPageLayout from "@/common/components/settings-page-layout";
 import Button from "@/common/components/ui/button";
 import Spinner from "@/common/components/ui/spinner";
+import routes from "@/config/routes";
 import { useUserSession } from "@/hooks/useUserSession";
 import { getClientErrorMsg } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -70,19 +71,19 @@ const MealBoxSettings = () => {
         !user.height
       ) {
         toast.error("U heeft de gebruiker nog niet bijgewerkt");
-        await router.push("/onboarding/credentials");
+        await router.push(routes.onboarding("credentials"));
         return;
       }
 
       if (!user.plan) {
         toast.error("Je hebt het menu nog niet geselecteerd");
-        await router.push("/onboarding/menu");
+        await router.push(routes.onboarding("menu"));
         return;
       }
 
       if (user.plan && user.plan.status == "pending") {
         toast.error("U heeft de betaling nog niet bevestigd");
-        await router.push(`/onboarding/payment`);
+        await router.push(routes.onboarding(`payment`));
         return;
       }
 
@@ -107,14 +108,14 @@ const MealBoxSettings = () => {
   return (
     <SettingsPageLayout title="Instellingen">
       {isLoading || !data ? (
-        <div className="flex items-center justify-center h-[300px]">
-          <div className="h-6 w-6">
+        <div className="flex h-[300px] items-center justify-center">
+          <div className="size-6">
             <Spinner />
           </div>
           Bezig met laden...
         </div>
       ) : (
-        <div className="rounded-3xl border-2 border-app-dark-grey px-10 py-8 bg-app-grey">
+        <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
           <h2 className="text-4xl font-semibold text-app-black">
             {planStatus === "active" && "Actieve"}
             {planStatus === "canceled" && "Annuleer"} Maaltijdboxen

@@ -1,112 +1,34 @@
-import { userApiClient } from "@/api-clients/user-api-client";
-import { getCreateProductPaymentSessionLinkMutationOptions } from "@/api-clients/user-api-client/mutations";
+import guestApiClient from "@/api-clients/guest-api-client";
 import Button, { button } from "@/common/components/ui/button";
 import Spinner from "@/common/components/ui/spinner";
+import routes from "@/config/routes";
+import { guestLoginQueryKey } from "@/constants";
+import useActiveCurrency from "@/hooks/useActiveCurrency";
 import useCartData from "@/hooks/useCartData";
-import useOpenUpdateAddressDialog from "@/hooks/useOpenUpdateAddressDialog";
 import { useUserSession } from "@/hooks/useUserSession";
-import {
-  cn,
-  getApiErrorMessage,
-  getClientErrorMsg,
-  getShippingAmount,
-} from "@/lib/utils";
+import { cn, getClientErrorMsg } from "@/lib/utils";
 import { ApiResponseSuccessBase } from "@/types/api-responses";
 import { CouponCode } from "@/types/api-responses/coupon-code";
+import useAppliedCoupon from "@/views/cart/hooks/useAppliedCoupon";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import useMeasure from "react-use-measure";
 import { toast } from "sonner";
 import { z } from "zod";
 import ProductCartItem from "./product-cart-item";
 
-const currency_type = process.env.NEXT_PUBLIC_CURRENCY_TYPE || "eur";
-
 const CartItemsSection = () => {
   const [ref, bounds] = useMeasure();
-  const { user } = useUserSession();
+
   const { productCart, isLoading } = useCartData();
-
-  const router = useRouter();
-
-  const [coupon, setCoupon] = useState<CouponCode>();
-
-  const { currentValue, oldValue, discountValue, shippingAmount } =
-    useMemo(() => {
-      const totalValue = productCart?.reduce((prev, d) => {
-        if (d.product.type == "simple") {
-          return (
-            prev + (d.product.salePrice || d.product.regularPrice) * d.count
-          );
-        } else {
-          const findVar = d.product.variations.find(
-            (v) => v.id == d.variationId,
-          );
-          return (
-            prev + (findVar?.salePrice || findVar?.regularPrice || 0) * d.count
-          );
-        }
-      }, 0);
-
-      let oldValue = totalValue;
-
-      let currentValue = totalValue;
-
-      let percentDiscount = 0;
-
-      if (coupon) {
-        if (coupon?.type == "amount") {
-          currentValue = totalValue - coupon.value;
-          percentDiscount = calculatePercentageOff(totalValue, currentValue);
-        }
-        if (coupon.type == "percent") {
-          currentValue = totalValue - (totalValue / 100) * coupon.value;
-          percentDiscount = coupon.value;
-        }
-      }
-
-      const discountValue = oldValue - currentValue;
-
-      const shippingAmount = getShippingAmount(currentValue);
-
-      currentValue += shippingAmount;
-
-      return {
-        currentValue,
-        oldValue,
-        percentDiscount,
-        discountValue,
-        shippingAmount,
-      };
-    }, [productCart, coupon]);
-
-  const { setOpenUpdateAddressDialog } = useOpenUpdateAddressDialog();
-
-  const createProductPaymentSessionLinkMutationOptions = useMutation({
-    ...getCreateProductPaymentSessionLinkMutationOptions(),
-    onError(error) {
-      const errorMsg = getApiErrorMessage(error);
-      if (errorMsg === "Werk uw verzendadres bij.") {
-        setTimeout(() => {
-          setOpenUpdateAddressDialog(true);
-        }, 500);
-      }
-      toast.error(errorMsg);
-    },
-    onSuccess(data) {
-      router.push(data?.data?.data?.session?.url);
-    },
-  });
 
   if (isLoading)
     return (
-      <div className="h-[400px] flex items-center justify-center">
-        <div className="h-6 w-6">
+      <div className="flex h-[400px] items-center justify-center">
+        <div className="size-6">
           <Spinner />
         </div>
         Bezig met laden...
@@ -122,7 +44,7 @@ const CartItemsSection = () => {
   //       </p>
 
   //       <Link
-  //         href={"/products/lifestyle"}
+  //         href={routes.lifestyleProduct}
   //         className={cn(button({ className: "mt-8" }))}
   //       >
   //         VERDER WINKELEN
@@ -131,18 +53,18 @@ const CartItemsSection = () => {
   //   );
 
   return (
-    <section className="mt-11 w-full overflow-x-hidden">
+    <section className="my-11 w-full overflow-x-hidden">
       <div className="container" ref={ref}>
         <h1 className="__h3">Je Winkelwagen</h1>
       </div>
 
-      <div className="grid grid-cols-[63%,37%] gap-20 mt-9">
+      <div className="mt-9 grid grid-cols-[63%,37%] gap-20">
         <div>
           <div
             style={{
               paddingLeft: bounds.left + 24,
             }}
-            className="py-4 bg-app-yellow grid grid-cols-[380px,1fr,1fr,1fr] gap-5 font-bold rounded-r-full"
+            className="grid grid-cols-[380px,1fr,1fr,1fr] gap-5 rounded-r-full bg-app-yellow py-4 font-bold"
           >
             <p>Artikel</p>
             <p>Artikelprijs</p>
@@ -152,14 +74,14 @@ const CartItemsSection = () => {
 
           {productCart.length <= 0 ? (
             <>
-              <div className="py-12 flex items-center justify-center flex-col text-center px-6">
+              <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
                 <ShoppingCart className="size-14" />
-                <p className="font-bold text-black text-3xl mt-8">
+                <p className="mt-8 text-3xl font-bold text-black">
                   ER ZIJN GEEN ARTIKELEN IN <br /> JE WINKELWAGEN
                 </p>
 
                 <Link
-                  href={"/products/lifestyle"}
+                  href={routes.lifestyleProduct}
                   className={cn(button({ className: "mt-8" }))}
                 >
                   VERDER WINKELEN
@@ -172,81 +94,23 @@ const CartItemsSection = () => {
                 paddingLeft: bounds.left + 24,
               }}
             >
-              {productCart.map((d, i) => (
-                <ProductCartItem key={"sgdgd" + i} d={d} />
+              {productCart.map((d) => (
+                <ProductCartItem key={d.id} d={d} />
               ))}
             </div>
           )}
         </div>
         <div className="relative">
-          {!user && (
+          {/* {!user && (
             <div className="inset-0 absolute bg-black/10 z-10 rounded-l-[30px] cursor-not-allowed backdrop-blur-[1px]"></div>
-          )}
-          <div className="bg-app-yellow rounded-l-[30px] py-6 px-8">
+          )} */}
+          <div className="rounded-l-[30px] bg-app-yellow px-8 py-6">
             <div
               style={{
                 paddingRight: bounds.left,
               }}
             >
-              <h3 className="__h5 font-bold">Kortingscode</h3>
-
-              <CouponForm
-                coupon={coupon}
-                onValidateCoupon={(d) => setCoupon(d)}
-              />
-
-              <div className="flex justify-between items-center __h5 font-bold mt-5">
-                <p>Overzicht:</p>
-              </div>
-
-              <div className="border-y border-app-dark-grey my-4 py-4 space-y-3">
-                <div className="flex justify-between items-center __h5 font-normal">
-                  <p>Subtotaal</p>
-                  <p>
-                    {currency_type == "eur" ? "€" : "$"} {oldValue}
-                  </p>
-                </div>
-                <div className="flex justify-between items-center __h5 font-normal">
-                  <p>Levering</p>
-                  <p>GRATIS</p>
-                </div>
-                {coupon && (
-                  <div className="flex justify-between items-center __h5 font-normal">
-                    <p>Discount</p>
-                    <p>
-                      {currency_type == "eur" ? "€" : "$"}{" "}
-                      {discountValue.toFixed(2)}
-                    </p>
-                  </div>
-                )}
-                <div className="flex justify-between items-center __h5 font-normal">
-                  <p>Shipping</p>
-                  <p>
-                    {currency_type == "eur" ? "€" : "$"} {shippingAmount}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center __h5 font-bold mt-5">
-                <p>Totaal:</p>
-                <p>
-                  {currency_type == "eur" ? "€" : "$"} {currentValue.toFixed(2)}
-                </p>
-              </div>
-
-              <Button
-                size={"md"}
-                intent={"black"}
-                loading={
-                  createProductPaymentSessionLinkMutationOptions.isPending
-                }
-                onClick={() =>
-                  createProductPaymentSessionLinkMutationOptions.mutate()
-                }
-                className="w-full rounded-none mt-5"
-              >
-                Bestelling afrekenen
-              </Button>
+              <CartOverViewCard />
             </div>
           </div>
         </div>
@@ -267,6 +131,7 @@ type Props = {
 };
 
 function CouponForm({ onValidateCoupon, coupon }: Props) {
+  const { removeCoupon } = useAppliedCoupon();
   const {
     handleSubmit,
     register,
@@ -275,13 +140,17 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
     resolver: zodResolver(
       z.object({ code: z.string().min(1, "coupon vereist") }),
     ),
+    values: {
+      code: coupon?.code || "",
+    },
   });
 
   return (
     <form
       onSubmit={handleSubmit(async (d) => {
+        if (coupon) return;
         try {
-          const { data } = await userApiClient.post<
+          const { data } = await guestApiClient.post<
             ApiResponseSuccessBase<CouponCode>
           >("/product/cart/coupon", d);
           onValidateCoupon(data.data);
@@ -289,10 +158,7 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
           toast.error(getClientErrorMsg(err));
         }
       })}
-      className={cn(
-        "mt-3 space-y-3.5",
-        coupon && "opacity-50 pointer-events-none",
-      )}
+      className={cn("mt-3 space-y-3.5")}
     >
       <div>
         <input
@@ -309,17 +175,124 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
           </div>
         )}
       </div>
-
-      <Button
-        size={"md"}
-        loading={isSubmitting}
-        intent={"black"}
-        className="w-full rounded-none"
-      >
-        Toepassen
-      </Button>
+      {coupon ? (
+        <Button
+          size={"md"}
+          type="button"
+          onClick={removeCoupon}
+          intent={"orange"}
+          className="w-full rounded-none"
+        >
+          Verwijderen
+        </Button>
+      ) : (
+        <Button
+          size={"md"}
+          loading={isSubmitting}
+          intent={"black"}
+          className="w-full rounded-none"
+        >
+          Toepassen
+        </Button>
+      )}
     </form>
   );
 }
 
 export default CartItemsSection;
+
+export const CartOverViewCard = ({
+  checkOutLayout,
+}: {
+  checkOutLayout?: boolean;
+}) => {
+  const { cartOverview } = useCartData();
+  const { currency_symbol } = useActiveCurrency();
+
+  const { productCart, isUpdatingCart } = useCartData();
+
+  const router = useRouter();
+  const { user, guestUserId } = useUserSession();
+  const { coupon, setCoupon } = useAppliedCoupon();
+
+  const { currentValue, oldValue, discountValue, shippingAmount } =
+    cartOverview;
+
+  return (
+    <>
+      <h3 className="__h5 font-bold">Kortingscode</h3>
+
+      <CouponForm coupon={coupon} onValidateCoupon={(d) => setCoupon(d)} />
+
+      <div className="__h5 mt-5 flex items-center justify-between font-bold">
+        <p>Overzicht:</p>
+      </div>
+
+      <div
+        className={cn(
+          "my-4 space-y-3 border-y py-4 border-app-black/20",
+          checkOutLayout && "border-[#d8d8d8]/60",
+        )}
+      >
+        <div className="__h5 flex items-center justify-between font-normal">
+          <p>Subtotaal</p>
+          <p>
+            {currency_symbol} {oldValue}
+          </p>
+        </div>
+        {/* <div className="__h5 flex items-center justify-between font-normal">
+          <p>Levering</p>
+          <p>GRATIS</p>
+        </div> */}
+        {coupon && (
+          <div className="__h5 flex items-center justify-between font-normal">
+            <p>Discount</p>
+            <p>
+              {currency_symbol} {discountValue.toFixed(2)}
+            </p>
+          </div>
+        )}
+        <div className="__h5 flex items-center justify-between font-normal">
+          <p>Shipping</p>
+          <p>
+            {currency_symbol} {shippingAmount}
+          </p>
+        </div>
+      </div>
+
+      <div className="__h5 mt-5 flex items-center justify-between font-bold">
+        <p>Totaal:</p>
+        <p>
+          {currency_symbol} {currentValue.toFixed(2)}
+        </p>
+      </div>
+
+      {router.pathname === routes.cart && (
+        <Button
+          size={"md"}
+          intent={"black"}
+          onClick={() => {
+            if (productCart.length <= 0) {
+              router.push(routes.products);
+              return;
+            }
+            if (!user && !z.string().email().safeParse(guestUserId).success) {
+              router.push({
+                pathname: routes.logIn,
+                query: {
+                  [guestLoginQueryKey]: true,
+                },
+              });
+              return;
+            }
+            router.push(routes.checkout);
+          }}
+          disabled={isUpdatingCart}
+          className="mt-5 w-full rounded-none"
+        >
+          Bestelling afrekenen
+        </Button>
+      )}
+    </>
+  );
+};

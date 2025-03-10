@@ -3,6 +3,8 @@ import FormWrapper from "@/common/components/form-wrapper";
 import PasswordStrengthBar from "@/common/components/password-strength-bar";
 import Button from "@/common/components/ui/button";
 import Input from "@/common/components/ui/input";
+import routes from "@/config/routes";
+import { redirectUriQueryKey } from "@/constants";
 import { strongPasswordSchema } from "@/constants/zod";
 import { getClientErrorMsg } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,9 +14,13 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const signupSchema = z.object({
-  name: z.string().min(1, "Minimaal 1 teken"),
-  surname: z.string().min(1, "Minimaal 1 teken"),
-  email: z.string().email().min(1, "Minimaal 1 teken"),
+  name: z.string().min(1, "Voer uw voornaam in"),
+  surname: z.string().min(1, "Voer uw achternaam in"),
+  email: z
+    .string({
+      message: "Voer uw e-mailadres in",
+    })
+    .email("Ongeldig e-mailadres"),
   password: strongPasswordSchema,
 });
 
@@ -32,14 +38,19 @@ const Register = () => {
 
   const router = useRouter();
 
+  const redirectUriValue = router.query[redirectUriQueryKey] as string;
+
   const onSubmit: SubmitHandler<SignupFormType> = async (d) => {
     if (isSubmitting) return;
     try {
-      await publicApiClient.post("/auth/user/signup", d);
+      await publicApiClient.post("/auth/user/signup", {
+        ...d,
+        redirect: redirectUriValue,
+      });
 
       toast.success("Bevestig alstublieft uw e-mail!");
 
-      await router.push("/log-in");
+      await router.push(routes.logIn);
     } catch (err: any) {
       toast.error(getClientErrorMsg(err));
     }
@@ -47,7 +58,7 @@ const Register = () => {
 
   const password = watch("password");
   return (
-    <section className="mt-20 mb-[100px]">
+    <section className="mb-[100px] mt-20">
       <FormWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className="__h1 font-medium">Registreren</h1>

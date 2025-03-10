@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import useMeasure from "react-use-measure";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -14,10 +13,8 @@ const WeekNumbersSlider = ({
   // eslint-disable-next-line no-unused-vars
   onWeekChange: (week: number) => void;
 }) => {
-  const [slideRef, slideBounds] = useMeasure();
-
   return (
-    <div className="border-2 border-app-black relative">
+    <div className="relative border-2 border-app-black">
       <Swiper
         slidesPerView={4}
         initialSlide={weekNumber - 1}
@@ -34,7 +31,6 @@ const WeekNumbersSlider = ({
             className="border-l-2 border-app-black"
           >
             <div
-              ref={slideRef}
               onClick={() => onWeekChange(w)}
               className={cn(
                 "cursor-pointer text-center py-4",
@@ -42,7 +38,7 @@ const WeekNumbersSlider = ({
               )}
             >
               <p className="__body_18 font-bold uppercase">Week</p>
-              <h3 className="text-5xl font-bold mt-1">
+              <h3 className="mt-1 text-5xl font-bold">
                 {w.toString().padStart(2)}
               </h3>
             </div>
@@ -52,13 +48,13 @@ const WeekNumbersSlider = ({
 
       <button
         id="prevBtn"
-        className="absolute top-1/2 grid place-items-center border border-app-black/10 disabled:opacity-50 disabled:cursor-not-allowed -translate-y-1/2 right-[calc(100%+8px)] size-8 rounded-full bg-app-grey"
+        className="absolute right-[calc(100%+8px)] top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50"
       >
         <ChevronLeft className="size-4" />
       </button>
       <button
         id="nextBtn"
-        className="absolute top-1/2 grid place-items-center border border-app-black/10 disabled:opacity-50 disabled:cursor-not-allowed -translate-y-1/2 left-[calc(100%+8px)] size-8 rounded-full bg-app-grey"
+        className="absolute left-[calc(100%+8px)] top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50"
       >
         <ChevronRight className="size-4" />
       </button>

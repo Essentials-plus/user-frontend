@@ -5,7 +5,7 @@ const Faq = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/faq-hero-img.jpg"
+        // imgSrc="/imgs/faq-hero-img.jpg"
         title="Veel gestelde vragen"
         accentColor="#317773"
       />

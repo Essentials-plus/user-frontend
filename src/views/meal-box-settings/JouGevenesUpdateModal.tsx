@@ -8,8 +8,6 @@ import { activityLevels, goals } from "@/constants/form-select-data";
 import useClientRefetch from "@/hooks/useClientRefetch";
 import { userFormSchema } from "@/lib/schemas";
 import { getClientErrorMsg } from "@/lib/utils";
-import { ApiResponseSuccessBase } from "@/types/api-responses";
-import { FileUploadApiResponse } from "@/types/api-responses/file-upload";
 import { User } from "@/types/api-responses/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -85,9 +83,9 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
       <div className=" w-full ">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" grid grid-cols-auto gap-x-5"
+          className="grid grid-cols-1 gap-x-5"
         >
-          <div className="grid grid-cols-4 gap-x-5 gap-y-6 mt-4">
+          <div className="mt-4 grid grid-cols-4 gap-x-5 gap-y-6">
             <Input
               label="Leeftijd:"
               bordered
@@ -146,7 +144,7 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
             </FormSelect>
           </div>
 
-          <div className="h-px bg-app-grey w-full my-6"></div>
+          <div className="my-6 h-px w-full bg-app-grey"></div>
           <div className="space-y-5">
             <NumberOfMealDays
               value={watch("numberOfDays")}
@@ -162,7 +160,7 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
             />
           </div>
 
-          <div className="flex justify-end mt-8">
+          <div className="mt-8 flex justify-end">
             <Button disabled={isSubmitting} loading={isSubmitting}>
               Gebruiker bijwerken
             </Button>
@@ -172,25 +170,5 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
     </>
   );
 };
-
-async function filesUploader(obj: any) {
-  let object: any = obj || {};
-  for (let [key, value] of Object.entries(object)) {
-    if (typeof value === "object") {
-      object[key] = await filesUploader(value);
-    }
-
-    if (value instanceof File) {
-      const fileObj: File = value;
-      const form = new FormData();
-      form.append("file", fileObj);
-      const { data } = await userApiClient.post<
-        ApiResponseSuccessBase<FileUploadApiResponse>
-      >("/upload", form);
-      object[key] = data.data.location;
-    }
-  }
-  return object;
-}
 
 export default JouGevenesUpdateModal;

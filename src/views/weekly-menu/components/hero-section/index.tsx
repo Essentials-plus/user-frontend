@@ -1,5 +1,6 @@
-import { getWeekDate } from "@/lib/utils";
+import { cn, getNextDeliveryDate, getWeekDate } from "@/lib/utils";
 import WeekNumbersSlider from "@/views/weekly-menu/components/week-numbers-slider";
+import { useMemo } from "react";
 import Moment from "react-moment";
 import useMeasure from "react-use-measure";
 import "swiper/css";
@@ -28,14 +29,20 @@ const HeroSection = ({
 }: Props) => {
   const [ref, bounds] = useMeasure();
 
+  const currentWeekDates = useMemo(() => getWeekDate(weekNumber), [weekNumber]);
   return (
-    <section className="mt-[55px]">
+    <section
+      className={cn(
+        "mt-[55px] duration-200",
+        !bounds.left && "opacity-0 pointer-events-none",
+      )}
+    >
       <div className="container" ref={ref}></div>
 
       <div style={{ paddingLeft: bounds.left }}>
         <div className="grid grid-cols-[480px,auto] gap-12">
           <div className="pl-6">
-            <h1 className="text-4xl text-center font-bold uppercase">
+            <h1 className="text-center text-4xl font-bold uppercase">
               WEEKmenu Van
             </h1>
             <div className="mt-5">
@@ -46,11 +53,10 @@ const HeroSection = ({
               />
             </div>
 
-            <div className="bg-[#D9D9D9] px-8 py-4 rounded-b-[40px] font-semibold text-xl">
+            <div className="rounded-b-[40px] bg-[#D9D9D9] px-8 py-4 text-xl font-semibold">
               <p>
-                Reeks: <br />{" "}
-                {getWeekDate(weekNumber).start.toLocaleDateString()} tm{" "}
-                {getWeekDate(weekNumber).end.toLocaleDateString()}
+                Reeks: <br /> {currentWeekDates.start.toLocaleDateString()} tm{" "}
+                {currentWeekDates.end.toLocaleDateString()}
               </p>
             </div>
           </div>
@@ -58,35 +64,35 @@ const HeroSection = ({
           <div>
             <div
               style={{ paddingRight: bounds.left }}
-              className="bg-app-darker-green rounded-l-[40px]"
+              className="rounded-l-[40px] bg-app-darker-green"
             >
               <div className="py-11 pl-12 pr-6">
-                <div className="flex items-center gap-5 flex-wrap">
-                  <div className="bg-white rounded-[10px] py-1.5 px-9 text-center">
+                <div className="flex flex-wrap items-center gap-5">
+                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
                     <p className="text-lg font-bold">
                       {totalNeedOfData.totalNeedOfKCal}
                     </p>
                     <p className="text-sm">Kcal</p>
                   </div>
-                  <div className="bg-white rounded-[10px] py-1.5 px-9 text-center">
+                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
                     <p className="text-lg font-bold">
                       {totalNeedOfData.totalNeedOfProteins} g
                     </p>
                     <p className="text-sm">Proteins</p>
                   </div>
-                  <div className="bg-white rounded-[10px] py-1.5 px-9 text-center">
+                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
                     <p className="text-lg font-bold">
                       {totalNeedOfData.totalNeedOfCarbohydrates} g
                     </p>
                     <p className="text-sm">Carbohydrate</p>
                   </div>
-                  <div className="bg-white rounded-[10px] py-1.5 px-9 text-center">
+                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
                     <p className="text-lg font-bold">
                       {totalNeedOfData.totalNeedOfFats} g
                     </p>
                     <p className="text-sm">Fats</p>
                   </div>
-                  <div className="bg-white rounded-[10px] py-1.5 px-9 text-center">
+                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
                     <p className="text-lg font-bold">
                       {totalNeedOfData.totalNeedOfFiber} g
                     </p>
@@ -94,10 +100,10 @@ const HeroSection = ({
                   </div>
                 </div>
 
-                <p className="text-left font-semibold mt-12 text-white">
-                  Jouw maaltijdbox wordt bezorgd op:
+                <p className="mt-12 text-left font-semibold text-white">
+                  Uw eerst volgende lockdown en bezorgmomenten zijn:
                 </p>
-                <p className="text-3xl font-semibold text-white mt-2 flex gap-4 items-center">
+                <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
                   Lockdowndatum:
                   <Moment
                     locale="nl"
@@ -108,15 +114,14 @@ const HeroSection = ({
                   </Moment>
                   {/* {lockdownDate.toLocaleDateString()} */}
                 </p>
-                <p className="text-3xl font-semibold text-white mt-2 flex gap-4 items-center">
+                <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
                   Leverdatum:
                   <Moment
                     locale="nl"
                     className="capitalize"
                     format="dddd, DD/MM/YYYY"
-                    add={{ days: 2 }}
                   >
-                    {lockdownDate}
+                    {getNextDeliveryDate(lockdownDate).toDate()}
                   </Moment>
                   {/* {lockdownDate.toLocaleDateString()} */}
                 </p>

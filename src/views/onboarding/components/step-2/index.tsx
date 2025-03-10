@@ -3,6 +3,8 @@ import MealPlansBrakdown from "@/common/components/MealPlansBrakdown";
 import NumberOfMealDays from "@/common/components/NumberOfMealDays";
 import NumberOfMealsPerDay from "@/common/components/NumberOfMealsPerDay";
 import Button from "@/common/components/ui/button";
+import routes from "@/config/routes";
+import { tempAuthTokenCookieName } from "@/constants";
 import useTotalCalorie from "@/hooks/useTotalCalorie";
 import { getClientErrorMsg } from "@/lib/utils";
 import { User } from "@/types/api-responses/users";
@@ -132,7 +134,7 @@ const Step2 = ({ user }: Props) => {
     try {
       setLoading(true);
 
-      const token = getCookie("temp_auth");
+      const token = getCookie(tempAuthTokenCookieName);
 
       const { data } = await userApiClient.post(
         "/plan",
@@ -149,7 +151,9 @@ const Step2 = ({ user }: Props) => {
 
       const clientSecret = data.client_secret;
 
-      await router.push(`/onboarding/payment?clientSecret=${clientSecret}`);
+      await router.push(
+        routes.onboarding(`payment?clientSecret=${clientSecret}`),
+      );
 
       toast.success("Plan gemaakt");
 
@@ -182,7 +186,7 @@ const Step2 = ({ user }: Props) => {
         />
       </div>
 
-      <hr className="border-t border-black my-8 w-full" />
+      <hr className="my-8 w-full border-t border-black" />
 
       <div className="grid grid-cols-[auto,280px] gap-x-5">
         <MealPlansBrakdown
@@ -192,7 +196,7 @@ const Step2 = ({ user }: Props) => {
 
         <div className="flex items-end">
           <div>
-            <div className="rounded-3xl border border-black py-5 px-6">
+            <div className="rounded-3xl border border-black px-6 py-5">
               <p className="text-base font-bold">Je caloriebehoefte</p>
 
               <div className="mt-2">

@@ -1,12 +1,16 @@
 /* eslint-disable no-unused-vars */
 export enum CouponTypeEnum {
-  percent = 'percent',
-  amount = 'amount',
+  percent = "percent",
+  amount = "amount",
+}
+export enum CouponStatusEnum {
+  active = "active",
+  inactive = "inactive",
 }
 
 export enum CouponPolicyEnum {
-  onetime = 'onetime',
-  multiple = 'multiple',
+  onetime = "onetime",
+  multiple = "multiple",
 }
 
 export type CouponType = keyof typeof CouponTypeEnum;

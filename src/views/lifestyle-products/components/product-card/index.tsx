@@ -1,6 +1,7 @@
 import Button, { button } from "@/common/components/ui/button";
+import routes from "@/config/routes";
+import useActiveCurrency from "@/hooks/useActiveCurrency";
 import useCartData from "@/hooks/useCartData";
-import { useUserSession } from "@/hooks/useUserSession";
 import { cn, getClientErrorMsg } from "@/lib/utils";
 import { ProductType } from "@/types/api-responses/product-attribute";
 import Image from "next/image";
@@ -13,22 +14,36 @@ type Props = {
   data: ProductType;
 };
 
-const currency_type = process.env.NEXT_PUBLIC_CURRENCY_TYPE || "eur";
-
 const ProductCard = ({ data }: Props) => {
+  const { currency_symbol } = useActiveCurrency();
+
   const { handleAddToCart, isExistOnCart } = useCartData();
-  const { user } = useUserSession();
 
   const router = useRouter();
 
   const priceSection = useMemo(() => {
-    if (data.type == "variable") {
-      const variation = data.variations[0];
+    if (data.type === "variable") {
+      // Sort once based on price
+      const sortedItems = (data.variations || []).sort((a, b) => {
+        const priceA = a.salePrice ?? a.regularPrice ?? 0;
+        const priceB = b.salePrice ?? b.regularPrice ?? 0;
+        return priceA - priceB;
+      });
+
+      // Extract lowest and highest price variation
+      const lowestVariationItem = sortedItems[0];
+
+      // Find the item with the lowest stock (use reduce to avoid another sort)
+      const lowestByStock = sortedItems.reduce((lowest, current) => {
+        const stockA = lowest.stock ?? Infinity;
+        const stockB = current.stock ?? Infinity;
+        return stockB < stockA ? current : lowest;
+      }, sortedItems[0]);
+
       return {
-        regularPrice: variation?.regularPrice || 0,
-        salePrice: variation?.salePrice || 0,
-        variation,
-        stock: variation.stock,
+        priceRange: `${currency_symbol}${data.lowestPrice} - ${currency_symbol}${data.highestPrice}`,
+        variation: lowestVariationItem,
+        stock: lowestByStock?.stock,
       };
     } else {
       return {
@@ -37,17 +52,26 @@ const ProductCard = ({ data }: Props) => {
         stock: data.stock,
       };
     }
-  }, [data]);
+  }, [
+    currency_symbol,
+    data.highestPrice,
+    data.lowestPrice,
+    data.regularPrice,
+    data.salePrice,
+    data.stock,
+    data.type,
+    data.variations,
+  ]);
 
   const [loading, setLoading] = useState(false);
 
   const onAddItem = async () => {
     if (loading) return;
 
-    if (!user) {
-      router.push("/log-in");
-      return;
-    }
+    // if (!user) {
+    //   router.push(routes.logIn);
+    //   return;
+    // }
 
     try {
       setLoading(true);
@@ -67,78 +91,87 @@ const ProductCard = ({ data }: Props) => {
     }
   };
 
+  const isOutOfStock = priceSection.stock == 0 && data.type === "simple";
   return (
     <div className="relative">
-      {priceSection.stock === 0 && (
-        <div className="absolute z-10 shadow top-3 right-3 bg-red-600 text-white font-medium rounded px-2.5 py-0.5">
+      {/* {priceSection.stock === 0 && (
+        <div className="absolute right-3 top-3 z-10 rounded bg-red-600 px-2.5 py-0.5 font-medium text-white shadow">
           Niet op voorraad
         </div>
-      )}
+      )} */}
       <Link
-        href={`/products/${data.slug}`}
-        className="w-full max-h-[380px] overflow-hidden rounded-lg bg-app-grey block"
+        href={routes.product(data.slug)}
+        className="block w-full overflow-hidden rounded-lg bg-app-grey"
       >
         <Image
           src={data.images[0] || "/imgs/placeholders/product.png"}
           width={375}
           height={495}
           alt={data.name}
-          className="w-full"
+          className="__product_img_aspect_ratio"
         />
       </Link>
       <div className="mt-3 space-y-3">
         <div className="space-y-0.5">
           <h3
             onClick={() => {
-              router.push(`/products/${data.slug}`);
+              router.push(routes.product(data.slug));
             }}
-            className="text-lg font-bold font-open-sans text-black line-clamp-2 cursor-pointer"
+            className="line-clamp-2 cursor-pointer font-open-sans text-lg font-bold text-black"
           >
             {data.name}
           </h3>
           <div
             onClick={() => {
-              router.push(`/products/${data.slug}`);
+              router.push(routes.product(data.slug));
             }}
-            className="shrink-0 flex gap-2 items-center cursor-pointer"
+            className="flex shrink-0 cursor-pointer items-center gap-2"
           >
-            {priceSection.salePrice ? (
+            {data.type === "simple" ? (
               <>
-                <p className="text-xs font-medium text-gray-500 line-through">
-                  {currency_type == "eur" ? "€" : "$"}
-                  {priceSection.regularPrice}
-                </p>
-                <p className="__body_18 font-medium text-black">
-                  {currency_type == "eur" ? "€" : "$"}
-                  {priceSection.salePrice}
-                </p>
+                {priceSection.salePrice ? (
+                  <>
+                    <p className="text-xs font-medium text-gray-500 line-through">
+                      {currency_symbol}
+                      {priceSection.regularPrice}
+                    </p>
+                    <p className="__body_18 font-medium text-black">
+                      {currency_symbol}
+                      {priceSection.salePrice}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="__body_18 font-medium text-black">
+                      {currency_symbol}
+                      {priceSection.regularPrice}
+                    </p>
+                  </>
+                )}
               </>
             ) : (
-              <>
-                <p className="__body_18 font-medium text-black">
-                  {currency_type == "eur" ? "€" : "$"}
-                  {priceSection.regularPrice}
-                </p>
-              </>
+              <p className="__body_18 font-medium text-black">
+                {priceSection.priceRange}
+              </p>
             )}
           </div>
         </div>
         <div className="space-y-2 [&>*]:w-full">
           <Link
-            href={`/products/${data.slug}`}
+            href={routes.product(data.slug)}
             className={cn(button({ intent: "outline-primary", size: "md" }))}
           >
             Bekijk product
           </Link>
 
-          {priceSection.stock !== 0 && (
+          {!isOutOfStock && (
             <>
               {isExistOnCart(data.id) ? (
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
 
-                    router.push("/cart");
+                    router.push(routes.cart);
                   }}
                   size={"md"}
                   intent={"primary"}
@@ -159,8 +192,8 @@ const ProductCard = ({ data }: Props) => {
           )}
         </div>
       </div>
-      {priceSection.stock == 0 && (
-        <div className="absolute top-1 right-1 bg-red-500 text-white py-1 px-3 text-sm rounded">
+      {isOutOfStock && (
+        <div className="absolute right-1.5 top-1.5 rounded bg-red-500 px-3 py-1 text-sm text-white">
           Geen voorraad meer
         </div>
       )}

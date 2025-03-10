@@ -1,10 +1,11 @@
+import routes from "@/config/routes";
 import Link from "next/link";
 
 const CategoriesSection = () => {
   return (
     <section className="my-[101px]">
       <div className="container">
-        <div className="max-w-[1010px] mx-auto">
+        <div className="mx-auto max-w-[1010px]">
           <p className="text-lg font-semibold">
             Wat leuk dat je interesse hebt om Essentials+ te versterken! Op dit
             moment hebben we 3 openstaande vacatures.
@@ -49,8 +50,8 @@ const Category = ({ desciption, title, url }: CategoryProps) => {
       <h4 className="__h4">{title}</h4>
       <p className="__body_18">{desciption}</p>
       <Link
-        href={`/vacancies/${url}`}
-        className="h-10 px-10 __c_all text-lg font-bold text-white bg-app-darker-green rounded-md w-fit duration-200 hover:bg-app-dark-green/80"
+        href={routes.vacancy(url)}
+        className="__c_all h-10 w-fit rounded-md bg-app-darker-green px-10 text-lg font-bold text-white duration-200 hover:bg-app-dark-green/80"
       >
         {"Bekijk hier de vacature >"}{" "}
       </Link>

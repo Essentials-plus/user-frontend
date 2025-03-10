@@ -14,6 +14,7 @@ type Props = {
   header: string;
   description: string;
   loading?: boolean;
+  // eslint-disable-next-line no-unused-vars
   onConfirm?: (onClose: () => any) => any;
 };
 
@@ -31,13 +32,13 @@ function ConfirmationModal({
   return (
     <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className=" overflow-y-auto max-w-[480px]">
+      <DialogContent className=" max-w-[480px] overflow-y-auto">
         <DialogHeader>
           <div className="text-xl font-semibold">{header}</div>
-          <p className="font-medium leading-[19px] mt-[20px] mb-[33px] font-primary text-[#000000]">
+          <p className="mb-[33px] mt-[20px] font-medium leading-[19px] text-[#000000]">
             {description}
           </p>
-          <div className="mb-[30px] flex justify-end gap-[20px] !mt-6">
+          <div className="!mt-6 mb-[30px] flex justify-end gap-[20px]">
             <button
               type="button"
               className={cn(
@@ -61,7 +62,7 @@ function ConfirmationModal({
             >
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <Spinner className="w-6 h-6" />
+                  <Spinner className="size-6" />
                   Bezig met laden...
                 </div>
               ) : (

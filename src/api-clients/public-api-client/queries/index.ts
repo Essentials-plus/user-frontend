@@ -1,6 +1,10 @@
 import { ApiResponseSuccessBase } from "@/types/api-responses";
 import { Meal } from "@/types/api-responses/meal";
+import { Product } from "@/types/api-responses/product";
 import {
+  ProductAttribute,
+  ProductAttributeTerm,
+  ProductCategory,
   ProductType,
   WeeklyMenuRaw,
 } from "@/types/api-responses/product-attribute";
@@ -13,10 +17,36 @@ export const getProductsQueryOptions = ({
   axiosReqConfig?: AxiosRequestConfig;
 } = {}) => {
   return {
-    queryKey: ["get-products", axiosReqConfig],
+    queryKey: ["get-products", axiosReqConfig || null],
     queryFn: () =>
       publicApiClient
         .get<ApiResponseSuccessBase<ProductType[]>>(`/product`, axiosReqConfig)
+        .then((res) => res.data),
+  };
+};
+
+export const getProductsForProductsPageQueryOptions = ({
+  axiosReqConfig,
+}: {
+  axiosReqConfig?: AxiosRequestConfig;
+} = {}) => {
+  return {
+    queryKey: ["get-products-for-products-page", axiosReqConfig || null],
+    queryFn: () =>
+      publicApiClient
+        .get<
+          ApiResponseSuccessBase<{
+            data: ProductType[];
+            filters: {
+              subCategories: ProductCategory[];
+              categories: ProductCategory[];
+              productAttributes: (ProductAttribute & {
+                terms: (ProductAttributeTerm & { products: Product[] })[];
+              })[];
+              maxPrice: number;
+            };
+          }>
+        >(`/product/products-page`, axiosReqConfig)
         .then((res) => res.data),
   };
 };
@@ -70,5 +100,43 @@ export const getUnauthenticatedWeeklyMealsQueryOptions = ({
       return lastPage?.currentPage + 1;
     },
     initialPageParam: 1,
+  };
+};
+
+export const getAddressByZipcodeQueryOptions = ({
+  houseNumber,
+  zipCode,
+  skipDbCheck,
+  isValid = true,
+}: {
+  zipCode: string;
+  houseNumber: string | number;
+  skipDbCheck?: boolean;
+  isValid?: boolean;
+}) => {
+  return {
+    queryKey: ["get-address-by-zipcode", zipCode, houseNumber, skipDbCheck],
+    queryFn: () =>
+      publicApiClient
+        .get<
+          ApiResponseSuccessBase<{
+            postcode: string;
+            number: number;
+            street: string;
+            city: string;
+            municipality: string;
+            province: string;
+            location: {
+              type: string;
+              coordinates: [5.0824818, 51.5591287];
+            };
+          }>
+        >(`/zipcode/${zipCode}/${houseNumber}`, {
+          params: {
+            skipDbCheck,
+          },
+        })
+        .then((res) => res.data),
+    enabled: !!zipCode && !!houseNumber && !!isValid,
   };
 };

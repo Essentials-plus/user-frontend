@@ -5,7 +5,7 @@ const PaymentOptions = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/payment-options-hero-img.jpg"
+        // imgSrc="/imgs/payment-options-hero-img.jpg"
         title="Betaal Mogelijkheden"
         accentColor="#317773"
       />

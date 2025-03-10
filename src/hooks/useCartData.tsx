@@ -1,186 +1,205 @@
 /* eslint-disable no-unused-vars */
-"use client";
-import { userApiClient } from "@/api-clients/user-api-client";
+
+import guestApiClient from "@/api-clients/guest-api-client";
 import { getProductCartQueryOptions } from "@/api-clients/user-api-client/queries";
-import { getClientErrorMsg } from "@/lib/utils";
+import { getClientErrorMsg, getShippingAmount } from "@/lib/utils";
+import { ApiResponseSuccessBase } from "@/types/api-responses";
 import { ProductCart } from "@/types/api-responses/product-attribute";
-import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { calculatePercentageOff } from "@/views/cart/components/cart-items-section";
+import useAppliedCoupon from "@/views/cart/hooks/useAppliedCoupon";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { atom, useAtom } from "jotai";
+import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebouncedCallback } from "use-debounce";
 
-export const CART_STATE = atomWithStorage<ProductCart[]>("cart", []);
+const isUpdatingCartAtom = atom(false);
 
-type CartDataType = {
-  productCart: ProductCart[];
-  isLoading: boolean;
-  isExistOnCart: (productId?: string, variationId?: string) => boolean;
-  handleAddToCart: (d?: ProductCart) => Promise<void>;
-  refetch: () => Promise<any>;
-  handleRemoveCart: (id?: string) => Promise<void>;
-  updateCartItem: (itemId?: string, count?: number) => Promise<void>;
-};
+function useCartData() {
+  const queryClient = useQueryClient();
 
-const CartDataContext = createContext({} as CartDataType);
+  const [isUpdatingCart, setIsUpdatingCart] = useAtom(isUpdatingCartAtom);
 
-type Props = {
-  children: ReactNode;
-};
-
-export function CartDataProvider({ children }: Props) {
-  const {
-    data: productCartData,
-    refetch,
-    isLoading,
-  } = useQuery({
-    ...getProductCartQueryOptions(),
+  const productCartQueryOptions = getProductCartQueryOptions();
+  const productCartQuery = useQuery({
+    ...productCartQueryOptions,
   });
 
-  const [productCart, setProductCart] = useState<ProductCart[]>([]);
+  const updateCartMutation = useMutation({
+    mutationKey: ["update-cart-mutation"],
+    mutationFn: (updatedCartProducts: ProductCart[]) =>
+      guestApiClient.put("/product/cart/update/data", {
+        productCart: updatedCartProducts.map((v) => ({
+          id: v.id,
+          count: v.count,
+        })),
+      }),
+    onMutate() {
+      setIsUpdatingCart(true);
+    },
+    onSettled() {
+      setIsUpdatingCart(false);
+    },
+  });
+
+  const addToCartMutation = useMutation({
+    mutationFn: (cart: ProductCart) =>
+      guestApiClient.post("/product/cart", {
+        productId: cart.productId,
+        count: cart.count,
+        variationId: cart.variationId,
+      }),
+  });
+  const removeFromCartMutation = useMutation({
+    mutationFn: (id: string) => guestApiClient.delete(`/product/cart/${id}`),
+  });
+
+  const { coupon } = useAppliedCoupon();
+
+  const cartProducts = useMemo(
+    () => productCartQuery.data?.data || [],
+    [productCartQuery.data?.data],
+  );
 
   const debounced = useDebouncedCallback<(v: ProductCart[]) => any>(
-    // function
-    async (value) => {
+    async (updatedCartProducts: ProductCart[]) => {
       try {
-        await userApiClient.put("/product/cart/update/data", {
-          productCart: value.map((v) => ({ id: v.id, count: v.count })),
-        });
-        await refetch();
+        await updateCartMutation.mutateAsync(updatedCartProducts);
+        await productCartQuery.refetch();
       } catch (error) {}
     },
     // delay in ms
     1000,
   );
 
-  useEffect(() => {
-    setProductCart(productCartData?.data || []);
-  }, [productCartData?.data]);
-
-  const [cartState, setCartState] = useAtom(CART_STATE);
-
-  const handleAddToCart = async (d?: ProductCart) => {
+  const handleAddToCart = useCallback(async (d?: ProductCart) => {
     if (!d) return;
-    // if (!isExistOnCart(d.productId, d.variationId)) {
-    //   setCartState((s) => [...s, d]);
-    // }
+
     try {
-      await userApiClient.post("/product/cart", {
-        productId: d.productId,
-        count: d.count,
-        variationId: d.variationId,
-      });
-      await refetch();
+      await addToCartMutation.mutateAsync(d);
+      await productCartQuery.refetch();
     } catch (error) {
       toast.error(getClientErrorMsg(error));
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleRemoveCart = async (id?: string) => {
+  const handleRemoveCart = useCallback(async (id?: string) => {
     if (!id) return;
 
-    if (id == "REMOVE_ALL") {
-      await userApiClient.delete(`/product/cart/all`);
-      await refetch();
-      return;
-    }
-
-    await userApiClient.delete(`/product/cart/${id}`);
-    await refetch();
-
-    // const prevCart = [...cartState];
-    // if (variationId) {
-    //   const findIndex = prevCart.findIndex(
-    //     (c) => c.productId == productId && variationId == c.variationId
-    //   );
-    //   const filterCart = prevCart.filter((c, i) => i != findIndex);
-
-    //   setCartState(filterCart);
-    // } else {
-    //   const filterCart = prevCart.filter((c) => c.productId != productId);
-
-    //   setCartState(filterCart);
+    // if (id == "REMOVE_ALL") {
+    //   await guestApiClient.delete(`/product/cart/all`);
+    //   await productCartQuery.refetch();
+    //   return;
     // }
-  };
 
-  const handleUpdateCart = (
-    productId: string,
-    data: Partial<ProductCart>,
-    variationId?: string,
-  ) => {
-    if (!productId) return;
+    await removeFromCartMutation.mutateAsync(id);
+    await productCartQuery.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const prevCart = [...cartState];
-    const filterCart = prevCart.map((c) => {
-      if (c.productId == productId) {
-        if (variationId) {
-          if (variationId == c.variationId) {
-            c = { ...c, ...data };
-          }
-        } else {
-          c = { ...c, ...data };
-        }
+  const isExistOnCart = useCallback(
+    (productId?: string, variationId?: string) => {
+      if (variationId) {
+        return cartProducts?.find(
+          (c) => c.productId === productId && c.variationId === variationId,
+        )
+          ? true
+          : false;
+      } else {
+        return cartProducts?.find((c) => c.productId === productId)
+          ? true
+          : false;
       }
-      return c;
-    });
-
-    setCartState(filterCart);
-  };
-
-  const isExistOnCart = (productId?: string, variationId?: string) => {
-    if (variationId) {
-      return productCart?.find(
-        (c) => c.productId === productId && c.variationId === variationId,
-      )
-        ? true
-        : false;
-    } else {
-      return productCart?.find((c) => c.productId === productId) ? true : false;
-    }
-  };
+    },
+    [cartProducts],
+  );
 
   const updateCartItem = async (itemId?: string, count?: number) => {
     if (!itemId || !count) return;
+    queryClient.setQueryData(
+      productCartQueryOptions.queryKey,
+      (
+        oldData: ApiResponseSuccessBase<ProductCart[]>,
+      ): ApiResponseSuccessBase<ProductCart[]> => {
+        const updatedCartProducts = structuredClone(oldData).data.map(
+          (product) => {
+            if (product.id == itemId) {
+              product.count = count;
+            }
+            return product;
+          },
+        );
 
-    const newItem = [...productCart].map((v) => {
-      if (v.id == itemId) {
-        v.count = count;
-      }
-      return v;
-    });
-
-    debounced(newItem);
-
-    setProductCart(newItem);
+        debounced(updatedCartProducts);
+        return {
+          ...oldData,
+          data: updatedCartProducts,
+        };
+      },
+    );
   };
 
-  return (
-    <CartDataContext.Provider
-      value={{
-        isLoading,
-        productCart,
-        isExistOnCart,
+  const cartOverview = useMemo(() => {
+    const totalValue = cartProducts?.reduce((prev, d) => {
+      if (d.product.type == "simple") {
+        return (
+          prev + (d.product.salePrice || d.product.regularPrice || 0) * d.count
+        );
+      } else {
+        const findVar = d.product.variations?.find(
+          (v) => v.id == d.variationId,
+        );
+        return (
+          prev + (findVar?.salePrice || findVar?.regularPrice || 0) * d.count
+        );
+      }
+    }, 0);
 
-        handleAddToCart,
-        refetch,
-        handleRemoveCart,
-        updateCartItem,
-      }}
-    >
-      {children}
-    </CartDataContext.Provider>
-  );
-}
+    let oldValue = totalValue;
 
-export function useCartData() {
-  return useContext(CartDataContext);
+    let currentValue = totalValue;
+
+    let percentDiscount = 0;
+
+    if (coupon) {
+      if (coupon?.type == "amount") {
+        currentValue = totalValue - coupon.value;
+        percentDiscount = calculatePercentageOff(totalValue, currentValue);
+      }
+      if (coupon.type == "percent") {
+        currentValue = totalValue - (totalValue / 100) * coupon.value;
+        percentDiscount = coupon.value;
+      }
+    }
+
+    const discountValue = oldValue - currentValue;
+
+    const shippingAmount = getShippingAmount(currentValue);
+
+    currentValue += shippingAmount;
+
+    return {
+      currentValue,
+      oldValue,
+      percentDiscount,
+      discountValue,
+      shippingAmount,
+    };
+  }, [cartProducts, coupon]);
+
+  return {
+    isLoading: productCartQuery.isLoading,
+    productCart: cartProducts,
+    cartOverview,
+    isExistOnCart,
+
+    handleAddToCart,
+    refetch: productCartQuery.refetch,
+    handleRemoveCart,
+    updateCartItem,
+    isUpdatingCart,
+  };
 }
 
 export default useCartData;

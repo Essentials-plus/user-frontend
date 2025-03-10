@@ -4,29 +4,32 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 import Spinner from "../spinner";
 
 export const button = cva(
-  "__c_all border-2 duration-200 ring-offset-1 outline-none focus-visible:ring-1 focus-visible:ring-app-black flex items-center gap-2",
+  "__c_all flex items-center gap-2 border-2 outline-none ring-offset-1 duration-200 focus-visible:ring-1 focus-visible:ring-app-black disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       intent: {
         primary:
-          "bg-app-darker-green text-white border-app-darker-green enabled:hover:bg-white enabled:hover:text-app-darker-green focus-visible:ring-app-darker-green",
+          "border-app-darker-green bg-app-darker-green text-white hover:bg-white hover:text-app-darker-green focus-visible:ring-app-darker-green",
         "outline-primary":
-          "bg-white text-app-black border-app-darker-green focus-visible:ring-app-darker-green enabled:hover:bg-app-darker-green enabled:hover:text-white",
+          "border-app-darker-green bg-white text-app-black hover:bg-app-darker-green hover:text-white focus-visible:ring-app-darker-green",
         "outline-green":
-          "bg-white text-app-black border-app-green focus-visible:ring-app-green enabled:hover:bg-app-green enabled:hover:text-white",
+          "border-app-green bg-white text-app-black hover:bg-app-green hover:text-white focus-visible:ring-app-green",
         green:
-          "text-white border-app-green focus-visible:ring-app-green bg-app-green enabled:hover:text-app-black enabled:hover:bg-white",
+          "border-app-green bg-app-green text-white hover:bg-white hover:text-app-black focus-visible:ring-app-green",
         black:
-          "bg-app-black text-white focus-visible:ring-app-black focus-visible:ring-offset-white border-app-black enabled:hover:bg-black",
+          "border-app-black bg-app-black text-white hover:bg-black focus-visible:ring-app-black focus-visible:ring-offset-white",
         yellow:
-          "text-app-black border-app-yellow focus-visible:ring-app-yellow bg-app-yellow enabled:hover:bg-white",
+          "border-app-yellow bg-app-yellow text-app-black hover:bg-white focus-visible:ring-app-yellow",
         orange:
-          "text-white border-app-orange focus-visible:ring-app-orange bg-app-orange enabled:hover:bg-white enabled:hover:text-app-orange",
+          "border-app-orange bg-app-orange text-white hover:bg-white hover:text-app-orange focus-visible:ring-app-orange",
+        danger:
+          "border-app-danger bg-app-danger text-white hover:bg-white hover:text-app-danger focus-visible:ring-app-danger",
       },
       size: {
-        md: "text-base font-medium h-10 px-6 rounded-lg",
-        sm: "px-4 h-8 text-sm rounded-md",
-        default: "text-lg font-semibold h-12 px-8 rounded-lg",
+        md: "h-10 rounded-lg px-6 text-base font-medium",
+        sm: "h-8 rounded-md px-4 text-sm",
+        xs: "h-5 rounded px-1.5 py-0.5 text-xs",
+        default: "h-12 rounded-lg px-8 text-lg font-semibold",
       },
       iconButton: {
         true: "aspect-square",
@@ -65,7 +68,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading ? (
           <span className={cn(" flex justify-center items-center gap-1")}>
-            <Spinner className="w-5" />
+            <Spinner className={cn("w-5", size === "xs" && "w-3")} />
             bezig met laden..
           </span>
         ) : (

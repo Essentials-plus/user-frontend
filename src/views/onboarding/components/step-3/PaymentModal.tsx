@@ -7,6 +7,8 @@ import {
   DialogTrigger,
 } from "@/common/components/ui/dialog";
 import Spinner from "@/common/components/ui/spinner";
+import routes from "@/config/routes";
+import { tempAuthTokenCookieName } from "@/constants";
 import {
   Elements,
   PaymentElement,
@@ -41,7 +43,7 @@ export function PaymentMethodModal({ children, onClose, type }: Props) {
         {},
         {
           headers: {
-            authorization: getCookie("temp_auth"),
+            authorization: getCookie(tempAuthTokenCookieName),
           },
         },
       );
@@ -53,7 +55,7 @@ export function PaymentMethodModal({ children, onClose, type }: Props) {
   return (
     <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className=" overflow-y-auto max-w-[600px]">
+      <DialogContent className=" max-w-[600px] overflow-y-auto">
         <DialogHeader>
           <div className="text-xl font-semibold">Payment Method</div>
         </DialogHeader>
@@ -101,7 +103,7 @@ function PaymentMethodForm({ clientSecret, onClose }: FormProps) {
           <PaymentForm onClose={onClose} />
         </Elements>
       ) : (
-        <div className="flex mb-5 items-center gap-4">
+        <div className="mb-5 flex items-center gap-4">
           <Spinner />
           <div className="text-lg">Bezig met laden...</div>
         </div>
@@ -134,7 +136,9 @@ function PaymentForm({ onClose }: PaymentFormProps) {
       const { error } = await stripe.confirmSetup({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/onboarding/payment`,
+          return_url: `${window.location.origin}${routes.onboarding(
+            "payment",
+          )}`,
         },
 
         redirect: "if_required",
@@ -158,7 +162,7 @@ function PaymentForm({ onClose }: PaymentFormProps) {
       <PaymentElement onReady={() => setReady(true)} />
 
       <div className="pt-2 xl:pt-3"></div>
-      {errorMsg && <div className="text-red-500 text-sm">{errorMsg}</div>}
+      {errorMsg && <div className="text-sm text-red-500">{errorMsg}</div>}
       <div className="pt-4"></div>
       {isReady && (
         <Button

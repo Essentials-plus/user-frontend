@@ -5,7 +5,7 @@ const Supplementenadvies = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/supplementenadvies-hero-img.jpg"
+        // imgSrc="/imgs/supplementenadvies-hero-img.jpg"
         title="Supplementen advies"
         accentColor="#317773"
       />

@@ -11,7 +11,7 @@ const NumberOfMealDays = ({
   return (
     <div>
       <p className="text-sm font-bold">Aantal maaltijd dagen:</p>
-      <div className="mt-2 flex border border-black rounded w-fit overflow-hidden">
+      <div className="mt-2 flex w-fit overflow-hidden rounded border border-black">
         {Array.from({ length: 7 }).map((num, i) => (
           <button
             type="button"

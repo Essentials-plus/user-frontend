@@ -1,4 +1,4 @@
-import Spinner from "@/common/components/ui/spinner/spinner";
+import Spinner from "@/common/components/ui/spinner";
 import useFirstRender from "@/hooks/useFirstRender";
 import useStartToday from "@/hooks/useStartToday";
 import { useEffect } from "react";
@@ -14,7 +14,7 @@ const Order = () => {
   }, [handleStartToday, isFirstRender]);
 
   return (
-    <div className="h-[80vh] flex justify-center items-center">
+    <div className="flex h-[80vh] items-center justify-center">
       <Spinner className="w-10 text-app-darker-green" />
     </div>
   );

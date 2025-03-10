@@ -1,10 +1,18 @@
 import {
+  getOrderHistoryByIdQueryOptions,
   getOrderHistoryQueryOptions,
+  getPlanOrderByIdQueryOptions,
   getPlanOrderQueryOptions,
 } from "@/api-clients/user-api-client/queries";
 import MealCard from "@/common/components/meal-card";
 import SettingsPageLayout from "@/common/components/settings-page-layout";
-import { Card, CardContent } from "@/common/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/common/components/ui/card";
 import { Dialog, DialogContent } from "@/common/components/ui/dialog";
 import {
   Table,
@@ -16,28 +24,41 @@ import {
 } from "@/common/components/ui/table";
 import usePaginatedQuery from "@/hooks/usePaginatedQuery";
 import {
-  getProductPrice,
+  appDefaultDateFormatter,
   getProductTaxAmount,
   sortMealsByMealType,
 } from "@/lib/utils";
-import { PlanOrder } from "@/types/api-responses/product-attribute";
-import { Fragment, ReactNode, useMemo, useState } from "react";
+import {
+  PlanOrder,
+  ProductOrder,
+} from "@/types/api-responses/product-attribute";
+import { Fragment, useMemo, useState } from "react";
 import DataTablePagination from "../data-table-pagination";
 import SelectedDays from "../weekly-menu/components/selected-days";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/common/components/ui/carousel";
+import { getCreateUnpaidOrderSessionMutationOptions } from "@/api-clients/user-api-client/mutations";
+import Button from "@/common/components/ui/button";
+import useActiveCurrency from "@/hooks/useActiveCurrency";
 import { useUserSession } from "@/hooks/useUserSession";
 import { CouponTypeEnum } from "@/types/api-responses/coupon-code";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-
-const currency_type = process.env.NEXT_PUBLIC_CURRENCY_TYPE || "eur";
+import { parseAsString, useQueryState } from "nuqs";
 
 const OrderHistory = () => {
-  const MealDataTableHeaders = ["Datum", "Week", "Toestand"];
+  const [activeOrderId, setActiveOrderId] = useQueryState(
+    "orderId",
+    parseAsString.withDefault(""),
+  );
+
+  const [activeMealOrderId, setActiveMealOrderId] = useQueryState(
+    "mealOrderId",
+    parseAsString.withDefault(""),
+  );
+
+  const { currency_symbol } = useActiveCurrency();
+
+  const MealDataTableHeaders = ["Datum", "Week", "Toestand", "Prijs"];
   const productTableHeaders = [
     "Order Id",
     "Datum van aankoop",
@@ -67,21 +88,27 @@ const OrderHistory = () => {
 
   const { user } = useUserSession();
 
+  const orderHistoryData = orderHistory.data?.data;
+
+  const activeOrder = useMemo(() => {
+    const order = orderHistoryData?.find((v) => v.id === activeOrderId);
+    return order;
+  }, [activeOrderId, orderHistoryData]);
+
+  const planOrderData = planOrder.data?.data;
+
+  const activeMealOrder = useMemo(() => {
+    const order = planOrderData?.find((v) => v.id === activeMealOrderId);
+    return order;
+  }, [activeMealOrderId, planOrderData]);
+
   return (
     <SettingsPageLayout title="Bestelgeschiedenis">
-      {/* {orderHistory.isLoading ? (
-        <div className="flex items-center justify-center h-[300px]">
-          <div className="h-6 w-6">
-            <Spinner />
-          </div>
-          Loading...
-        </div>
-      ) : ( */}
       <>
         {!(user?.access == "product") && (
           <>
-            <h2 className="text-3xl font-semibold mb-4">Maaltijdboxen</h2>
-            <div className="rounded-3xl border-2 border-app-dark-grey px-8 py-8 bg-app-grey">
+            <h2 className="mb-4 text-3xl font-semibold">Maaltijdboxen</h2>
+            <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey p-8">
               <table className="w-full border-collapse">
                 {" "}
                 <thead>
@@ -89,27 +116,33 @@ const OrderHistory = () => {
                     {MealDataTableHeaders.map((header) => (
                       <th
                         key={header}
-                        className="px-4 py-2 text-left text-[28px] font-semibold"
+                        className="px-4 py-2 text-left text-base font-semibold"
                       >
-                        {" "}
                         {header}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {planOrder.data?.data?.map((row, index) => (
-                    <MealOrderModal key={"dgs" + index} data={row}>
-                      <td className="px-4 py-2 text-left text-[18px]">
+                  {planOrderData?.map((row) => (
+                    <tr
+                      onClick={() => setActiveMealOrderId(row.id)}
+                      className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
+                      key={row.id}
+                    >
+                      <td className="px-4 py-2 text-left text-base">
                         {new Date(row.createdAt).toDateString()}
                       </td>
-                      <td className="px-4 py-2 text-left text-[18px]">
+                      <td className="px-4 py-2 text-left text-base">
                         {row.week}
                       </td>
-                      <td className="px-4 py-2 text-left text-[18px]">
+                      <td className="px-4 py-2 text-left text-base capitalize">
                         {row.status}
                       </td>
-                    </MealOrderModal>
+                      <td className="px-4 py-2 text-left text-base capitalize">
+                        {currency_symbol} {row.totalAmount.toFixed(2)}
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
@@ -118,8 +151,8 @@ const OrderHistory = () => {
           </>
         )}
 
-        <h2 className="text-3xl font-semibold mb-4 mt-12">Producten</h2>
-        <div className="rounded-3xl border-2 border-app-dark-grey px-8 py-8 bg-app-grey">
+        <h2 className="mb-4 mt-12 text-3xl font-semibold">Producten</h2>
+        <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey p-8">
           <table className="w-full border-collapse">
             {" "}
             <thead>
@@ -127,7 +160,7 @@ const OrderHistory = () => {
                 {productTableHeaders.map((header) => (
                   <th
                     key={header}
-                    className="px-4 py-2 text-left text-[28px] font-semibold"
+                    className="px-4 py-2 text-left text-base font-semibold"
                   >
                     {" "}
                     {header}
@@ -136,59 +169,110 @@ const OrderHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {orderHistory.data?.data?.map((row, index) => (
-                <ProductOrderHistoryModal key={"poh" + index} data={row}>
-                  <td className="px-4 py-2 text-left text-[18px]">
-                    <div className="max-w-[100px] truncate">#{row.id}</div>
+              {orderHistoryData?.map((order) => (
+                <tr
+                  key={order.id}
+                  onClick={() => setActiveOrderId(order.id)}
+                  className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
+                >
+                  <td className="px-4 py-2 text-left text-base">
+                    <div className="max-w-[100px] truncate">
+                      {order.orderId}
+                    </div>
                   </td>
-                  <td className="px-4 py-2 text-left text-[18px]">
-                    {new Date(row.createdAt).toDateString()}
+                  <td className="px-4 py-2 text-left text-base">
+                    {new Date(order.createdAt).toDateString()}
                   </td>
-                  <td className="px-4 py-2 text-left text-[18px]">
-                    {row.status}
+                  <td className="px-4 py-2 text-left text-base capitalize">
+                    {order.status}
+
+                    {order.status === "unpaid" && (
+                      <PayButton orderId={order.id} />
+                    )}
                   </td>
-                  <td className="px-4 py-2 text-left text-[18px]">
-                    {currency_type == "eur" ? "€" : "$"}
-                    {row.amount}
+                  <td className="px-4 py-2 text-left text-base">
+                    {currency_symbol} {order.amount.toFixed(2)}
                   </td>
-                </ProductOrderHistoryModal>
+                </tr>
               ))}
             </tbody>
           </table>
           <DataTablePagination query={orderHistory} />
         </div>
+        <ProductOrderHistoryModal
+          open={!!activeOrderId}
+          onOpenChange={() => setActiveOrderId(null)}
+          activeOrderId={activeOrder ? undefined : activeOrderId}
+          data={activeOrder}
+        />
+        <MealOrderModal
+          open={!!activeMealOrderId}
+          onOpenChange={() => setActiveMealOrderId(null)}
+          activeMealOrderId={activeMealOrder ? undefined : activeMealOrderId}
+          data={activeMealOrder}
+        />
       </>
-      {/* )} */}
     </SettingsPageLayout>
   );
 };
 
-type MealOrderProps = {
-  children: ReactNode;
-  data: PlanOrder;
-};
-
-function MealOrderModal({ children, data }: MealOrderProps) {
-  let totalDays = data.mealsForTheWeek.length;
-
-  const [selectedDay, setSelectedDay] = useState(1);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const currentDayMeals = useMemo(() => {
-    return data.mealsForTheWeek.find((v) => v.day == selectedDay)?.meals;
-  }, [data, selectedDay]);
+const PayButton = ({ orderId }: { orderId: string }) => {
+  const getCreateUnpaidOrderSessionMutation = useMutation({
+    ...getCreateUnpaidOrderSessionMutationOptions(),
+    onSuccess(data) {
+      window.location.href = data.data.data.session.url;
+    },
+  });
 
   return (
-    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-      <tr
-        onClick={() => setModalOpen(true)}
-        className="border-b border-gray-200 hover:bg-slate-200 cursor-pointer"
-      >
-        {children}
-      </tr>
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        getCreateUnpaidOrderSessionMutation.mutate({
+          orderId,
+        });
+      }}
+      loading={getCreateUnpaidOrderSessionMutation.isPending}
+      size={"xs"}
+      className="mt-1.5"
+    >
+      Betaal nu
+    </Button>
+  );
+};
 
-      <DialogContent className="max-xl:max-w-[95vw] xl:max-w-[1300px] overflow-hidden max-h-[95dvh] overflow-y-auto">
+type MealOrderProps = {
+  open: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onOpenChange: (open: boolean) => void;
+  activeMealOrderId?: string;
+  data?: PlanOrder;
+};
+
+function MealOrderModal({
+  data: d,
+  onOpenChange,
+  open,
+  activeMealOrderId,
+}: MealOrderProps) {
+  const [selectedDay, setSelectedDay] = useState(1);
+
+  const planOrderByIdQuery = useQuery({
+    ...getPlanOrderByIdQueryOptions({ id: activeMealOrderId! }),
+  });
+
+  const data = d || planOrderByIdQuery.data?.data;
+
+  const totalDays = data?.mealsForTheWeek.length || 0;
+  const currentDayMeals = useMemo(() => {
+    return data?.mealsForTheWeek.find((v) => v.day == selectedDay)?.meals;
+  }, [data, selectedDay]);
+
+  if (!data) return null;
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] xl:max-w-[1300px]">
         <section className="my-[20px]">
           <div className="container">
             <SelectedDays
@@ -196,10 +280,10 @@ function MealOrderModal({ children, data }: MealOrderProps) {
               onDayClick={(d) => setSelectedDay(d)}
               totalDays={totalDays}
             />
-            <div className="grid grid-cols-2 gap-6 mt-20">
+            <div className="mt-20 grid grid-cols-2 gap-6">
               {currentDayMeals && currentDayMeals.length > 0 ? (
                 sortMealsByMealType(currentDayMeals).map((v, i) => (
-                  <MealCard key={"hello" + i} meal={v} />
+                  <MealCard key={v.id + i} meal={v} />
                 ))
               ) : (
                 <div>Er is geen maaltijd voor de dag</div>
@@ -213,38 +297,59 @@ function MealOrderModal({ children, data }: MealOrderProps) {
 }
 
 type ProductHistoryModaProps = {
-  children: ReactNode;
-  data: any;
+  data?: ProductOrder;
+  open: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onOpenChange: (open: boolean) => void;
+  activeOrderId?: string;
 };
-function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
-  const [OrderHistoryModalOpen, setOrderHistoryModalOpen] = useState(false);
-  const order = data;
-  const currencyType = process.env.NEXT_PUBLIC_CURRENCY_TYPE;
+function ProductOrderHistoryModal({
+  data,
+  onOpenChange,
+  open,
+  activeOrderId,
+}: ProductHistoryModaProps) {
+  const { currency_symbol } = useActiveCurrency();
+
+  const orderHistoryByIdQuery = useQuery({
+    ...getOrderHistoryByIdQueryOptions({ id: activeOrderId! }),
+  });
+
+  const order = data || orderHistoryByIdQuery.data?.data;
+
+  const orderedProducts = useMemo(
+    () => order?.orderItems || [],
+    [order?.orderItems],
+  );
+
+  const getCreateUnpaidOrderSessionMutation = useMutation({
+    ...getCreateUnpaidOrderSessionMutationOptions(),
+    onSuccess(data) {
+      window.location.href = data.data.data.session.url;
+    },
+  });
 
   const { orderTotalBeforeDiscount, totalTax21Percent, totalTax9Percent } =
     useMemo(
       () =>
-        order?.products.reduce(
-          (accumulator: any, currentValue: any) => {
-            const price = getProductPrice(
-              currentValue.product,
-              currentValue.variationId,
-            );
+        orderedProducts.reduce(
+          (accumulator, currentValue) => {
+            const price = currentValue.price;
 
             const taxAmount = getProductTaxAmount({
               productPrice: price ?? 0,
-              taxPercent: currentValue.product.taxPercent,
+              taxPercent: currentValue.taxPercent,
             });
 
             return {
               orderTotalBeforeDiscount:
-                (price ?? 0) * currentValue.count +
+                (price ?? 0) * currentValue.quantity +
                 accumulator.orderTotalBeforeDiscount,
               totalTax9Percent:
-                (currentValue.product.taxPercent === "TAX9" ? taxAmount : 0) +
+                (currentValue.taxPercent === "TAX9" ? taxAmount : 0) +
                 accumulator.totalTax9Percent,
               totalTax21Percent:
-                (currentValue.product.taxPercent === "TAX21" ? taxAmount : 0) +
+                (currentValue.taxPercent === "TAX21" ? taxAmount : 0) +
                 accumulator.totalTax21Percent,
             };
           },
@@ -254,7 +359,7 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
             totalTax9Percent: 0,
           },
         ),
-      [order?.products],
+      [orderedProducts],
     );
 
   const totalTaxAmount = totalTax9Percent + totalTax21Percent;
@@ -270,22 +375,64 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
 
   const orderShippingAmount = Number(order?.shippingAmount) ?? 0;
 
-  return (
-    <Dialog
-      open={OrderHistoryModalOpen}
-      onOpenChange={setOrderHistoryModalOpen}
-    >
-      <tr
-        onClick={() => setOrderHistoryModalOpen(true)}
-        className="border-b border-gray-200 hover:bg-slate-200 cursor-pointer"
-      >
-        {children}
-      </tr>
+  if (!order) return null;
 
-      <DialogContent className="max-xl:max-w-[95vw] xl:max-w-[1300px] overflow-hidden max-h-[95dvh] overflow-y-auto">
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] xl:max-w-[1300px]">
         <section className="my-[20px]">
           <div className="container">
             <Card className="overflow-hidden">
+              <CardHeader className="flex flex-row items-start bg-gray-50">
+                <div className="flex gap-4">
+                  <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 overflow-hidden text-lg">
+                      <span className="inline-block truncate">
+                        Order - {order?.orderId}
+                      </span>
+                      {/* <Button
+                        size="icon"
+                        variant="outline"
+                        className="size-6 opacity-0 transition-opacity group-hover:opacity-100"
+                        onClick={() => copy(order?.id)}
+                      >
+                        {copied ? (
+                          <Check className="size-3 text-success" />
+                        ) : (
+                          <Copy className="size-3" />
+                        )}
+                        <span className="sr-only">Copy Order ID</span>
+                      </Button> */}
+                    </CardTitle>
+                    <CardDescription>
+                      Date:{" "}
+                      <span className="capitalize">
+                        {appDefaultDateFormatter(new Date(order?.createdAt))}
+                      </span>
+                    </CardDescription>
+                    <CardDescription className="mt-1 flex items-center capitalize">
+                      Toestand: {order.status}{" "}
+                      {order.status === "unpaid" && (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            getCreateUnpaidOrderSessionMutation.mutate({
+                              orderId: order.id,
+                            });
+                          }}
+                          loading={
+                            getCreateUnpaidOrderSessionMutation.isPending
+                          }
+                          size={"xs"}
+                          className="ml-1.5 inline-flex"
+                        >
+                          Betaal nu
+                        </Button>
+                      )}
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
               <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">
                   <div className="flex items-center justify-between">
@@ -302,58 +449,43 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {order?.products.map((product: any) => {
-                        const price = getProductPrice(
-                          product.product,
-                          product.variationId,
-                        );
+                      {order?.orderItems.map((product) => {
+                        const price = product.price;
                         return (
                           <TableRow key={product.id}>
                             <TableCell>
                               <div className="flex items-center gap-3">
-                                <Carousel className="w-9">
-                                  <CarouselContent>
-                                    {product.product.images.map(
-                                      (image: string, index: number) => (
-                                        <CarouselItem key={index}>
-                                          <Image
-                                            src={image}
-                                            alt={product.product.name}
-                                            width={100}
-                                            height={100}
-                                            className="size-9 rounded-sm bg-muted object-cover"
-                                          />
-                                        </CarouselItem>
-                                      ),
-                                    )}
-                                  </CarouselContent>
-                                </Carousel>
+                                {product.image && (
+                                  <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    width={100}
+                                    height={100}
+                                    className="size-9 rounded-sm bg-gray-100 object-cover"
+                                  />
+                                )}
                                 <div>
-                                  <p className="text-muted-foreground">
-                                    {product.product.name}
-                                  </p>
-                                  {product.variation && (
-                                    <div className="mt-px flex flex-wrap divide-x divide-muted-foreground/60 text-xs text-muted-foreground [&>p:first-child]:ml-0 [&>p:first-child]:pl-0 [&>p>span]:text-black [&>p]:ml-2 [&>p]:pl-2">
-                                      {product.variation.termIds.map(
-                                        (termId: string) => {
-                                          const attributeTerm =
-                                            product.product.attributeTerms.find(
-                                              (attributeTerm: any) =>
-                                                attributeTerm.id === termId,
-                                            );
-
-                                          const attribute = (
-                                            product.product.attributes || []
-                                          ).find(
-                                            (attribute: any) =>
-                                              attribute.id ===
-                                              attributeTerm?.productAttributeId,
-                                          );
+                                  <p className="">{product.name}</p>
+                                  {product.attributes.productVariations && (
+                                    <div className="mt-px flex flex-wrap divide-x text-xs [&>p:first-child]:ml-0 [&>p:first-child]:pl-0 [&>p>span]:text-black [&>p]:ml-2 [&>p]:pl-2">
+                                      {product.attributes.productVariations.map(
+                                        (productVariation, i) => {
                                           return (
-                                            <Fragment key={termId}>
+                                            <Fragment
+                                              key={`${productVariation?.attribute?.id}_${productVariation?.attributeTerm?.id}_${i}`}
+                                            >
                                               <p>
-                                                <span>{attribute?.name}:</span>{" "}
-                                                {attributeTerm?.name}{" "}
+                                                {
+                                                  productVariation.attribute
+                                                    ?.name
+                                                }
+                                                :{" "}
+                                                <span>
+                                                  {
+                                                    productVariation
+                                                      .attributeTerm?.name
+                                                  }
+                                                </span>
                                               </p>
                                             </Fragment>
                                           );
@@ -365,16 +497,16 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                               </div>
                             </TableCell>
                             <TableCell>
-                              {currencyType === "eur" ? "€" : "$"}
+                              {currency_symbol}
                               {price}
                             </TableCell>
                             <TableCell>
                               <span className="mr-2 opacity-40">×</span>
-                              {product.count}
+                              {product.quantity}
                             </TableCell>
                             <TableCell className="text-right">
-                              {currencyType === "eur" ? "€" : "$"}
-                              {price! * product.count}
+                              {currency_symbol}
+                              {price! * product.quantity}
                             </TableCell>
                           </TableRow>
                         );
@@ -385,22 +517,22 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
 
                   {/* <ul className="grid gap-3">
                     <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Subtotaal</span>
+                      <span className="">Subtotaal</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {orderTotalBeforeDiscount?.toFixed(2)}
                       </span>
                     </li>
                     {order?.coupon && (
                       <li className="flex items-center justify-between">
-                        <span className="text-muted-foreground">
+                        <span className="">
                           Coupon(s) -{" "}
-                          <span className="font-medium text-foreground">
+                          <span className="font-medium ">
                             {order.coupon.code}
                           </span>
                         </span>
                         <span>
-                          - {currencyType === "eur" ? "€" : "$"}
+                          - {currency_symbol}
                           {orderTotalBeforeDiscount && (
                             <>
                               {order?.coupon.type === CouponTypeEnum.amount
@@ -422,24 +554,24 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                     <li className="flex items-center justify-between">
                       <span className="text-muted-foreground">Verzenden</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {getShippingAmount(Number(order?.amount)).toFixed(2)}
                       </span>
                     </li>
                     <li className="flex items-center justify-between font-semibold">
                       <span className="text-muted-foreground">Totaal</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {Number(order?.amount).toFixed(2)}
                       </span>
                     </li>
                   </ul> */}
 
-                  <ul className="grid gap-0.5 [&>li:nth-child(odd)]:bg-muted-foreground/10 [&>li]:px-2 [&>li]:py-1.5">
+                  <ul className="grid gap-0.5 [&>li]:px-2 [&>li]:py-1.5">
                     <li className="flex items-center justify-between">
                       <span>Subtotaal (excl. BTW)</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {(orderTotalBeforeDiscount - totalTaxAmount)?.toFixed(
                           2,
                         )}
@@ -448,14 +580,14 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                     <li className="flex items-center justify-between">
                       <span>BTW (9%)</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {totalTax9Percent?.toFixed(2)}
                       </span>
                     </li>
                     <li className="flex items-center justify-between">
                       <span>BTW (21%)</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {totalTax21Percent?.toFixed(2)}
                       </span>
                     </li>
@@ -463,12 +595,12 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                       <li className="flex items-center justify-between">
                         <span>
                           Coupon(s) -{" "}
-                          <span className="font-medium text-foreground">
+                          <span className="font-medium">
                             {order.coupon.code}
                           </span>
                         </span>
                         <span>
-                          - {currencyType === "eur" ? "€" : "$"}
+                          - {currency_symbol}
                           {orderTotalBeforeDiscount && (
                             <>
                               {order?.coupon.type === CouponTypeEnum.amount
@@ -492,18 +624,18 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                       <span>
                         {Number(orderShippingAmount) > 0 && (
                           <span className="mr-2 opacity-50">
-                            (BTW {currencyType === "eur" ? "€" : "$"}
+                            (BTW {currency_symbol}
                             {shippingTaxAmount.toFixed(2)})
                           </span>
                         )}
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {orderShippingAmount.toFixed(2)}
                       </span>
                     </li>
                     <li className="flex items-center justify-between font-semibold">
                       <span>Totaal</span>
                       <span>
-                        {currencyType === "eur" ? "€" : "$"}
+                        {currency_symbol}
                         {Number(order?.amount).toFixed(2)}
                       </span>
                     </li>
@@ -513,32 +645,34 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-3">
                     <div className="font-semibold">Verzend informatie</div>
-                    <address className="grid gap-0.5 not-italic text-muted-foreground">
-                      <span>Huisnummer: {order?.user.nr}</span>
-                      <span>Adres: {order?.user.address}</span>
-                      <span>Stad: {order?.user.city}</span>
-                      <span>Postcode: {order?.user.zipCode?.zipCode}</span>
+                    <address className="grid gap-0.5 not-italic">
+                      <span>Huisnummer: {order?.shippingAddress.nr}</span>
+                      <span>Adres: {order?.shippingAddress.address}</span>
+                      <span>Stad: {order?.shippingAddress.city}</span>
+                      <span>Postcode: {order?.shippingAddress.zipCode}</span>
+                      <span>
+                        Toevoeging: {order?.shippingAddress.addition || "- - -"}
+                      </span>
                     </address>
                   </div>
                   <div className="grid auto-rows-max gap-3">
-                    <div className="font-semibold">facturatie gegevens</div>
-                    <div className="text-muted-foreground">
-                      Hetzelfde als verzendadres
-                    </div>
+                    <div className="font-semibold">Facturatie gegevens</div>
+                    <div>Hetzelfde als verzendadres</div>
                   </div>
                 </div>
                 <hr className="my-4" />
                 <div className="grid gap-3">
-                  <div className="font-semibold">klant informatie</div>
+                  <div className="font-semibold">Klant informatie</div>
                   <dl className="grid gap-3">
                     <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Klant</dt>
+                      <dt>Klant</dt>
                       <dd>
-                        {order?.user.name} {order?.user.surname}
+                        {order?.shippingAddress.name}{" "}
+                        {order?.shippingAddress.surname}
                       </dd>
                     </div>
                     <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Email</dt>
+                      <dt>Email</dt>
                       <dd>
                         <a
                           className="hover:underline"
@@ -549,13 +683,13 @@ function ProductOrderHistoryModal({ children, data }: ProductHistoryModaProps) {
                       </dd>
                     </div>
                     <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Phone</dt>
+                      <dt>Phone</dt>
                       <dd>
                         <a
                           className="hover:underline"
-                          href={`tel:${order?.user.mobile}`}
+                          href={`tel:${order?.shippingAddress.mobile}`}
                         >
-                          {order?.user.mobile || "-"}
+                          {order?.shippingAddress.mobile || "-"}
                         </a>
                       </dd>
                     </div>

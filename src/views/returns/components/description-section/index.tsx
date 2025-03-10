@@ -1,8 +1,10 @@
+import { essentialsPlusEmail } from "@/constants";
+
 const DescriptionSection = () => {
   return (
     <section className="my-[101px]">
       <div className="container">
-        <div className="max-w-[1010px] mx-auto __body_16">
+        <div className="__body_16 mx-auto max-w-[1010px]">
           <p>
             Ben je niet tevreden over een van onze producten of is iets toch
             niet naar wens? Jammer, maar geen probleem! We hanteren een niet
@@ -12,42 +14,47 @@ const DescriptionSection = () => {
           </p>
           <p className="mt-5">
             <strong className="block">Hoe retourneer ik?</strong>
-            Stuur ons een mailtje via info@essentialsplus.eu, en laat ons weten
+            Stuur ons een mailtje via {essentialsPlusEmail}, en laat ons weten
             dat je iets wilt retourneren.
           </p>
           <div className="mt-5">
             <strong className="block">Wat zijn de voorwaarden?</strong>
             <ul>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Retourneren mag binnen maximaal 14 dagen nadat je je bestelling
                 ontvangen hebt.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Retourneren kan alleen via ons eigen retour portaal en als je
                 een bestelling hebt geplaatst via de EssentialsPlus website.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Er mogen niet meer dan 5 schepjes of 10% (bij vitamines en
                 mineralen) uit een verpakking gehaald zijn - de geretourneerde
                 verpakking(en) worden nadat we ze ontvangen hebben gewogen.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Deze service geldt alleen als je een product of smaak nog niet
                 eerder hebt besteld.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 De verzendkosten voor het retourneren zijn voor eigen rekening.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Heb je bij je bestelling producten ontvangen die bij een pakket
                 horen? Dan dien je die ook te retourneren.
+              </li>
+              <li className="list-inside list-disc">
+                Het retourneren van maaltijdbox abonnementen is niet mogelijk,
+                de maaltijdbox is vanaf de lockdowndatum eigendom van de koper
+                en is niet retourneerbaar
               </li>
             </ul>
           </div>
           <div className="mt-5">
             <strong className="block">Herroepingsrecht</strong>
             <ul>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Je hebt het recht om binnen een termijn van 14 dagen je
                 bestelling te annuleren. Als je dat niet wilt, hoef je daar geen
                 reden voor op te geven. De herroepingstermijn verstrijkt 14
@@ -64,7 +71,7 @@ const DescriptionSection = () => {
                 herroepingstermijn van 14 dagen is verstreken. De snelste manier
                 om dat te doen is gewoon ons eigen retourformulier.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 Als je de overeenkomst herroept, ontvang je alle betalingen die
                 je tot op dat moment hebt gedaan, inclusief leveringskosten
                 (maar met uitzondering van eventuele extra kosten omdat je hebt
@@ -73,12 +80,12 @@ const DescriptionSection = () => {
                 14 dagen nadat wij op de hoogte zijn gesteld van je beslissing
                 de overeenkomst te herroepen, van ons terug.
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 {
                   "Als je slechts een deel van je bestelling retour stuurt, worden de kosten voor retourzending niet teruggestort. We betalen je terug via hetzelfde betaalmiddel als waarmee je de oorspronkelijke betaling hebt verricht, tenzij je uitdrukkelijk anderszins hebt ingestemd; in ieder geval zal voor zo'n terugbetaling geen kosten in rekening worden gebracht. We mogen wachten met terugbetaling totdat we de producten hebben teruggekregen, of je hebt aangetoond dat je de producten hebt teruggestuurd."
                 }
               </li>
-              <li className="list-disc list-inside">
+              <li className="list-inside list-disc">
                 {
                   "Je dient de producten in ieder geval niet later dan 14 dagen na de dag waarop je het besluit de overeenkomst te herroepen aan ons hebt medegedeeld, aan ons terug te sturen of overhandigen. Je bent op tijd als je de goederen terugstuurt voordat de termijn van 14 dagen is verstreken. Directe kosten van het terugzenden van je bestelling zijn voor eigen rekening."
                 }

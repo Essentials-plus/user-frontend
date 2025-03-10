@@ -16,8 +16,13 @@ const Select = ({
   label,
   id,
   children,
+  varient = "default",
   ...rest
-}: ComponentProps<"select"> & { label?: string; children?: ReactNode }) => {
+}: ComponentProps<"select"> & {
+  label?: string;
+  children?: ReactNode;
+  varient?: "default" | "secondary";
+}) => {
   const idHook = useId();
 
   const _id = id ? id : idHook;
@@ -27,14 +32,20 @@ const Select = ({
         id={_id}
         className={cn(
           "h-[46px] placeholder:text-sm placeholder:font-bold placeholder:opacity-50 text-sm font-bold outline-none w-full border-[3px] border-app-darker-green pl-4 pr-[42px] rounded-[15px] text-[#6B6B6B]",
+          varient === "secondary" && "border-none rounded-none bg-app-text/10",
           className,
         )}
         {...rest}
       >
         {children}
       </select>
-      <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 right-4">
-        <ChevronDown className="w-4 text-app-darker-green" />
+      <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+        <ChevronDown
+          className={cn(
+            "w-4 text-app-darker-green",
+            varient === "secondary" && "text-app-text",
+          )}
+        />
       </div>
     </div>
   );
@@ -57,7 +68,7 @@ export const FilterSearchSelect = forwardRef<
   return (
     <div>
       {label && (
-        <label className="font-open-sans font-semibold text-app-black inline-block mb-1.5 text-sm">
+        <label className="mb-1.5 inline-block font-open-sans text-sm font-semibold text-app-black">
           {label}
         </label>
       )}
@@ -72,7 +83,7 @@ export const FilterSearchSelect = forwardRef<
         >
           {props.children}
         </select>
-        <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 right-4">
+        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
           <ChevronDown className="w-4 text-app-darker-green" />
         </div>
       </div>
@@ -91,7 +102,7 @@ export const FilterInputSelect = forwardRef<
   return (
     <div>
       {label && (
-        <label className="font-open-sans font-semibold text-app-black inline-block mb-1.5 text-sm">
+        <label className="mb-1.5 inline-block font-open-sans text-sm font-semibold text-app-black">
           {label}
         </label>
       )}

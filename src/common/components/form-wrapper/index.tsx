@@ -22,10 +22,10 @@ const FormWrapper = ({
       <div className="container" ref={registerRef}></div>
       <div className="relative isolate">
         <div
-          className="absolute h-[80%] top-1/2 left-0 -translate-y-1/2 z-[-1] w-full"
+          className="absolute left-0 top-1/2 z-[-1] h-4/5 w-full -translate-y-1/2"
           style={{ paddingRight: registerBounds.left + 24 }}
         >
-          <div className="bg-[#F3F3F3] w-full h-full rounded-r-[80px] relative flex items-end pb-5">
+          <div className="relative flex size-full items-end rounded-r-[80px] bg-[#F3F3F3] pb-5">
             <div>
               <Image
                 src={"/imgs/register/register-form-img-2.png"}
@@ -37,10 +37,10 @@ const FormWrapper = ({
             </div>
           </div>
         </div>
-        <div className="max-w-[calc(1000px+48px)] px-6 mx-auto">
-          <div className="w-full rounded-[50px] border-2 border-black px-9 pt-5 pb-[56px] bg-white overflow-hidden relative isolate">
+        <div className="mx-auto max-w-[calc(1000px+48px)] px-6">
+          <div className="relative isolate w-full overflow-hidden rounded-[50px] border-2 border-black bg-white px-9 pb-[56px] pt-5">
             {children}
-            <div className="absolute top-0 right-0 translate-x-[30%] -translate-y-[30%] z-[-1]">
+            <div className="absolute right-0 top-0 z-[-1] translate-x-[30%] translate-y-[-30%]">
               {!isCornerImgHidden && (
                 <Image
                   src={"/imgs/register/register-form-img-1.png"}

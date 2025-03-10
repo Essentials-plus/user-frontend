@@ -1,15 +1,14 @@
 import ClarnaIcon from "@/common/components/icons/clarna-icon";
 import IDealIcon from "@/common/components/icons/i-deal-icon";
-import MasterCashIcon from "@/common/components/icons/master-cash-icon";
 import MasterCardIcon from "@/common/components/icons/mastercard-icon";
 import PayPalIcon from "@/common/components/icons/paypal-icon";
-import { FaFacebookF, FaInstagram } from "react-icons/fa6";
-import { IoLogoTwitter } from "react-icons/io";
+import routes from "@/config/routes";
+import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6";
 
 export const footer = {
   social: [
     {
-      icon: <IoLogoTwitter className="text-[#1DA1F2]" />,
+      icon: <FaXTwitter className="text-[rgb(15,20,25)]" />,
       url: "#",
     },
     {
@@ -28,19 +27,19 @@ export const footer = {
       links: [
         {
           label: "Ons Verhaal",
-          url: "/our-story",
+          url: routes.ourStory,
         },
         {
           label: "Affiliates/Partners",
-          url: "/affiliates-partner",
+          url: routes.affiliatesPartner,
         },
-        {
-          label: "Cadeaubon",
-          url: "#",
-        },
+        // {
+        //   label: "Cadeaubon",
+        //   url: routes.cadeaubon,
+        // },
         {
           label: "Cookievoorwaarden",
-          url: "/cookie-terms",
+          url: routes.cookieTerms,
         },
         {
           label: "Algemene voorwaarden",
@@ -48,7 +47,7 @@ export const footer = {
         },
         {
           label: "Privacypolicy",
-          url: "/privacy-policy",
+          url: routes.privacyPolicy,
         },
       ],
     },
@@ -57,11 +56,11 @@ export const footer = {
       links: [
         {
           label: "Voedingsadvies",
-          url: "/nutritional-advice",
+          url: routes.nutritionalAdvice,
         },
         {
           label: "Supplementenadvies",
-          url: "#",
+          url: routes.supplementenadvies,
         },
       ],
     },
@@ -70,23 +69,23 @@ export const footer = {
       links: [
         {
           label: "Contact",
-          url: "/contact",
+          url: routes.contact,
         },
         {
           label: "Veelgestelde vragen",
-          url: "/faq",
+          url: routes.faq,
         },
         {
           label: "Retourneren",
-          url: "/returns",
+          url: routes.returns,
         },
         {
           label: "Betaalmogelijkheden",
-          url: "/payment-options",
+          url: routes.paymentOptions,
         },
         {
           label: "Vacatures",
-          url: "#",
+          url: routes.vacancies,
         },
       ],
     },
@@ -102,9 +101,9 @@ export const footer = {
     {
       icon: <PayPalIcon className="w-12" />,
     },
-    {
-      icon: <MasterCashIcon className="w-12" />,
-    },
+    // {
+    //   icon: <MasterCashIcon className="w-12" />,
+    // },
     {
       icon: <MasterCardIcon className="w-12" />,
     },

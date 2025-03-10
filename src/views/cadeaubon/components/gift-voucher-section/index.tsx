@@ -9,14 +9,14 @@ const GiftVoucherSection = () => {
         <div className="grid grid-cols-[420px,auto] gap-x-20">
           <div className="h-full">
             <h3 className="text-3xl font-semibold">Bestel een cadeaubon</h3>
-            <div className="mt-8 h-[260px] bg-[#D9D9D9] px-16 __c_all">
+            <div className="__c_all mt-8 h-[260px] bg-[#D9D9D9] px-16">
               <h4 className="__h4">Cadeaubon 1dag maaltijd €25,-</h4>
             </div>
           </div>
 
           <div>
             <h4 className="__h4">Wie is de ontvanger?</h4>
-            <div className="my-5 grid grid-cols-3 gap-y-6 gap-x-10">
+            <div className="my-5 grid grid-cols-3 gap-x-10 gap-y-6">
               <Input bordered label="Naam:" />
               <Input bordered label="Email:" />
               <Input bordered label="Verzenddatum" />

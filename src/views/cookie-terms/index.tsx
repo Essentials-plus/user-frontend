@@ -5,7 +5,7 @@ const CookieTerms = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/our-story/our-story-hero-img.jpg"
+        // imgSrc="/imgs/our-story/our-story-hero-img.jpg"
         title="Cookies"
         accentColor="#317773"
       />

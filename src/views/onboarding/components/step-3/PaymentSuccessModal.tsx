@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/common/components/ui/dialog";
+import routes from "@/config/routes";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
 
@@ -32,14 +33,14 @@ function PaymentSuccessModal({
   return (
     <Dialog open={onConfirm} onOpenChange={setOrderSuccess}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent className="overflow-y-auto max-w-[480px]">
+      <DialogContent className="max-w-[480px] overflow-y-auto">
         <DialogHeader>
           <div className="text-xl font-semibold">{header}</div>
           <p
             dangerouslySetInnerHTML={{ __html: description }}
-            className="font-medium leading-[19px] mt-[20px] mb-[20px] font-primary text-[#000000] text-[14px]"
+            className="my-[20px] text-[14px] font-medium leading-[19px] text-[#000000]"
           ></p>
-          <div className="mb-[30px] flex justify-end gap-[20px] !mt-6">
+          <div className="!mt-6 mb-[30px] flex justify-end gap-[20px]">
             <button
               type="button"
               className={cn(
@@ -48,7 +49,7 @@ function PaymentSuccessModal({
               )}
               onClick={() => {
                 setOrderSuccess(false);
-                router.push("/");
+                router.push(routes.home);
               }}
             >
               Annuleren
@@ -58,7 +59,7 @@ function PaymentSuccessModal({
               type="button"
               onClick={() => {
                 setOrderSuccess(false);
-                router.push("/weekly-menu");
+                router.push(routes.weeklyMenu);
               }}
               className={cn(
                 "bg-app-darker-green p-[8px_16px] min-w-[120px]  text-white",

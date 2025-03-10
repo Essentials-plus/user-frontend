@@ -29,6 +29,41 @@ const config: Config = {
           danger: "#EE4E34",
         },
       },
+      keyframes: {
+        "accordion-slideDown": {
+          from: { height: "0px" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-slideUp": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0px" },
+        },
+        "collapsible-slideDown": {
+          from: { height: "0px" },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-slideUp": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0px" },
+        },
+        "loading-skeleton": {
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
+      },
+      animation: {
+        "accordion-slideDown":
+          "accordion-slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "accordion-slideUp":
+          "accordion-slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "collapsible-slideDown":
+          "collapsible-slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "collapsible-slideUp":
+          "collapsible-slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        "loading-skeleton":
+          "loading-skeleton var(--animation-duration) ease-in-out var(--animation-direction) infinite",
+      },
     },
     container: {
       center: true,
@@ -38,34 +73,6 @@ const config: Config = {
       screens: {
         lg: "1348px",
       },
-    },
-    keyframes: {
-      "accordion-slideDown": {
-        from: { height: "0px" },
-        to: { height: "var(--radix-accordion-content-height)" },
-      },
-      "accordion-slideUp": {
-        from: { height: "var(--radix-accordion-content-height)" },
-        to: { height: "0px" },
-      },
-      "collapsible-slideDown": {
-        from: { height: "0px" },
-        to: { height: "var(--radix-collapsible-content-height)" },
-      },
-      "collapsible-slideUp": {
-        from: { height: "var(--radix-collapsible-content-height)" },
-        to: { height: "0px" },
-      },
-    },
-    animation: {
-      "accordion-slideDown":
-        "accordion-slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
-      "accordion-slideUp":
-        "accordion-slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
-      "collapsible-slideDown":
-        "collapsible-slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
-      "collapsible-slideUp":
-        "collapsible-slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
     },
   },
   plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],

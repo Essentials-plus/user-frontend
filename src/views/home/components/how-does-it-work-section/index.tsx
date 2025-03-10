@@ -19,7 +19,7 @@ const HowDoesItWorkSection = () => {
                 )}
               >
                 <h4 className="__h4 font-bold">{title}</h4>
-                <p className="mt-6 __body_18 font-medium">{description}</p>
+                <p className="__body_18 mt-6 font-medium">{description}</p>
 
                 <div
                   className={cn(
@@ -36,7 +36,7 @@ const HowDoesItWorkSection = () => {
         </div>
       </div>
 
-      <div className="w-1/2 h-[715px] absolute top-0 left-0 bg-app-yellow z-[-1]"></div>
+      <div className="absolute left-0 top-0 z-[-1] h-[715px] w-1/2 bg-app-yellow"></div>
     </section>
   );
 };

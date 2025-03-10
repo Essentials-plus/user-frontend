@@ -35,48 +35,48 @@ const MealCard = ({
         open={isOpenCollapsible}
         onOpenChange={setisOpenCollapsible}
       >
-        <div className="shadow rounded-md overflow-hidden bg-white">
+        <div className="overflow-hidden rounded-md bg-white shadow">
           <div className="grid grid-cols-1 md:grid-cols-[170px,auto]">
-            <div className="h-[250px] md:h-full overflow-hidden relative isolate">
-              <div className="bg-slate-200 absolute inset-0 animate-pulse z-[-1]"></div>
+            <div className="relative isolate h-[250px] overflow-hidden md:h-full">
+              <div className="absolute inset-0 z-[-1] animate-pulse bg-slate-200"></div>
               <Image
                 fill
                 src={meal.image}
                 alt={"meal"}
-                className="w-full h-full object-cover object-center"
+                className="size-full object-cover object-center"
               />
             </div>
-            <div className="px-3 md:px-4 py-3 space-y-3.5 md:space-y-5">
-              <div className="flex justify-between items-center gap-2">
-                <h3 className="text-base font-semibold line-clamp-1">
+            <div className="space-y-3.5 p-3 md:space-y-5 md:px-4">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="line-clamp-1 text-base font-semibold">
                   {meal.mealName}
                 </h3>
-                <p className="text-xs bg-app-primary/5 text-app-primary rounded px-1.5 font-medium py-0.5 capitalize shrink-0">
+                <p className="shrink-0 rounded bg-app-primary/5 px-1.5 py-0.5 text-xs font-medium capitalize text-app-primary">
                   {mealTypeOptions.find((option) => option.value === meal.meal)
                     ?.label || "- - -"}
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 [&>div]:space-y-1.5 font-medium text-sm text-black/60">
+              <div className="grid grid-cols-3 gap-2 text-sm font-medium text-black/60 [&>div]:space-y-1.5">
                 <div>
-                  <p className="font-semibold text-primary">
+                  <p className="font-semibold text-app-primary">
                     <span className="text-lg">{meal.totalNeedOfKCal}</span> kcal
                   </p>
-                  <p className="text-sm flex items-center gap-1.5">
-                    <AiOutlineClockCircle className="w-4 h-4" />{" "}
+                  <p className="flex items-center gap-1.5 text-sm">
+                    <AiOutlineClockCircle className="size-4" />{" "}
                     {meal.cookingTime}
                   </p>
                 </div>
 
                 <div>
                   <p>
-                    <span className="text-primary font-semibold">
+                    <span className="font-semibold text-app-primary">
                       {meal.totalNeedOfProteins}g
                     </span>{" "}
                     Proteins
                   </p>
                   <p>
-                    <span className="text-primary font-semibold">
+                    <span className="font-semibold text-app-primary">
                       {meal.totalNeedOfFats}g
                     </span>{" "}
                     Fats
@@ -85,13 +85,13 @@ const MealCard = ({
 
                 <div>
                   <p>
-                    <span className="text-primary font-semibold">
+                    <span className="font-semibold text-app-primary">
                       {meal.totalNeedOfCarbohydrates}g
                     </span>{" "}
                     Carbohydrate
                   </p>
                   <p>
-                    <span className="text-primary font-semibold">
+                    <span className="font-semibold text-app-primary">
                       {meal.totalNeedOfFiber}g
                     </span>{" "}
                     Fiber
@@ -99,7 +99,7 @@ const MealCard = ({
                 </div>
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 {!hideSwapButton &&
                   swapableMeals &&
                   swapableMeals?.length > 0 && (
@@ -120,27 +120,27 @@ const MealCard = ({
                     iconButton
                     intent={"outline-primary"}
                   >
-                    <IoChevronDownOutline className="w-3.5 h-3.5" />
+                    <IoChevronDownOutline className="size-3.5" />
                   </Button>
                 </Collapsible.Trigger>
               </div>
             </div>
           </div>
 
-          <Collapsible.Content className="data-[state=open]:animate-collapsible-slideDown data-[state=closed]:animate-collapsible-slideUp overflow-hidden">
-            <div className="px-3 md:px-4 py-3 border-t border-slate-100 space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-[45%,auto] gap-5 gap-y-8">
+          <Collapsible.Content className="overflow-hidden data-[state=closed]:animate-collapsible-slideUp data-[state=open]:animate-collapsible-slideDown">
+            <div className="space-y-5 border-t border-slate-100 p-3 md:px-4">
+              <div className="grid grid-cols-1 gap-5 gap-y-8 md:grid-cols-[45%,auto]">
                 <div>
                   <h3 className="text-base font-semibold">Ingrediënten</h3>
 
                   <div className="mt-3.5 text-sm text-slate-900/80">
                     <ul className="space-y-1.5">
-                      {meal.ingredients.map((ingredient, i) => (
+                      {meal.ingredients.map((ingredient) => (
                         <li
-                          key={"hgadg" + i}
+                          key={ingredient.id}
                           className="flex items-center gap-2 lowercase"
                         >
-                          <BiCheck className="w-5 h-5 text-green-600 shrink-0" />
+                          <BiCheck className="size-5 shrink-0 text-green-600" />
                           {ingredient.totalNeed} {ingredient.unit}{" "}
                           {ingredient.name}
                         </li>
@@ -153,12 +153,9 @@ const MealCard = ({
                   <h3 className="text-base font-semibold">Bereidingswijze</h3>
 
                   <div className="mt-3.5 text-sm text-slate-900/80">
-                    <ol className="space-y-1.5 [&>li]:list-item [&>li]:list-decimal pl-4">
-                      {meal.preparationMethod.map((method, i) => (
-                        <li
-                          key={"gadsd" + i}
-                          className="flex items-center gap-2"
-                        >
+                    <ol className="space-y-1.5 pl-4 [&>li]:list-item [&>li]:list-decimal">
+                      {meal.preparationMethod.map((method) => (
+                        <li key={method.id} className="flex items-center gap-2">
                           {method.label}
                         </li>
                       ))}
@@ -167,15 +164,15 @@ const MealCard = ({
                 </div>
               </div>
 
-              <div className="bg-green-500/[0.08] rounded-md px-3.5 py-3">
-                <h4 className="font-semibold text-green-600 text-base">
+              <div className="rounded-md bg-green-500/[0.08] px-3.5 py-3">
+                <h4 className="text-base font-semibold text-green-600">
                   Tips:
                 </h4>
 
-                <div className="text-sm text-slate-900/80 font-medium mt-2">
-                  <ol className="space-y-2 [&>li]:list-item [&>li]:list-decimal pl-5">
-                    {meal.tips.map((tip, i) => (
-                      <li key={"gdsa" + i} className="flex items-center gap-2">
+                <div className="mt-2 text-sm font-medium text-slate-900/80">
+                  <ol className="space-y-2 pl-5 [&>li]:list-item [&>li]:list-decimal">
+                    {meal.tips.map((tip) => (
+                      <li key={tip.id} className="flex items-center gap-2">
                         {tip.label}
                       </li>
                     ))}

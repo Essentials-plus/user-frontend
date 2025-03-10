@@ -3,14 +3,14 @@ import Image from "next/image";
 
 const ViewHereSection = () => {
   return (
-    <section className="mt-20 mb-[107px]">
+    <section className="mb-[107px] mt-20">
       <div className="container">
-        <div className="grid grid-cols-[500px,auto] gap-x-10 items-center">
+        <div className="grid grid-cols-[500px,auto] items-center gap-x-10">
           <div>
-            <h2 className="uppercase __h2 font-oswald font-normal">
+            <h2 className="__h2 font-oswald font-normal uppercase">
               Bekijk hier hoe wij de maaltijden klaarmaken
             </h2>
-            <p className="my-5 __body_16">
+            <p className="__body_16 my-5">
               In onze keuken werken hooggekwalificeerde koks. Wij houden ons aan
               alle sanitaire normen, en dit zijn niet alleen maar woorden, want
               dit kun je zelf gemakkelijk zien

@@ -42,12 +42,12 @@ export const getApiErrorMessage = (
   }
 
   let errorMessage = defaultErrorMessage;
-
   try {
-    errorMessage = error.response?.data.message;
+    const data = error.response?.data;
+    errorMessage = typeof data === "string" ? data : data?.message;
   } catch (error) {}
 
-  return errorMessage;
+  return errorMessage || defaultErrorMessage;
 };
 
 export const getClientErrorMsg = (err: any) => {
@@ -61,93 +61,70 @@ export const normalizeZodError = (errors: ZodError) => {
   }));
 };
 
-export function getWeekNumber(date?: Date) {
-  const currentDate = date || new Date();
-  const januaryFirst = new Date(currentDate.getFullYear(), 0, 1);
-  const daysToNextMonday =
-    januaryFirst.getDay() === 1 ? 0 : (7 - januaryFirst.getDay()) % 7;
-  const nextMonday = new Date(
-    currentDate.getFullYear(),
-    0,
-    januaryFirst.getDate() + daysToNextMonday,
-  );
-  return currentDate < nextMonday
-    ? 52
-    : currentDate > nextMonday
-    ? Math.ceil(
-        (currentDate.getTime() - nextMonday.getTime()) / (24 * 3600 * 1000) / 7,
-      )
-    : 1;
+export function getWeekNumber() {
+  return moment().isoWeek();
 }
 
 export const rootWeekNumber = getWeekNumber();
 
-export function getDateFromDayAndWeek(day: number, week?: number) {
-  if (day < 1 || day > 7) {
-    throw new Error("Day must be between 1 (Monday) and 7 (Sunday)");
-  }
+export function getNextLockdownDate(lockDownDay: number) {
+  const today = moment(); // Current date
+  const todayDay = today.isoWeekday(); // ISO: Monday = 1, Sunday = 7
+  console.log({ todayDay, lockDownDay });
 
-  // Determine the current week number if the week parameter is not provided
-  const currentWeek = week ?? moment().isoWeek();
+  // Calculate days until the next lockdown day
+  const daysUntilLockdown =
+    lockDownDay > todayDay
+      ? lockDownDay - todayDay
+      : 7 - (todayDay - lockDownDay);
 
-  // Start from the first day of the year
-  const startOfYear = moment().startOf("year");
+  const nextLockdownDate = today.add(daysUntilLockdown, "days");
 
-  // Calculate the date of the first day of the specified or current week
-  const startOfWeek = startOfYear.add(currentWeek - 1, "weeks");
-
-  // Calculate the final date by adding the day offset (day - 1)
-  const resultDate = startOfWeek.add(day - 1, "days");
-
-  return resultDate.toDate();
+  return nextLockdownDate.toDate(); // ISO Netherlands format
 }
+export const getDateFromIsoWeekAndDay = (
+  week: number,
+  day: number,
+  year: number = new Date().getFullYear(),
+) => {
+  // Validate inputs
+  if (week < 1 || week > 53)
+    throw new Error("Invalid week number. It should be between 1 and 53.");
+  if (day < 1 || day > 7)
+    throw new Error(
+      "Invalid day number. It should be between 1 (Monday) and 7 (Sunday).",
+    );
 
-export const getLockdownDate = (dayOfWeek: number) => {
-  // Ensure the input is between 1 and 7
-  if (dayOfWeek < 1 || dayOfWeek > 7) {
-    throw new Error("dayOfWeek must be between 1 and 7");
-  }
-
-  // Get the current week's starting date (Sunday)
-  const startOfWeek = moment().startOf("week");
-
-  // Add the days to the start of the week to get the required date
-  const date = startOfWeek.add(dayOfWeek === 0 ? 7 : dayOfWeek, "days");
-
+  // Calculate the date
+  const date = moment().year(year).isoWeek(week).isoWeekday(day);
   return date.toDate();
 };
 
-// export const getLockdownDate = (dayOfWeek: number, week: number = 0): Date => {
-//   // Ensure the input is between 1 and 7
-//   if (dayOfWeek < 1 || dayOfWeek > 7) {
-//     throw new Error("dayOfWeek must be between 1 and 7");
-//   }
-
-//   // Get the start of the current week (Sunday)
-//   const startOfWeek = moment().startOf("week");
-
-//   // Add the number of weeks and days to get the required date
-//   const date = startOfWeek.add(week - 1, "weeks").add(dayOfWeek - 1, "days");
-
-//   return date.toDate();
-// };
+export const getNextDeliveryDate = (date: Date) => {
+  return moment(date).add(2, "days");
+};
 
 export function getWeekDate(weekNumber?: number) {
-  weekNumber = weekNumber || getWeekNumber();
-  const year = new Date().getFullYear();
-  const januaryFirst = new Date(year, 0, 1);
-  const daysToNextMonday =
-    januaryFirst.getDay() === 1 ? 0 : (7 - januaryFirst.getDay()) % 7;
-  const nextMonday = new Date(
-    year,
-    0,
-    januaryFirst.getDate() + daysToNextMonday,
-  );
-  const startDate = new Date(
-    nextMonday.getTime() + (weekNumber - 1) * 7 * 24 * 3600 * 1000,
-  );
-  const endDate = new Date(startDate.getTime() + 6 * 24 * 3600 * 1000);
-  return { start: startDate, end: endDate };
+  const currentDate = moment();
+  weekNumber = weekNumber || currentDate.isoWeek();
+
+  // Get the year
+  const year = currentDate.year();
+
+  // Create a moment object for the first day of the specified week
+  const startDate = moment().year(year).isoWeek(weekNumber).startOf("isoWeek");
+
+  // Create a moment object for the last day of the specified week
+  const endDate = moment(startDate)
+    .year(year)
+    .isoWeek(weekNumber)
+    .endOf("isoWeek");
+
+  // Return the dates in ISO format
+  return {
+    start: startDate.toDate(),
+    end: endDate.toDate(),
+  };
 }
 
 export const getProductPrice = (product: any, variationId: string | null) => {
@@ -215,4 +192,19 @@ export const calculateUserCalorie = (user: FilterFormSchema) => {
   } else {
     return null;
   }
+};
+
+export function calculateDiscount(
+  regularPrice: number | undefined | null,
+  salePrice: number | undefined | null,
+): number {
+  if (!regularPrice || !salePrice) return 0;
+  if (regularPrice <= 0) {
+    throw new Error("Regular price must be greater than 0.");
+  }
+  return ((regularPrice - salePrice) / regularPrice) * 100;
+}
+
+export const appDefaultDateFormatter = (date: Date) => {
+  return moment(date).format("dddd, DD-MM-YYYY [at] hh:mm A");
 };

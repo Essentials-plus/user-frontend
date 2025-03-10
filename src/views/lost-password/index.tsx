@@ -1,12 +1,12 @@
 import publicApiClient from "@/api-clients/public-api-client";
 import Button from "@/common/components/ui/button";
 import Input from "@/common/components/ui/input";
+import routes from "@/config/routes";
 import { getClientErrorMsg } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -18,8 +18,6 @@ const forgotPasswordSchema = z.object({
 type ForgotPasswordType = z.infer<typeof forgotPasswordSchema>;
 
 const LostPassword = () => {
-  const [isPassword, setIsPassword] = useState(true);
-
   const {
     register,
     handleSubmit,
@@ -35,17 +33,17 @@ const LostPassword = () => {
     try {
       await publicApiClient.post("/auth/user/password/forgot", d);
       toast.success("Verzoek om wachtwoord opnieuw in te stellen verzonden");
-      await router.push("/log-in");
+      await router.push(routes.logIn);
     } catch (err) {
       toast.error(getClientErrorMsg(err));
     }
   };
 
   return (
-    <section className="mt-[99px] mb-[167px]">
+    <section className="mb-[167px] mt-[99px]">
       <div className="container">
-        <div className="grid grid-cols-[500px,auto] gap-x-[120px] items-center">
-          <div className="py-[56px] px-20 rounded-r-[80px] bg-app-yellow">
+        <div className="grid grid-cols-[500px,auto] items-center gap-x-[120px]">
+          <div className="rounded-r-[80px] bg-app-yellow px-20 py-[56px]">
             <h2 className="__h2 text-center">Wachtwoord vergeten?</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
               <div className="space-y-5">
@@ -60,7 +58,7 @@ const LostPassword = () => {
                 </Button>
                 <div className="flex items-center gap-x-3">
                   <div className="h-px w-full bg-black"></div>
-                  <Link href={"/log-in"}>
+                  <Link href={routes.logIn}>
                     <span>Terug</span>
                   </Link>
                   <div className="h-px w-full bg-black"></div>
@@ -74,7 +72,7 @@ const LostPassword = () => {
             alt="lost-password-image"
             width={1680}
             height={886}
-            className="h-full w-full"
+            className="size-full object-contain"
           />
         </div>
       </div>

@@ -7,9 +7,9 @@ import { ReactNode } from "react";
 
 const DescriptionSection = () => {
   return (
-    <section className="mt-[65px] mb-[105px]">
+    <section className="mb-[105px] mt-[65px]">
       <div className="container">
-        <div className="max-w-[680px] mx-auto">
+        <div className="mx-auto max-w-[680px]">
           <div className="space-y-6">
             <Row
               icon={<IDealIcon className="w-8" />}
@@ -69,7 +69,7 @@ const Row = ({ description, icon, title }: RowProps) => {
         {icon}
         <h4 className="__h4">{title}</h4>
       </div>
-      <p className="mt-3 text-app-black __body_16">{description}</p>
+      <p className="__body_16 mt-3 text-app-black">{description}</p>
     </div>
   );
 };

@@ -12,7 +12,7 @@ export default WeeklyMenuPage;
 
 // export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 //   try {
-//     const userStr = getCookie("user", {
+//     const userStr = getCookie(authUserCookieName, {
 //       req,
 //       res,
 //     });
@@ -29,7 +29,7 @@ export default WeeklyMenuPage;
 //   } catch (err) {
 //     return {
 //       redirect: {
-//         destination: "/",
+//         destination: routes.home,
 //         permanent: false,
 //       },
 //     };

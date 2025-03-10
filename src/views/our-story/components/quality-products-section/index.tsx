@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const QualityProductsSection = () => {
   return (
-    <section className="mt-[72px]">
+    <section className="mb-[107px] mt-[72px]">
       <div className="container">
-        <div className="grid grid-cols-[500px,auto] gap-x-20 items-center">
+        <div className="grid grid-cols-[500px,auto] items-center gap-x-20">
           <Image
             src={"/imgs/our-story/quality-products-section-img.jpg"}
             alt="quality-products-section-img"
@@ -15,49 +15,52 @@ const QualityProductsSection = () => {
           />
 
           <div>
-            <h2 className="uppercase __h2 font-oswald font-normal max-w-[620px]">
-              Alleen kwaliteitsproducten voor jou
+            <h2 className="__h2 max-w-[620px] font-oswald font-normal uppercase">
+              Kwaliteit en versheid voor iedereen
             </h2>
-            <p className="my-8 __body_16 leading-8">
-              Als je de gemiddelde persoon vraagt ​​die lijdt aan overgewicht,
-              gastritis, zweren of andere problemen die deze toestand van het
-              lichaam veroorzaken, zal hij zeker een baan aangeven. Omdat we ons
-              realiseerden hoe hard caloriearm voedsel nodig is voor mensen die
-              worstelen met verschillende problemen of een banaal gebrek aan
-              tijd, hebben we nagedacht over de nuances van het verstrekken van
-              voedsel dat gezonde voeding thuis biedt.
+            <p className="__body_16 my-8 leading-8">
+              Bij Essentials+ draait alles om kwaliteit. Wij selecteren de beste
+              ingrediënten en ontwerpen onze maaltijden met zorg en aandacht
+              voor verschillende doelgroepen:
             </p>
 
             <ul className="space-y-5">
               <li className="flex items-center gap-x-4">
-                <CheckIcon className="w-5" />
+                <CheckIcon className="w-5 shrink-0" />
                 <p className="__body_16 font-medium text-app-green">
-                  Mensen die willen afvallen;
+                  Mensen die willen afvallen.
                 </p>
               </li>
               <li className="flex items-center gap-x-4">
-                <CheckIcon className="w-5" />
+                <CheckIcon className="w-5 shrink-0" />
                 <p className="__body_16 font-medium text-app-green">
-                  Atleten en degenen die een actieve levensstijl leiden;
+                  Atleten en actieve levensgenieters. leiden;
                 </p>
               </li>
               <li className="flex items-center gap-x-4">
-                <CheckIcon className="w-5" />
+                <CheckIcon className="w-5 shrink-0" />
                 <p className="__body_16 font-medium text-app-green">
-                  Zwangere en zogende vrouwen;
+                  Zwangere en borstvoedende vrouwen.
                 </p>
               </li>
               <li className="flex items-center gap-x-4">
-                <CheckIcon className="w-5" />
+                <CheckIcon className="w-5 shrink-0" />
                 <p className="__body_16 font-medium text-app-green">
-                  Vegetariërs en veganisten;
+                  Vegetariërs en veganisten.
                 </p>
               </li>
               <li className="flex items-center gap-x-4">
-                <CheckIcon className="w-5" />
-                <p className="__body_16 font-medium text-app-green">Vasten;</p>
+                <CheckIcon className="w-5 shrink-0" />
+                <p className="__body_16 font-medium text-app-green">
+                  Edereen die kiest voor een gezondere levensstijl.
+                </p>
               </li>
             </ul>
+
+            <p className="__body_16 my-8 leading-8">
+              Elke maaltijd is afgestemd op jouw behoeften, zodat jij zonder
+              moeite kunt genieten van voedzaam eten dat perfect in balans is.
+            </p>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const FaqDynamicDivision = ({
   faqs,
 }: {
   title: string;
-  faqs: { title: string; description: string }[];
+  faqs: { title: string; description: ReactNode }[];
 }) => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
@@ -20,7 +20,7 @@ const FaqDynamicDivision = ({
       <h4 className="text-lg font-semibold text-app-darker-green">
         Alles over
       </h4>
-      <h2 className="mt-3 __h2">{title}</h2>
+      <h2 className="__h2 mt-3">{title}</h2>
       <div className="mt-5">
         <div>
           {faqs.map((data, i) => (
@@ -54,25 +54,29 @@ function CollapsibleColumn({
     <div
       className={cn(
         "border-b border-black/90 duration-300",
-        isOpen && "border-black"
+        isOpen && "border-black",
       )}
     >
       <div
         onClick={onClick}
-        className="cursor-pointer py-5 flex items-center justify-between"
+        className="flex cursor-pointer items-center justify-between py-5"
       >
         <h3 className="__body_18">{title}</h3>
         <span
           className={cn(
             "text-2xl inline-block duration-200",
-            isOpen && "rotate-180"
+            isOpen && "rotate-180",
           )}
         >
           <FaAngleDown />
         </span>
       </div>
       <Collapsible trigger="" open={isOpen} transitionTime={200}>
-        <p className="pb-5 __body_16">{description}</p>
+        {typeof description === "string" ? (
+          <p className="__body_16 pb-5">{description}</p>
+        ) : (
+          <div className="__body_16 pb-5">{description}</div>
+        )}
       </Collapsible>
     </div>
   );

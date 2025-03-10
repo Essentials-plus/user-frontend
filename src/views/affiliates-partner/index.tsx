@@ -6,7 +6,7 @@ const AffiliatesPartner = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/our-story/our-story-hero-img.jpg"
+        // imgSrc="/imgs/our-story/our-story-hero-img.jpg"
         title="Partner programma"
         accentColor="#317773"
       />

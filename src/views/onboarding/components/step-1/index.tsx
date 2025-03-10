@@ -4,6 +4,8 @@ import RegionNotAvailableDialog from "@/common/components/RegionNotAvailableDial
 import Button from "@/common/components/ui/button";
 import FormSelect from "@/common/components/ui/form-select";
 import Input from "@/common/components/ui/input";
+import routes from "@/config/routes";
+import { tempAuthTokenCookieName } from "@/constants";
 import { activityLevels, goals } from "@/constants/form-select-data";
 import useTotalCalorie from "@/hooks/useTotalCalorie";
 import { getClientErrorMsg } from "@/lib/utils";
@@ -21,6 +23,9 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+const invalidZipCodeFormatMessage = "Ongeldig postcodeformaat (bijv. 5038EA)";
+const zipCodeRequiredMessage = "Voer een postcode in";
 
 const userFormSchema = z.object({
   name: z.string().min(1, "Minimaal 1 teken"),
@@ -42,7 +47,10 @@ const userFormSchema = z.object({
   email: z.string().optional(),
   nr: z.string({ message: "Verwachte tekenreeks, nul ontvangen" }).optional(),
   addition: z.string().optional(),
-  zipCode: z.string({ message: "Minimaal 1 teken" }).min(1),
+  zipCode: z
+    .string()
+    .min(1, zipCodeRequiredMessage)
+    .regex(/^\d{4}[A-Z]{2}$/, invalidZipCodeFormatMessage),
   activityLevel: z.enum(["1.2", "1.375", "1.55", "1.75", "1.9"], {
     message:
       "Verwacht '1,2' | '1.375' | '1,55' | '1,75' | '1.9', nul ontvangen",
@@ -67,6 +75,7 @@ const Step1 = ({ user }: Props) => {
     register,
     formState: { errors, isSubmitting },
     setError,
+    clearErrors,
     setValue,
     watch,
     handleSubmit,
@@ -88,14 +97,14 @@ const Step1 = ({ user }: Props) => {
   const onSubmit: SubmitHandler<User> = async (d) => {
     if (isSubmitting) return;
     try {
-      const token = getCookie("temp_auth");
+      const token = getCookie(tempAuthTokenCookieName);
       await userApiClient.put(
         "/user",
         { ...d },
         { headers: { authorization: token } },
       );
       toast.success("Gebruiker bijgewerkt");
-      await router.push("/onboarding/menu");
+      await router.push(routes.onboarding("menu"));
     } catch (err) {
       toast.error(getClientErrorMsg(err));
     }
@@ -111,6 +120,7 @@ const Step1 = ({ user }: Props) => {
   useEffect(() => {
     async function checkZipCode(str: string, houseNumber: string) {
       try {
+        clearErrors("zipCode");
         setDisabledAddress(true);
         const { data: ddd } = await publicApiClient.get(
           "/zipcode/" + str + "/" + houseNumber,
@@ -120,10 +130,6 @@ const Step1 = ({ user }: Props) => {
 
         setValue("city", data.city);
         setValue("address", data.street);
-
-        setError("zipCode", {
-          message: "",
-        });
       } catch (error) {
         setIsOpenRegionNotAvailableDialog(true);
         const msg = getClientErrorMsg(error);
@@ -138,7 +144,17 @@ const Step1 = ({ user }: Props) => {
     }
 
     if (debouncedZipCode && debouncedHouseNumber) {
-      checkZipCode(debouncedZipCode, debouncedHouseNumber);
+      if (
+        userFormSchema
+          .pick({ zipCode: true })
+          .safeParse({ zipCode: debouncedZipCode }).success
+      ) {
+        checkZipCode(debouncedZipCode, debouncedHouseNumber);
+      } else {
+        setError("zipCode", {
+          message: invalidZipCodeFormatMessage,
+        });
+      }
     }
   }, [debouncedZipCode, debouncedHouseNumber, setValue, setError]);
 
@@ -266,7 +282,7 @@ const Step1 = ({ user }: Props) => {
 
         <div className="flex items-end">
           <div>
-            <div className="rounded-3xl border border-black py-5 px-6">
+            <div className="rounded-3xl border border-black px-6 py-5">
               <p className="text-base font-bold">
                 Je dagelijkse caloriebehoefte
               </p>

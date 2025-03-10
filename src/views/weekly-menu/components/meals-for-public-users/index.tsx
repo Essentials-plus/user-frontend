@@ -38,11 +38,11 @@ const MealsForPublicUsers = ({
 
   return (
     <>
-      <div className="min-h-[calc(70vh)] flex items-center relative max-w-[100vw] overflow-x-hidden">
+      <div className="relative flex min-h-[calc(70vh)] max-w-[100vw] items-center overflow-x-hidden">
         <div className="container">
           <div className="max-w-[659px]">
             <h1 className="__h1 uppercase">Essentials Menu</h1>
-            <p className="__body_25 mt-5 mb-10 uppercase text-black">
+            <p className="__body_25 mb-10 mt-5 uppercase text-black">
               Wekelijks varierende recepten. <br />
               Simpel thuis bezorgt!
             </p>
@@ -57,7 +57,7 @@ const MealsForPublicUsers = ({
             </div>
 
             <div className="mt-9">
-              <h3 className="__h3 uppercase font-bold">categorieën</h3>
+              <h3 className="__h3 font-bold uppercase">categorieën</h3>
               <div className="mt-3 flex items-center gap-x-2">
                 {mealTypeOptions.map((option) => (
                   <button
@@ -81,13 +81,13 @@ const MealsForPublicUsers = ({
           </div>
         </div>
 
-        <div className="absolute top-0 right-0 w-[45%] h-full bg-app-darker-green overflow-hidden">
+        <div className="absolute right-0 top-0 h-full w-[45%] overflow-hidden bg-app-darker-green">
           <Image
             src={"/imgs/women-cooking.jpg"}
             alt="women-cooking"
             width={1039}
             height={840}
-            className="h-full w-full object-cover "
+            className="size-full object-cover "
           />
         </div>
       </div>
@@ -101,7 +101,7 @@ const MealsForPublicUsers = ({
                 alt={meal.mealName}
                 width={356}
                 height={263}
-                className="h-[210px] object-cover bg-app-grey"
+                className="h-[210px] bg-app-grey object-cover"
               />
               <h4 className="__h4 mt-4 line-clamp-2">{meal.mealName}</h4>
               <p className="__body_16 text-app-text">{meal.shortDescription}</p>
@@ -113,7 +113,7 @@ const MealsForPublicUsers = ({
                 {meal.label && (
                   <div className="flex items-center gap-x-2.5">
                     <span className="opacity-60">•</span>
-                    <p className="text-xs font-medium bg-[#E2FAFF] rounded-full px-2.5 py-[3px] text-[#318F8C]">
+                    <p className="rounded-full bg-[#E2FAFF] px-2.5 py-[3px] text-xs font-medium text-[#318F8C]">
                       {meal.label}
                     </p>
                   </div>
@@ -132,22 +132,18 @@ const MealsForPublicUsers = ({
         <div className="container">
           <div className="pt-16">
             {unauthenticatedWeeklyMealsQuery.isError ? (
-              <div className="__subtitle text-center text-red-600">
+              <div className="text-center text-red-600">
                 {getApiErrorMessage(unauthenticatedWeeklyMealsQuery.error)}
               </div>
             ) : unauthenticatedWeeklyMealsQuery.isFetchingNextPage ||
               unauthenticatedWeeklyMealsQuery.isLoading ? (
-              <div className="flex justify-center text-fuchsia">
+              <div className="flex justify-center">
                 <Spinner className="size-7" />
               </div>
             ) : meals?.length <= 0 ? (
-              <div className="__subtitle text-center text-fg-60">
-                Geen maaltijden gevonden
-              </div>
+              <div className="text-center">Geen maaltijden gevonden</div>
             ) : !unauthenticatedWeeklyMealsQuery.hasNextPage ? (
-              <div className="__subtitle text-center text-fg-60">
-                Geen maaltijden meer
-              </div>
+              <div className="text-center">Geen maaltijden meer</div>
             ) : null}
           </div>
         </div>

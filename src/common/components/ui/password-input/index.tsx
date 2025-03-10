@@ -23,23 +23,22 @@ const PasswordInput = forwardRef<
   return (
     <>
       {label && (
-        <label className="pb-2 text-sm font-bold inline-block">{label}</label>
+        <label className="inline-block pb-2 text-sm font-bold">{label}</label>
       )}
       <div className="relative">
         <input
           ref={ref}
           type={isPassword ? "password" : "true"}
-          placeholder="Wachtwoord"
           {...props}
           className={cn(
             "w-full py-2.5 pl-4 pr-9 rounded-lg outline-none ring-offset-1 focus:ring-1 focus:ring-offset-app-dark-green",
             props.className,
             bordered && "border border-gray-500",
-            error && "border border-red-500"
+            error && "border border-red-500",
           )}
         />
 
-        <div className="absolute top-1/2 -translate-y-1/2 right-3">
+        <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center">
           <button type="button" onClick={() => setIsPassword((prev) => !prev)}>
             {!isPassword ? <FaEyeSlash /> : <FaRegEye />}
           </button>

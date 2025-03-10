@@ -1,5 +1,7 @@
 import { userApiClient } from "@/api-clients/user-api-client";
 import OnboardingHeader from "@/common/components/onboarding-header";
+import routes from "@/config/routes";
+import { authTokenCookieName, tempAuthTokenCookieName } from "@/constants";
 import { StepKeyValue } from "@/hooks/useOnboardingSteps";
 import { Payment_Method, User } from "@/types/api-responses/users";
 import { NextPageWithLayout } from "@/types/app-props";
@@ -38,7 +40,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   try {
     const token =
-      getCookie("temp_auth", { req, res }) || getCookie("auth", { req, res });
+      getCookie(tempAuthTokenCookieName, { req, res }) ||
+      getCookie(authTokenCookieName, { req, res });
 
     if (!token) throw new Error();
 
@@ -71,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   } catch (err) {
     return {
       redirect: {
-        destination: "/log-in",
+        destination: routes.logIn,
         permanent: false,
       },
     };

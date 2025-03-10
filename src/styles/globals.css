@@ -94,3 +94,21 @@ select {
 .toaster li[data-type="loading"] div[data-icon] {
   @apply bg-gray-200;
 }
+
+.rc-slider-handle {
+  @apply !bg-black !border-black !size-6 !opacity-100 !mt-[-10px];
+}
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  @apply !ring-4 !ring-black/20;
+}
+.rc-slider-rail {
+  @apply !bg-gray-200;
+}
+.rc-slider-track,
+.rc-slider-tracks {
+  @apply !bg-black;
+}
+
+.__product_img_aspect_ratio {
+  @apply w-full aspect-square object-cover object-center;
+}

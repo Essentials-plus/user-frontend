@@ -1,23 +1,24 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import Spinner from "@/common/components/ui/spinner";
 import { cn } from "@/lib/utils";
-import Spinner from "../spinner/spinner";
 
 const buttonVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "focus-visible:ring-ring relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "bg-primary text-primary-foreground hover:bg-primary/90 shadow",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -32,7 +33,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export type ButtonVariations = VariantProps<typeof buttonVariants>;
@@ -55,7 +56,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       ...props
     },
-    ref
+    ref,
   ) => {
     if (asChild) {
       return (
@@ -73,7 +74,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         className={cn(
           buttonVariants({ variant, size, className }),
-          loading && "disabled:opacity-100 [&>*]:opacity-0 cursor-auto"
+          loading && "disabled:opacity-100 [&>*]:opacity-0 cursor-auto",
         )}
         disabled={loading || props.disabled}
         ref={ref}
@@ -82,7 +83,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && (
           <span
             className={cn(
-              "absolute inset-0 flex justify-center items-center py-[0.7em] !opacity-100 bg-inherit"
+              "absolute inset-0 flex justify-center items-center py-[0.7em] !opacity-100 bg-inherit",
             )}
           >
             <Spinner className="w-5" />
@@ -90,7 +91,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

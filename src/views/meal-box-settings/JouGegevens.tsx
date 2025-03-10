@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@/common/components/ui/dialog";
 import { activityLevels, genders, goals } from "@/constants/form-select-data";
+import useActiveCurrency from "@/hooks/useActiveCurrency";
 import useTotalCalorie from "@/hooks/useTotalCalorie";
 import { calculateUserCalorie } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -14,10 +15,10 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import JouGevenesUpdateModal from "./JouGevenesUpdateModal";
 
-const currency_type = process.env.NEXT_PUBLIC_CURRENCY_TYPE || "eur";
-
 export default function JouGegevens() {
-  const { data, isLoading } = useQuery(getUserQueryOptions());
+  const { currency_symbol } = useActiveCurrency();
+
+  const { data } = useQuery(getUserQueryOptions());
   const userData = data?.data;
 
   const plan = userData?.plan;
@@ -76,7 +77,7 @@ export default function JouGegevens() {
   ];
   const totalKcalNeed =
     (calculateUserCalorie(userData as any) || 0) *
-    (userData?.plan.numberOfDays ?? 0);
+    (userData?.plan?.numberOfDays ?? 0);
   return (
     <>
       <div className="flex flex-col gap-[20px]">
@@ -101,7 +102,7 @@ export default function JouGegevens() {
                     type="text"
                     value={item.name}
                     onChange={() => {}}
-                    className="focus:outline-none p-[8px_16px] rounded-[8px] truncate"
+                    className="truncate rounded-[8px] p-[8px_16px] focus:outline-none"
                     readOnly
                   />
                 </div>
@@ -110,11 +111,11 @@ export default function JouGegevens() {
           </div>
 
           <div>
-            <div className="border border-black rounded-3xl overflow-hidden p-5">
+            <div className="overflow-hidden rounded-3xl border border-black p-5">
               {plan ? (
                 <>
                   <h4 className="text-base font-bold">Bestel overzicht:</h4>
-                  <div className="flex items-center gap-x-5 mt-2.5">
+                  <div className="mt-2.5 flex items-center gap-x-5">
                     <Image
                       src={"/imgs/afbeelding.png"}
                       alt="afbeelding"
@@ -127,21 +128,21 @@ export default function JouGegevens() {
                       maaltijden per dag.
                     </p>
                   </div>
-                  <p className="pt-1 pb-2.5 mb-2.5 border-b border-app-dark-grey">
+                  <p className="mb-2.5 border-b border-app-dark-grey pb-2.5 pt-1">
                     {plan.numberOfDays} dagen -{" "}
                     {plan.numberOfDays * plan.mealsPerDay} maaltijden
                   </p>
-                  <div className="flex items-center justify-between mt-1">
+                  <div className="mt-1 flex items-center justify-between">
                     <p>Prijs per week:</p>
                     <p>
-                      {currency_type == "eur" ? "€" : "$"}
+                      {currency_symbol}
                       {totalPrice}
                     </p>
                   </div>
-                  <div className="flex items-center justify-between mt-1">
+                  <div className="mt-1 flex items-center justify-between">
                     <p>Bezorgkosten:</p>
                     <p>
-                      {currency_type == "eur" ? "€" : "$"}
+                      {currency_symbol}
                       {process.env.NEXT_PUBLIC_SHIPPING_CHARGE}
                     </p>
                   </div>
@@ -151,20 +152,20 @@ export default function JouGegevens() {
             >
               Heb je een kortingscode?
             </a> */}
-                  <div className="h-px w-full bg-app-dark-grey my-4"></div>
-                  <div className="bg-[#f3f3f3] flex items-center justify-between text-lg">
+                  <div className="my-4 h-px w-full bg-app-dark-grey"></div>
+                  <div className="flex items-center justify-between bg-[#f3f3f3] text-lg">
                     <p> Totaal eerst box:</p>{" "}
                     <p>
-                      {currency_type == "eur" ? "€" : "$"}
+                      {currency_symbol}
                       {(totalPrice + 5.99).toFixed(2)}
                     </p>
                   </div>
-                  <div className="mt-2 bg-[#f3f3f3] flex items-center justify-between text-lg">
+                  <div className="mt-2 flex items-center justify-between bg-[#f3f3f3] text-lg">
                     <p>Total kCal:</p> <p>{Math.round(totalKcalNeed)} kCal</p>
                   </div>
                 </>
               ) : (
-                <p className="text-center py-8">
+                <p className="py-8 text-center">
                   Je hebt nog steeds geen abonnement gekocht
                 </p>
               )}

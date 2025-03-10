@@ -33,7 +33,7 @@ const Footer = () => {
                 <a
                   href={url}
                   key={i}
-                  className="text-xl h-[45px] aspect-square __c_all rounded-full bg-app-grey duration-200 hover:bg-app-grey/60"
+                  className="__c_all aspect-square h-[45px] rounded-full bg-app-grey text-xl duration-200 hover:bg-app-grey/60"
                 >
                   {icon}
                 </a>
@@ -42,20 +42,20 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-8 mb-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] border-b border-app-dark-grey"></div>
+        <div className="mb-10 mt-8 border-b border-app-dark-grey shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"></div>
 
         <div className="grid grid-cols-[520px,auto] gap-x-[140px]">
           <div>
             <h3 className="__h3 font-normal">Blijf op de hoogte</h3>
-            <p className="mt-3 mb-4 __body_16">
+            <p className="__body_16 mb-4 mt-3">
               Schrijf je nu in voor onze wekelijkse nieuwsbrief en ontvang
               essentiële informatie!
             </p>
             <div className="flex flex-col items-start gap-y-2">
-              <div className="flex items-center gap-x-6 w-full">
+              <div className="flex w-full items-center gap-x-6">
                 <input
                   type="text"
-                  className="grow h-12 px-5 border border-[#6B6B6B] rounded-full outline-none"
+                  className="h-12 grow rounded-full border border-[#6B6B6B] px-5 outline-none"
                   placeholder="Vul e-mailadres in"
                   value={email}
                   onChange={handleEmailChange}
@@ -63,7 +63,7 @@ const Footer = () => {
                 <Button
                   onClick={handleFormSubmit}
                   disabled={subscribeToNewsletterMutation.isPending}
-                  className="px-5 text-base w-[132px]"
+                  className="w-[132px] px-5 text-base"
                 >
                   {subscribeToNewsletterMutation.isPending ? (
                     <Spinner className="size-4" />
@@ -79,7 +79,7 @@ const Footer = () => {
 
             <div className="mt-[60px] flex items-center justify-between">
               <div className="flex items-center gap-x-2">
-                <div className="h-2.5 rounded-full bg-app-yellow w-12"></div>
+                <div className="h-2.5 w-12 rounded-full bg-app-yellow"></div>
                 <p className="text-sm text-app-text">© 2024 EssentialsPlus</p>
               </div>
               <div className="flex items-center gap-x-4">

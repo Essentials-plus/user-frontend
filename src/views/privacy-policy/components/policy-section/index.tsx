@@ -1,7 +1,7 @@
 const PolicySection = () => {
   return (
     <section className="my-[100px]">
-      <div className="max-w-[calc(1010px+48px)] px-6 mx-auto">
+      <div className="mx-auto max-w-[calc(1010px+48px)] px-6">
         <div className="__body_18">
           In deze privacyverklaring vind je onze gegevens, lees je wat
           persoonsgegevens zijn, wat onder verwerking van persoonsgegevens wordt
@@ -89,10 +89,10 @@ const PolicySection = () => {
           persoonsgegevens:
           <br />
           <ul>
-            <li className="list-disc list-inside">Voor- en achternaam</li>
-            <li className="list-disc list-inside">Adresgegevens</li>
-            <li className="list-disc list-inside">Telefoonnummer</li>
-            <li className="list-disc list-inside">E-mailadres</li>
+            <li className="list-inside list-disc">Voor- en achternaam</li>
+            <li className="list-inside list-disc">Adresgegevens</li>
+            <li className="list-inside list-disc">Telefoonnummer</li>
+            <li className="list-inside list-disc">E-mailadres</li>
           </ul>
           Bewaring persoonsgegevens
           <br />

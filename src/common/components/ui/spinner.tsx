@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import { SVGProps } from "react";
 
 const Spinner = ({ ...props }: SVGProps<SVGSVGElement>) => {

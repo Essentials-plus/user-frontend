@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <>
       <AssentialPlusHeroSection
-        imgSrc="/imgs/contact-hero-img.jpg"
+        // imgSrc="/imgs/contact-hero-img.jpg"
         title="Contact"
         accentColor="#FFBE34"
       />

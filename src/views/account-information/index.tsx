@@ -23,15 +23,15 @@ const AccountInformation = () => {
     <>
       <SettingsPageLayout title="Account informatie">
         {isLoading || !data ? (
-          <div className="flex items-center justify-center h-[300px]">
-            <div className="h-6 w-6">
+          <div className="flex h-[300px] items-center justify-center">
+            <div className="size-6">
               <Spinner />
             </div>
             Bezig met laden...
           </div>
         ) : (
           <>
-            <div className="rounded-3xl border-2 border-app-dark-grey px-10 py-8 bg-app-grey">
+            <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-4xl font-semibold text-app-black">
                   Persoonlijke gegevens
@@ -44,7 +44,7 @@ const AccountInformation = () => {
                   Profiel bijwerken
                 </button>
               </div>
-              <div className="mt-6 max-w-[618px] flex justify-between">
+              <div className="mt-6 flex max-w-[618px] justify-between">
                 <div>
                   <div>
                     <h4 className="text-xl font-bold">{data.data.name}</h4>
@@ -78,7 +78,7 @@ const AccountInformation = () => {
               </div>
             </div>
 
-            <div className="mt-16 rounded-3xl border-2 border-app-dark-grey px-10 py-8 bg-app-grey">
+            <div className="mt-16 rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-4xl font-semibold text-app-black">
                   Wachtwoord

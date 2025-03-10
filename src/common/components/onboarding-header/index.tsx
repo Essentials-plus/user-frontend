@@ -15,11 +15,11 @@ const OnboardingHeader = ({ page }: Props) => {
   return (
     <header className="py-11 pb-9">
       <div className="container">
-        <div className="max-w-[1032px] mx-auto">
+        <div className="mx-auto max-w-[1032px]">
           <div className="flex items-center gap-x-[70px]">
             <Logo className="max-w-[221px]" />
 
-            <div className="flex items-center gap-x-11 -translate-y-1.5">
+            <div className="flex -translate-y-1.5 items-center gap-x-11">
               {steps.map(({ title }, i) => (
                 <button
                   key={i}
@@ -28,7 +28,7 @@ const OnboardingHeader = ({ page }: Props) => {
                     page === stepKeys[i] && "text-app-darker-green",
                   )}
                 >
-                  <p className="text-xl font-medium shrink-0">{title}</p>
+                  <p className="shrink-0 text-xl font-medium">{title}</p>
                   <ArrowRightIcon
                     className={cn("w-11", i === steps.length - 1 && "hidden")}
                   />

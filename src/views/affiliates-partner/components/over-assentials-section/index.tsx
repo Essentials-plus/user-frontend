@@ -4,31 +4,48 @@ const OverAssentialsSection = () => {
   return (
     <section className="mt-[112px]">
       <div className="container">
-        <div className="grid grid-cols-[auto,450px] gap-x-[150px] items-center">
+        <div className="grid grid-cols-[auto,550px] items-center gap-x-[100px]">
           <div>
-            <h2 className="__h2">Over Essentials+</h2>
-            <p className="mt-4 __body_18">
-              Essentials+ maakt van je dagelijkse voedingsroutine een moment om
-              naar uit te kijken. Nooit meer nadenken over wat je moet koken,
-              geen gehaaste bezoekjes aan de supermarkt én geen
-              voedselverspilling. <br />
+            <h2 className="__h2">Word Partner van Essentials+</h2>
+            <div className="__body_18 mt-4">
+              Ben jij enthousiast over gezond leven en voeding? Wil je jouw
+              passie delen en tegelijkertijd extra inkomsten genereren? Sluit je
+              aan bij ons Affiliates Partner-programma en word onderdeel van
+              onze missie om gezond eten toegankelijk te maken voor iedereen!{" "}
               <br />
-              Krijg een box vol met de beste verse ingrediënten en makkelijk te
-              volgen receptkaarten thuisbezorgd en zet in een handomdraai verse,
-              gevarieerde maaltijden op tafel of on the go! <br />
               <br />
-              Voor de kei harde fitness enthousiast tot en met de
-              kantoorgebonden work-a-holic. Essentials+ calculeert op basis van
-              jou karakteristieke eigenschappen het exacte hoeveelheid voeding
-              welke jij moet nuttigen.
-            </p>
+              Waarom Partner Worden? <br />
+              <br />
+              <ul className="space-y-2.5 pl-10 [&>li]:list-item [&>li]:list-disc">
+                <li>
+                  Hoge Commissies: Verdien aantrekkelijke commissies op iedere
+                  aankoop die via jouw unieke link wordt gedaan.
+                </li>
+                <li>
+                  Exclusieve Voordelen: Toegang tot speciale acties, kortingen
+                  en campagnes, alleen beschikbaar voor onze partners.
+                </li>
+                <li>
+                  Eenvoudig Te Delen: Maak gebruik van onze marketingtools,
+                  zoals banners, socialmediaposts en gepersonaliseerde links, om
+                  jouw publiek te bereiken.
+                </li>
+                <li>
+                  Persoonlijke Ondersteuning: Ons team staat altijd klaar om je
+                  te helpen succesvol te worden.
+                </li>
+              </ul>
+            </div>
           </div>
-          <Image
-            src={"/imgs/affiliates-partner/section-1-img.png"}
-            alt="section-1-img"
-            width={1000}
-            height={1234}
-          />
+          <div className="h-full">
+            <Image
+              src={"/imgs/affiliates-partner/section-1-img.jpg"}
+              alt="section-1-img"
+              width={1000}
+              height={667}
+              className="size-full object-cover object-center"
+            />
+          </div>
         </div>
       </div>
     </section>

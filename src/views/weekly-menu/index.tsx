@@ -10,7 +10,7 @@ import Spinner from "@/common/components/ui/spinner";
 import useClientRefetch from "@/hooks/useClientRefetch";
 import {
   getClientErrorMsg,
-  getDateFromDayAndWeek,
+  getNextLockdownDate,
   rootWeekNumber,
   sortMealsByMealType,
 } from "@/lib/utils";
@@ -58,8 +58,8 @@ const WeeklyMenu = () => {
     <>
       {userLoading || weeklyMealLoading || menuRawLoading ? (
         <div className="w-full">
-          <div className="w-full h-[85vh] flex items-center justify-center">
-            <div className="p-[20px] flex items-center gap-4 text-2xl rounded justify-center">
+          <div className="flex h-[85vh] w-full items-center justify-center">
+            <div className="flex items-center justify-center gap-4 rounded p-[20px] text-2xl">
               <Spinner className="size-10" /> Bezig met laden...
             </div>
           </div>
@@ -196,10 +196,7 @@ function WeeklyMenuComponent({
   };
 
   // const lockdownDate = getLockdownDate(user.lockdownDay, weekNumber);
-  const lockdownDate = getDateFromDayAndWeek(
-    user.zipCode?.lockdownDay!,
-    weekNumber,
-  );
+  const lockdownDate = getNextLockdownDate(user.zipCode?.lockdownDay!);
 
   const isButtonAvailable = useMemo(() => {
     return selectedMeals.every((e) => e.meals.length);
@@ -224,7 +221,7 @@ function WeeklyMenuComponent({
               onDayClick={(d) => setSelectedDay(d)}
               totalDays={totalDays}
             />
-            <div className="grid grid-cols-2 gap-6 mt-20">
+            <div className="mt-20 grid grid-cols-2 gap-6">
               {currentDayMeals && currentDayMeals.length > 0 ? (
                 currentDayMeals.map((v) => (
                   <MealCard
@@ -299,10 +296,10 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         onDayClick={(d) => setSelectedDay(d)}
         totalDays={totalDays}
       />
-      <div className="grid grid-cols-2 gap-6 mt-20">
+      <div className="mt-20 grid grid-cols-2 gap-6">
         {currentDayMeals && currentDayMeals.length > 0 ? (
           sortMealsByMealType(currentDayMeals).map((v, i) => (
-            <MealCard key={"hello" + i} meal={v} />
+            <MealCard key={v.id + i} meal={v} />
           ))
         ) : (
           <div>Er is geen maaltijd voor de dag</div>

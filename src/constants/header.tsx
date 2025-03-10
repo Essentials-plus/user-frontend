@@ -1,27 +1,29 @@
+import routes, { registerRouteWithRedirectToOnboarding } from "@/config/routes";
+
 export const navigations = [
   {
     label: "Home",
-    url: "/",
+    url: routes.home,
   },
   {
     label: "Bestellen",
-    url: "/register",
+    url: registerRouteWithRedirectToOnboarding,
   },
   {
     label: "Menu",
-    url: "/weekly-menu",
+    url: routes.weeklyMenu,
   },
   {
     label: "Hoe werkt het?",
-    url: "/how-it-works",
+    url: routes.howItWorks,
   },
   {
     label: "Lifestyle",
-    url: "/products/lifestyle",
+    url: routes.lifestyleProduct,
   },
   // {
   //   label: "Inloggen",
-  //   url: "/log-in",
+  //   url: routes.logIn,
   //   // className: "text-app-dark-green hover:opacity-80",
   // },
 ];
@@ -29,37 +31,41 @@ export const navigations = [
 export const productAccessNavigations = [
   {
     label: "Home",
-    url: "/",
+    url: routes.home,
   },
   {
     label: "Bestellen",
-    url: "/order",
+    url: routes.order,
+  },
+  {
+    label: "Menu",
+    url: routes.weeklyMenu,
   },
   {
     label: "Hoe werkt het?",
-    url: "/how-it-works",
+    url: routes.howItWorks,
   },
   {
     label: "Lifestyle",
-    url: "/products/lifestyle",
+    url: routes.lifestyleProduct,
   },
 ];
 
 export const allAccessNavigations = [
   {
     label: "Home",
-    url: "/",
+    url: routes.home,
   },
   {
     label: "Menu",
-    url: "/weekly-menu",
+    url: routes.weeklyMenu,
   },
   {
     label: "Hoe werkt het?",
-    url: "/how-it-works",
+    url: routes.howItWorks,
   },
   {
     label: "Lifestyle",
-    url: "/products/lifestyle",
+    url: routes.lifestyleProduct,
   },
 ];

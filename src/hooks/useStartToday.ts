@@ -1,4 +1,5 @@
 import { getUserQueryOptions } from "@/api-clients/user-api-client/queries";
+import routes, { registerRouteWithRedirectToOnboarding } from "@/config/routes";
 import { useUserSession } from "@/hooks/useUserSession";
 import { getClientErrorMsg } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -30,24 +31,24 @@ const useStartToday = () => {
         ) {
           toast.error("U heeft de gebruiker nog niet bijgewerkt");
           (await replaceRoute)
-            ? router.replace("/onboarding/credentials")
-            : router.push("/onboarding/credentials");
+            ? router.replace(routes.onboarding("credentials"))
+            : router.push(routes.onboarding("credentials"));
           return;
         }
         //
         if (!user.plan) {
           toast.error("Je hebt het menu nog niet geselecteerd");
           (await replaceRoute)
-            ? router.replace("/onboarding/menu")
-            : router.push("/onboarding/menu");
+            ? router.replace(routes.onboarding("menu"))
+            : router.push(routes.onboarding("menu"));
           return;
         }
 
         if (user.plan && user.plan.status == "pending") {
           toast.error("U heeft de betaling nog niet bevestigd");
           (await replaceRoute)
-            ? router.replace(`/onboarding/payment`)
-            : router.push(`/onboarding/payment`);
+            ? router.replace(routes.onboarding("payment"))
+            : router.push(routes.onboarding("payment"));
           return;
         }
       } catch (error) {
@@ -61,16 +62,16 @@ const useStartToday = () => {
     async ({ replaceRoute }: { replaceRoute?: boolean } = {}) => {
       if (!authUser) {
         return replaceRoute
-          ? await router.replace("/register")
-          : await router.push("/register");
+          ? await router.replace(registerRouteWithRedirectToOnboarding)
+          : await router.push(registerRouteWithRedirectToOnboarding);
       }
       if (authUser && authUser.access == "product") {
         return await handleMealOrder({ replaceRoute });
       }
       if (authUser && authUser.access == "all") {
         return replaceRoute
-          ? await router.replace("/weekly-menu")
-          : await router.push("/weekly-menu");
+          ? await router.replace(routes.weeklyMenu)
+          : await router.push(routes.weeklyMenu);
       }
     },
     [handleMealOrder, router, authUser],

@@ -21,6 +21,7 @@ export type User = {
     createdAt: Date;
     updatedAt: Date;
   } | null;
+  productDeliveryZipCode: string | null;
   id: string;
   name: string;
   email: string;

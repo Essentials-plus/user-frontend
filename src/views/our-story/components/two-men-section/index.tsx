@@ -2,9 +2,9 @@ import Image from "next/image";
 
 const TwoMenSection = () => {
   return (
-    <section className="mt-[108px] py-16 bg-app-yellow">
+    <section className="mt-[108px] bg-app-yellow py-16">
       <div className="container">
-        <div className="grid grid-cols-[450px,auto] gap-x-16 items-center px-20">
+        <div className="grid grid-cols-[450px,auto] items-center gap-x-16 px-20">
           <Image
             src={"/imgs/our-story/two-men-section-img.jpg"}
             alt="two-men-section-img"
@@ -14,20 +14,19 @@ const TwoMenSection = () => {
 
           <div>
             <h2 className="__h2">
-              Twee mannen met het idee om de Fitness-game te veranderen.
+              Een visie om de fitness- en voedingswereld te veranderen{" "}
             </h2>
-            <p className="mt-10 __body_16">
-              Bij andere merken draaide het alleen om 1 maaltijd, bevroren of
-              vers te leveren voor een gezonder leven. Wij richting ons de
-              gehele week en afgestemd op jou unieke lichaamskaraktristieken
-              zoals lengte, gewicht en activiteiten niveau.
+            <p className="__body_16 mt-10">
+              Essentials+ is ontstaan uit een gedeelde passie om mensen te
+              helpen gezonder te leven. Waar andere merken zich vaak richten op
+              één maaltijd of algemene oplossingen, hebben wij gekozen voor een
+              allesomvattende aanpak.
               <br />
               <br />
-              Echte gezondenheid begint met je voedingspatroon, supplementen
-              zijn zoals ze genoemd zijn ter supplementie.
-              <br />
-              <br />
-              Voor een gezonder generatie, Essentials+
+              Ons concept gaat verder dan alleen gezond eten. Het draait om
+              gemak, persoonlijke aandacht en een focus op jouw unieke
+              behoeften. Voor ons betekent gezondheid meer dan goede voeding:
+              het is een complete levensstijl.
             </p>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
-import { forwardRef, InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: ReactNode;
   bordered?: true;
   error?: string;
 }
@@ -12,14 +12,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div>
         {label && (
-          <label className="pb-2 text-sm font-bold inline-block">{label}</label>
+          <label className="inline-block pb-2 text-sm font-bold">{label}</label>
         )}
         <input
           type="text"
           className={cn(
-            className,
             "w-full py-2.5 px-4 rounded-lg outline-none ring-offset-1 focus:ring-1 focus:ring-offset-app-dark-green",
-            bordered && `border border-black ${error && "!border-red-500"}`
+            bordered && `border border-black ${error && "!border-red-500"}`,
+            className,
           )}
           ref={ref}
           {...rest}
@@ -27,7 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && <div className="text-sm text-red-500">{error}</div>}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

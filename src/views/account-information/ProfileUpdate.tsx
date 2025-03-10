@@ -5,8 +5,6 @@ import useClientRefetch from "@/hooks/useClientRefetch";
 import { useUserSession } from "@/hooks/useUserSession";
 import { userFormSchema } from "@/lib/schemas";
 import { getClientErrorMsg } from "@/lib/utils";
-import { ApiResponseSuccessBase } from "@/types/api-responses";
-import { FileUploadApiResponse } from "@/types/api-responses/file-upload";
 import { User } from "@/types/api-responses/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -35,9 +33,6 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
   const {
     register,
     formState: { errors, isSubmitting },
-    control,
-    getValues,
-    watch,
     handleSubmit,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
@@ -95,13 +90,13 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
       <div className=" w-full ">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" grid grid-cols-auto gap-x-5"
+          className="grid grid-cols-1 gap-x-5"
         >
           {/* <div className="flex items-center justify-between">
             
             <UpdateProfile name="profile" control={control} />
           </div> */}
-          <div className="grid grid-cols-4 gap-x-5 gap-y-6 mt-4">
+          <div className="mt-4 grid grid-cols-4 gap-x-5 gap-y-6">
             <Input
               label="Voornaam:"
               bordered
@@ -210,7 +205,7 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
             </FormSelect> */}
           </div>
 
-          <div className="flex justify-end mt-8">
+          <div className="mt-8 flex justify-end">
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -224,25 +219,5 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
     </>
   );
 };
-
-async function filesUploader(obj: any) {
-  let object: any = obj || {};
-  for (let [key, value] of Object.entries(object)) {
-    if (typeof value === "object") {
-      object[key] = await filesUploader(value);
-    }
-
-    if (value instanceof File) {
-      const fileObj: File = value;
-      const form = new FormData();
-      form.append("file", fileObj);
-      const { data } = await userApiClient.post<
-        ApiResponseSuccessBase<FileUploadApiResponse>
-      >("/upload", form);
-      object[key] = data.data.location;
-    }
-  }
-  return object;
-}
 
 export default ProfileUpdate;

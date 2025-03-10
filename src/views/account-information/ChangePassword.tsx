@@ -88,7 +88,7 @@ const ChangePassword = ({ onClose }: Props) => {
           />
         </div>
 
-        <div className="w-full !mt-6">
+        <div className="!mt-6 w-full">
           <Button
             className="w-full"
             type="submit"

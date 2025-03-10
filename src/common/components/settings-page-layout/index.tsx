@@ -1,3 +1,4 @@
+import routes from "@/config/routes";
 import { cx } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ const SettingsPageLayout = ({
   const router = useRouter();
   const [heroRef, heroBounds] = useMeasure();
   return (
-    <section className="mt-14 mb-20">
+    <section className="mb-20 mt-14">
       <div className="container" ref={heroRef}></div>
       <div
         className="grid grid-cols-[250px,auto] gap-x-[140px]"
@@ -25,28 +26,31 @@ const SettingsPageLayout = ({
             <li
               className={cx(
                 "text-xl font-bold",
-                router.pathname === "/meal-box-settings" &&
-                  "text-app-darker-green"
+                router.pathname === routes.mealBoxSettings &&
+                  "text-app-darker-green",
               )}
             >
-              <Link href={"/meal-box-settings"}>Maaltijdbox instellingen</Link>
+              <Link href={routes.mealBoxSettings}>
+                Maaltijdbox instellingen
+              </Link>
             </li>
             <li
               className={cx(
                 "text-xl font-bold",
-                router.pathname === "/account-information" &&
-                  "text-app-darker-green"
+                router.pathname === routes.accountInformation &&
+                  "text-app-darker-green",
               )}
             >
-              <Link href={"/account-information"}>Account informatie</Link>
+              <Link href={routes.accountInformation}>Account informatie</Link>
             </li>
             <li
               className={cx(
                 "text-xl font-bold",
-                router.pathname === "/order-history" && "text-app-darker-green"
+                router.pathname === routes.orderHistory &&
+                  "text-app-darker-green",
               )}
             >
-              <Link href={"/order-history"}>Bestelgeschiedenis</Link>
+              <Link href={routes.orderHistory}>Bestelgeschiedenis</Link>
             </li>
           </ul>
         </div>

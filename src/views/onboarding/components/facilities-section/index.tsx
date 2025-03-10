@@ -6,18 +6,18 @@ const FacilitiesSection = () => {
 
   return (
     <>
-      <div className="max-w-[calc(1000px+48px)] mx-auto" ref={ref}></div>
+      <div className="mx-auto max-w-[calc(1000px+48px)]" ref={ref}></div>
       <section
-        className="mt-[63px] mb-[98px]"
+        className="mb-[98px] mt-[63px]"
         style={{ paddingLeft: bounds.x + 24 - 80 }}
       >
-        <div className="bg-[#F3F3F3] py-20 pl-20 rounded-l-[60px]">
+        <div className="rounded-l-[60px] bg-[#F3F3F3] py-20 pl-20">
           <div className="max-w-[calc(1000px+48px)]">
             <div className="flex gap-x-5">
               <div className="w-full">
                 <h3 className="text-3xl font-bold">Geen verplichtingen</h3>
                 <div className="mt-6 w-full">
-                  <div className="bg-white rounded-xl py-6 px-7 w-full">
+                  <div className="w-full rounded-xl bg-white px-7 py-6">
                     <ul className="space-y-5">
                       <li className="flex items-center gap-x-4">
                         <CheckSqureIcon className="w-8" />
@@ -44,7 +44,7 @@ const FacilitiesSection = () => {
               <div className="w-full">
                 <h3 className="text-3xl font-bold">Geen verplichtingen</h3>
                 <div className="mt-6 w-full">
-                  <div className="bg-white rounded-xl py-6 px-7 w-full">
+                  <div className="w-full rounded-xl bg-white px-7 py-6">
                     <ul className="space-y-5">
                       <li className="flex items-center gap-x-4">
                         <CheckSqureIcon className="w-8" />

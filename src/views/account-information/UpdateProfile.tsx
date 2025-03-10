@@ -4,7 +4,7 @@ import { UseControllerProps, useController } from "react-hook-form";
 type Props = UseControllerProps<any>;
 
 function UpdateProfile(props: Props) {
-  const { field, fieldState } = useController(props);
+  const { field } = useController(props);
 
   const imgSrc = field.value
     ? typeof field.value === "object"
@@ -14,7 +14,7 @@ function UpdateProfile(props: Props) {
 
   return (
     <div className="flex items-center gap-[30px]">
-      <label className="text-app-dark-green cursor-pointer underline">
+      <label className="cursor-pointer text-app-dark-green underline">
         profiel uploaden
         <input
           className="hidden"
@@ -28,11 +28,11 @@ function UpdateProfile(props: Props) {
           }}
         />
       </label>
-      <div className=" rounded-full overflow-hidden border border-black max-w-[80px]">
+      <div className=" max-w-[80px] overflow-hidden rounded-full border border-black">
         <Image
           src={imgSrc}
           alt="avatar"
-          className="h-[80px] w-[80px] object-cover"
+          className="size-[80px] object-cover"
           width={80}
           height={80}
         />

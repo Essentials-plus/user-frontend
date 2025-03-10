@@ -2,6 +2,7 @@ import publicApiClient from "@/api-clients/public-api-client";
 import PasswordStrengthBar from "@/common/components/password-strength-bar";
 import Button from "@/common/components/ui/button";
 import PasswordInput from "@/common/components/ui/password-input";
+import routes from "@/config/routes";
 import { strongPasswordSchema } from "@/constants/zod";
 import { getClientErrorMsg } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,14 +49,14 @@ const ChangePassword = ({ token }: { token: string }) => {
 
       toast.success("Password reset successfully");
 
-      await router.push("/log-in");
+      await router.push(routes.logIn);
     } catch (error) {
       toast.error(getClientErrorMsg(error));
     }
   };
 
   return (
-    <div className="h-[500px] flex items-center justify-center">
+    <div className="flex h-[500px] items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="w-[380px]">
         <div>
           <PasswordInput
@@ -78,7 +79,7 @@ const ChangePassword = ({ token }: { token: string }) => {
           error={errors.confirmPassword?.message?.toString()}
         />
 
-        <div className="w-full mt-6">
+        <div className="mt-6 w-full">
           <Button
             className="w-full"
             type="submit"
@@ -109,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   } catch (err) {
     return {
       redirect: {
-        destination: "/log-in",
+        destination: routes.logIn,
         permanent: false,
       },
     };

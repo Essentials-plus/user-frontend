@@ -18,7 +18,7 @@ const FormSelect = forwardRef<
   return (
     <div className="relative">
       {label && (
-        <label className="pb-2 text-sm font-bold inline-block">{label}</label>
+        <label className="inline-block pb-2 text-sm font-bold">{label}</label>
       )}
       <div className="relative">
         <select
@@ -33,7 +33,7 @@ const FormSelect = forwardRef<
         >
           {props.children}
         </select>
-        <ChevronDown className="absolute top-1/2 pointer-events-none -translate-y-1/2 right-3 size-4 text-app-black/80" />
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-app-black/80" />
       </div>
       {error && <div className="text-sm text-red-500">{error}</div>}
     </div>

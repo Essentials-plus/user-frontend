@@ -6,9 +6,18 @@ import MasterCardIcon from "@/common/components/icons/mastercard-icon";
 import PayPalIcon from "@/common/components/icons/paypal-icon";
 import Button from "@/common/components/ui/button";
 import Spinner from "@/common/components/ui/spinner";
+import routes from "@/config/routes";
+import { authTokenCookieName, tempAuthTokenCookieName } from "@/constants";
+import useActiveCurrency from "@/hooks/useActiveCurrency";
+import useFirstRender from "@/hooks/useFirstRender";
 import useTotalCalorie from "@/hooks/useTotalCalorie";
 import { useUserSession } from "@/hooks/useUserSession";
-import { cn, getClientErrorMsg, getLockdownDate } from "@/lib/utils";
+import {
+  cn,
+  getClientErrorMsg,
+  getDateFromIsoWeekAndDay,
+  getNextDeliveryDate,
+} from "@/lib/utils";
 import { Payment_Method, User } from "@/types/api-responses/users";
 import { deleteCookie, getCookie } from "cookies-next";
 import dynamic from "next/dynamic";
@@ -49,18 +58,15 @@ type PaymentMethodType = {
   info: string; // currently for dummy
 };
 
-const currency_type = process.env.NEXT_PUBLIC_CURRENCY_TYPE || "eur";
-
 const Step3 = ({ user, payment_method }: Props) => {
+  const isFirstRedner = useFirstRender(100);
+  const { currency_symbol, currency_type } = useActiveCurrency();
+
   const router = useRouter();
   const plan = user.plan;
   const totalRequiredCalorie = useTotalCalorie(user);
-  const lockdownDay = new Date();
-  lockdownDay.setDate(user.zipCode?.lockdownDay! + 2);
 
-  const [paymentMethod, setPaymentMethod] = useState<
-    PaymentMethodType | undefined
-  >(
+  const [paymentMethod] = useState<PaymentMethodType | undefined>(
     payment_method
       ? {
           info: "Card Added",
@@ -99,7 +105,8 @@ const Step3 = ({ user, payment_method }: Props) => {
     try {
       setLoading(true);
 
-      const token = (getCookie("temp_auth") || getCookie("auth")) as string;
+      const token = (getCookie(tempAuthTokenCookieName) ||
+        getCookie(authTokenCookieName)) as string;
 
       await userApiClient.post("/plan/confirm");
 
@@ -115,10 +122,10 @@ const Step3 = ({ user, payment_method }: Props) => {
         true,
       );
 
-      deleteCookie("temp_auth");
+      deleteCookie(tempAuthTokenCookieName);
 
       setOrderSuccess(true);
-      // await router.push("/weekly-menu");
+      // await router.push(routes.weeklyMenu);
 
       setLoading(false);
     } catch (err) {
@@ -134,7 +141,7 @@ const Step3 = ({ user, payment_method }: Props) => {
         {},
         {
           headers: {
-            authorization: getCookie("temp_auth"),
+            authorization: getCookie(tempAuthTokenCookieName),
           },
         },
       );
@@ -144,15 +151,24 @@ const Step3 = ({ user, payment_method }: Props) => {
       toast.error(getClientErrorMsg(error));
     }
   };
-  const lockdownDate = getLockdownDate(user.zipCode?.lockdownDay!);
+
+  const lockdownDate = useMemo(
+    () =>
+      getDateFromIsoWeekAndDay(
+        user.plan.confirmOrderWeek,
+        user.zipCode?.lockdownDay!,
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user.zipCode?.lockdownDay, isFirstRedner],
+  );
 
   return (
     <div>
       <div className="grid grid-cols-[auto,333px] gap-x-8">
         <div>
           <h3 className="__h3 font-bold">Uw betaalgegevens:</h3>
-          <div className="mt-2 px-4 py-2 bg-[#41AA3F]/15">
-            <p className="text-app-dark-green text-sm">
+          <div className="mt-2 bg-[#41AA3F]/15 px-4 py-2">
+            <p className="text-sm text-app-dark-green">
               Jouw betaalgegevens zijn nodig om jouw eerst maaltijdbox te
               reserveren en je flexibele, doorlopende lidmaatschap bij ons aan
               te gaan. Het bedrag zoals hieronder genoemd wordt 2 tot 4 dagen
@@ -189,7 +205,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                   </div>
                 </div>
                 {paymentMethod && paymentMethod.type == "ideal" && (
-                  <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <CheckIcon width={32} height={32} />
                   </div>
                 )}
@@ -215,7 +231,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                 </div>
               </div>
               {paymentMethod && paymentMethod.type == "paypal" && (
-                <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <CheckIcon width={32} height={32} />
                 </div>
               )}
@@ -247,7 +263,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                 </div>
               </div>
               {paymentMethod && paymentMethod.type == "card" && (
-                <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <CheckIcon width={32} height={32} />
                 </div>
               )}
@@ -277,7 +293,7 @@ const Step3 = ({ user, payment_method }: Props) => {
           <div className="mt-3 flex items-start gap-x-3">
             <input
               type="checkbox"
-              className="w-6 h-6 accent-app-dark-green -translate-y-0.5"
+              className="size-6 -translate-y-0.5 accent-app-dark-green"
               id="checkBox"
               checked={termsAgree}
               onChange={() => setTermsAgree((s) => !s)}
@@ -289,12 +305,12 @@ const Step3 = ({ user, payment_method }: Props) => {
             </label>
           </div>
 
-          <div className="mt-10 mb-2.5">
+          <div className="mb-2.5 mt-10">
             <strong>Voorwaarden:</strong> Door op “Bestellen en betalen” te
             klikken, ga je akkoord met onze{" "}
             <Link
               target="_blank"
-              href="/privacy-policy"
+              href={routes.privacyPolicy}
               className="text-app-dark-green underline"
             >
               Algemene voorwaarden
@@ -302,7 +318,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             en het{" "}
             <Link
               target="_blank"
-              href="/cookie-terms"
+              href={routes.cookieTerms}
               className="text-app-dark-green underline"
             >
               Privacy- en Cookiestatement
@@ -332,12 +348,12 @@ const Step3 = ({ user, payment_method }: Props) => {
               disabled={loading || !termsAgree}
               loading={loading}
               type="button"
-              className="border border-black w-full h-[42px]"
+              className="h-[42px] w-full border border-black"
               onClick={confirmOrder}
             >
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <Spinner className="w-6 h-6" />
+                  <Spinner className="size-6" />
                   Bestellen en betalen...
                 </div>
               ) : (
@@ -348,9 +364,9 @@ const Step3 = ({ user, payment_method }: Props) => {
         </div>
 
         <div>
-          <div className="border border-black rounded-3xl overflow-hidden p-5">
+          <div className="overflow-hidden rounded-3xl border border-black p-5">
             <h4 className="text-base font-bold">Bestel overzicht:</h4>
-            <div className="flex items-center gap-x-5 mt-2.5">
+            <div className="mt-2.5 flex items-center gap-x-5">
               <Image
                 src={"/imgs/afbeelding.png"}
                 alt="afbeelding"
@@ -363,20 +379,20 @@ const Step3 = ({ user, payment_method }: Props) => {
                 per dag.
               </p>
             </div>
-            <p className="py-1 border-b border-app-dark-grey">
+            <p className="border-b border-app-dark-grey py-1">
               {plan.numberOfDays} dagen - {plan.numberOfDays * plan.mealsPerDay}{" "}
               maaltijden
             </p>
-            <div className="flex items-center justify-between mt-1">
+            <div className="mt-1 flex items-center justify-between">
               <p>Prijs per week:</p>
               <p>
-                {currency_type == "eur" ? "€" : "$"}
+                {currency_symbol}
                 {totalPrice}
               </p>
             </div>
-            <div className="flex items-center justify-between mt-1">
+            <div className="mt-1 flex items-center justify-between">
               <p>Bezorgkosten:</p>
-              <p>{currency_type == "eur" ? "€" : "$"}5.99</p>
+              <p>{currency_symbol}5.99</p>
             </div>
             {/* <a
               href="#"
@@ -385,27 +401,26 @@ const Step3 = ({ user, payment_method }: Props) => {
               Heb je een kortingscode?
             </a> */}
             <div className="mt-4"></div>
-            <div className="bg-[#f3f3f3] py-1 flex items-center justify-between text-lg">
+            <div className="flex items-center justify-between bg-[#f3f3f3] py-1 text-lg">
               <p> Totaal eerst box:</p>{" "}
               <p>
-                {currency_type == "eur" ? "€" : "$"}
+                {currency_symbol}
                 {(totalPrice + 5.99).toFixed(2)}
               </p>
             </div>
           </div>
 
-          <div className="border border-black rounded-3xl overflow-hidden p-5 mt-6">
+          <div className="mt-6 overflow-hidden rounded-3xl border border-black p-5">
             <div className="space-y-2.5">
               <h4 className="text-base font-bold">Bezorging</h4>
               <p>Eerste bezorging in uw regio:</p>
-              <p>
+              <p className={cn(isFirstRedner && "opacity-0")}>
                 <Moment
                   className="capitalize"
                   format="dddd, DD/MM/YYYY"
-                  add={{ days: 2 }}
                   locale="nl"
                 >
-                  {lockdownDate}
+                  {getNextDeliveryDate(lockdownDate)}
                 </Moment>
               </p>
               {/* <p>
@@ -415,7 +430,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                 />{" "}
                 13:00 - 17:00
               </p> */}
-              <p className="px-2 py-1 bg-[#f3f3f3]">
+              <p className="bg-[#f3f3f3] px-2 py-1">
                 Essentials+ biedt een flexibel doorlopend lidmaatschap. Jouw
                 bestelling wordt elke week automatisch verlengd, tenzij je de
                 lidmaatschap eenvoudig opzegt of pauzeert via jouw account.
