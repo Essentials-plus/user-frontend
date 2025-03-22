@@ -31,7 +31,7 @@ const FilterSidebar = () => {
     null,
   );
 
-  const filters = productsQuery.data?.data.filters;
+  const filters = productsQuery.query.data?.data.filters;
 
   const filterCategories = useMemo(
     () =>

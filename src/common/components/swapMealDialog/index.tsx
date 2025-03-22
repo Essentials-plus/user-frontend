@@ -7,10 +7,21 @@ import {
 } from "@/common/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { ExtendMeal } from "@/types/api-responses/meal";
+import dynamic from "next/dynamic";
 
 import { useState } from "react";
 import { FiRefreshCw } from "react-icons/fi";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+// import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
+const ResponsiveMasonry = dynamic(
+  () => import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry),
+  { ssr: false },
+);
+
+const Masonry = dynamic(
+  () => import("react-responsive-masonry").then((mod) => mod.default),
+  { ssr: false },
+);
 
 type Props = {
   swapableMeals: ExtendMeal[];
@@ -45,7 +56,7 @@ const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }: Props) => {
         >
           <Masonry gutter="20px">
             {swapableMeals.map((m) => (
-              <button
+              <div
                 key={m.id}
                 onClick={() => {
                   if (m.id != meal.id) {
@@ -59,7 +70,7 @@ const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }: Props) => {
                 )}
               >
                 <MealCard meal={m} hideSwapButton />
-              </button>
+              </div>
             ))}
           </Masonry>
         </ResponsiveMasonry>

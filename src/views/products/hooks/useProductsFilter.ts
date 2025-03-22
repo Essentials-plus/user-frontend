@@ -50,7 +50,7 @@ const useProductsFilter = () => {
     };
   });
 
-  const products = productsQuery.data?.data.data || [];
+  const products = productsQuery.query.data?.data.data || [];
 
   return {
     category,

@@ -29,10 +29,10 @@ const Products = () => {
 
   const findCategory = useMemo(
     () =>
-      (productsQuery.data?.data.filters.categories || []).find(
+      (productsQuery.query.data?.data.filters.categories || []).find(
         (item) => item.slug === category,
       ),
-    [category, productsQuery.data?.data.filters.categories],
+    [category, productsQuery.query.data?.data.filters.categories],
   );
 
   return (
@@ -106,7 +106,7 @@ const Products = () => {
               )}
 
               <div className="mt-5 flex items-center justify-between border-b border-app-black pb-4">
-                {productsQuery.isFetching ? (
+                {productsQuery.query.isFetching ? (
                   <Skeleton className="h-6 w-[93px]" />
                 ) : (
                   <p className="font-medium text-app-black">
@@ -140,7 +140,7 @@ const Products = () => {
               </div>
 
               <div className="mt-8 grid grid-cols-3 gap-6">
-                {productsQuery.isFetching ? (
+                {productsQuery.query.isFetching ? (
                   <>
                     {Array(6)
                       .fill("")
@@ -148,9 +148,9 @@ const Products = () => {
                         <Skeleton className="h-[400px] rounded-lg" key={i} />
                       ))}
                   </>
-                ) : productsQuery.isError ? (
+                ) : productsQuery.query.isError ? (
                   <p className="col-span-3 mx-auto max-w-[700px] px-5 py-20 text-center text-app-danger">
-                    {getApiErrorMessage(productsQuery.error)}
+                    {getApiErrorMessage(productsQuery.query.error)}
                   </p>
                 ) : products.length <= 0 ? (
                   <p className="col-span-3 mx-auto max-w-[700px] px-5 text-center text-app-text">
@@ -164,7 +164,14 @@ const Products = () => {
                 )}
               </div>
 
-              <DataTablePagination query={productsQuery} />
+              <DataTablePagination
+                query={{
+                  ...productsQuery.query,
+                  activePage: productsQuery.activePage,
+                  fetchPage: productsQuery.fetchPage,
+                  totalPage: productsQuery.totalPage,
+                }}
+              />
             </div>
           </div>
         </div>

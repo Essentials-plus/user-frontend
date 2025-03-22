@@ -13,7 +13,7 @@ const RecommendedProductsSection = () => {
     }),
   );
 
-  const products = cartRecommendationProductsQuery.data?.data || [];
+  const products = cartRecommendationProductsQuery.query.data?.data || [];
 
   if (products.length <= 0) return null;
   return (

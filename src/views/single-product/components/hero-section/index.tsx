@@ -98,10 +98,13 @@ const HeroSection = ({ data }: Props) => {
 
   const canGiveReview = canGiveReviewQueryOptions.data?.data.status;
 
-  const productReviews = productReviewsQueryOptions.data?.data.reviews || [];
-  const averageRating = productReviewsQueryOptions.data?.data.averageRating;
+  const productReviews =
+    productReviewsQueryOptions.query.data?.data.reviews || [];
+  const averageRating =
+    productReviewsQueryOptions.query.data?.data.averageRating;
 
-  const totalReviewsCount = productReviewsQueryOptions.data?.meta?.totalCount;
+  const totalReviewsCount =
+    productReviewsQueryOptions.query.data?.meta?.totalCount;
   return (
     <section className="mb-20 mt-[72px]">
       <div className="container">
@@ -297,16 +300,18 @@ const HeroSection = ({ data }: Props) => {
                       onSuccess={() => {
                         setOpenReviewForm(false);
                         canGiveReviewQueryOptions.refetch();
-                        productReviewsQueryOptions.refetch();
+                        productReviewsQueryOptions.query.refetch();
                       }}
                     />
                   )}
 
                   <div className="mt-5">
                     {/** Rating --Start-- */}
-                    {productReviewsQueryOptions.isError ? (
+                    {productReviewsQueryOptions.query.isError ? (
                       <p className="px-5 py-14 text-center text-app-danger">
-                        {getApiErrorMessage(productReviewsQueryOptions.error)}
+                        {getApiErrorMessage(
+                          productReviewsQueryOptions.query.error,
+                        )}
                       </p>
                     ) : (
                       productReviews.map((review) => (
@@ -352,14 +357,21 @@ const HeroSection = ({ data }: Props) => {
                       ))
                     )}
 
-                    {productReviewsQueryOptions.isFetching && (
+                    {productReviewsQueryOptions.query.isFetching && (
                       <div className="flex justify-center py-5">
                         <Spinner className="size-8" />
                       </div>
                     )}
                     {/** Rating --End-- */}
                   </div>
-                  <DataTablePagination query={productReviewsQueryOptions} />
+                  <DataTablePagination
+                    query={{
+                      ...productReviewsQueryOptions.query,
+                      activePage: productReviewsQueryOptions.activePage,
+                      fetchPage: productReviewsQueryOptions.fetchPage,
+                      totalPage: productReviewsQueryOptions.totalPage,
+                    }}
+                  />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

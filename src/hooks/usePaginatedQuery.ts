@@ -37,7 +37,7 @@ const usePaginatedQuery = <
     setActivePage(page);
   };
 
-  return { ...query, fetchPage, activePage, totalPage };
+  return { query, fetchPage, activePage, totalPage };
 };
 
 export default usePaginatedQuery;

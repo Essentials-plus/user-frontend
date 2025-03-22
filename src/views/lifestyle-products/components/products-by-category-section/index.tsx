@@ -29,17 +29,17 @@ const ProductsByCategorySection = () => {
                 <div className="h-px grow bg-black" />
               </div>
             </div>
-            {bestSelletProductsQuery.isLoading ? (
+            {bestSelletProductsQuery.query.isLoading ? (
               <div className="flex h-[300px] items-center justify-center">
                 <Spinner className="size-6" />
               </div>
-            ) : bestSelletProductsQuery.isError ? (
+            ) : bestSelletProductsQuery.query.isError ? (
               <div className="flex h-[300px] items-center justify-center">
                 <p className="text-red-500">
-                  {getApiErrorMessage(bestSelletProductsQuery.error)}
+                  {getApiErrorMessage(bestSelletProductsQuery.query.error)}
                 </p>
               </div>
-            ) : (bestSelletProductsQuery.data?.data || []).length <= 0 ? (
+            ) : (bestSelletProductsQuery.query.data?.data || []).length <= 0 ? (
               <div className="flex h-[300px] items-center justify-center">
                 <p className="text-black/80">
                   Er zijn geen producten om voor te tonen{" "}
@@ -49,11 +49,18 @@ const ProductsByCategorySection = () => {
             ) : (
               <div>
                 <div className="mb-5 mt-10 grid grid-cols-4 gap-8">
-                  {bestSelletProductsQuery.data?.data.map((product) => (
+                  {bestSelletProductsQuery.query.data?.data.map((product) => (
                     <ProductCard key={product.id} data={product} />
                   ))}
                 </div>
-                <DataTablePagination query={bestSelletProductsQuery} />
+                <DataTablePagination
+                  query={{
+                    ...bestSelletProductsQuery.query,
+                    activePage: bestSelletProductsQuery.activePage,
+                    fetchPage: bestSelletProductsQuery.fetchPage,
+                    totalPage: bestSelletProductsQuery.totalPage,
+                  }}
+                />
               </div>
             )}
           </section>

@@ -88,14 +88,14 @@ const OrderHistory = () => {
 
   const { user } = useUserSession();
 
-  const orderHistoryData = orderHistory.data?.data;
+  const orderHistoryData = orderHistory.query.data?.data;
 
   const activeOrder = useMemo(() => {
     const order = orderHistoryData?.find((v) => v.id === activeOrderId);
     return order;
   }, [activeOrderId, orderHistoryData]);
 
-  const planOrderData = planOrder.data?.data;
+  const planOrderData = planOrder.query.data?.data;
 
   const activeMealOrder = useMemo(() => {
     const order = planOrderData?.find((v) => v.id === activeMealOrderId);
@@ -146,7 +146,14 @@ const OrderHistory = () => {
                   ))}
                 </tbody>
               </table>
-              <DataTablePagination query={planOrder} />
+              <DataTablePagination
+                query={{
+                  ...planOrder.query,
+                  activePage: planOrder.activePage,
+                  fetchPage: planOrder.fetchPage,
+                  totalPage: planOrder.totalPage,
+                }}
+              />
             </div>
           </>
         )}
@@ -197,7 +204,14 @@ const OrderHistory = () => {
               ))}
             </tbody>
           </table>
-          <DataTablePagination query={orderHistory} />
+          <DataTablePagination
+            query={{
+              ...orderHistory.query,
+              activePage: orderHistory.activePage,
+              fetchPage: orderHistory.fetchPage,
+              totalPage: orderHistory.totalPage,
+            }}
+          />
         </div>
         <ProductOrderHistoryModal
           open={!!activeOrderId}
