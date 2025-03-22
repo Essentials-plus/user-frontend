@@ -6,7 +6,6 @@ import {
   DialogTrigger,
 } from "@/common/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { ExtendMeal } from "@/types/api-responses/meal";
 import dynamic from "next/dynamic";
 
 import { useState } from "react";
@@ -23,14 +22,14 @@ const Masonry = dynamic(
   { ssr: false },
 );
 
-type Props = {
-  swapableMeals: ExtendMeal[];
-  meal: ExtendMeal;
-  // eslint-disable-next-line no-unused-vars
-  onMealSwap?: (m: ExtendMeal) => any;
-};
+// type Props = {
+//   swapableMeals: ExtendMeal[];
+//   meal: ExtendMeal;
+//   // eslint-disable-next-line no-unused-vars
+//   onMealSwap?: (m: ExtendMeal) => any;
+// };
 
-const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }: Props) => {
+const SwapMealDialog = ({ swapableMeals, meal, onMealSwap }) => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   return (
