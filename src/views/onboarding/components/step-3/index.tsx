@@ -20,14 +20,14 @@ import {
 } from "@/lib/utils";
 import { Payment_Method, User } from "@/types/api-responses/users";
 import { deleteCookie, getCookie } from "cookies-next";
-import dynamic from "next/dynamic";
+import { format } from "date-fns";
+import { nl } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import PaymentSuccessModal from "./PaymentSuccessModal";
-const Moment = dynamic(() => import("react-moment"), { ssr: false });
 
 const cards = [
   {
@@ -415,13 +415,9 @@ const Step3 = ({ user, payment_method }: Props) => {
               <h4 className="text-base font-bold">Bezorging</h4>
               <p>Eerste bezorging in uw regio:</p>
               <p className={cn(isFirstRedner && "opacity-0")}>
-                <Moment
-                  className="capitalize"
-                  format="dddd, DD/MM/YYYY"
-                  locale="nl"
-                >
-                  {getNextDeliveryDate(lockdownDate)}
-                </Moment>
+                {format(getNextDeliveryDate(lockdownDate), "EEEE, dd/MM/yyyy", {
+                  locale: nl,
+                })}
               </p>
               {/* <p>
                 <Moment

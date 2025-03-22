@@ -1,7 +1,8 @@
 import { cn, getNextDeliveryDate, getWeekDate } from "@/lib/utils";
 import WeekNumbersSlider from "@/views/weekly-menu/components/week-numbers-slider";
+import { format } from "date-fns";
+import { nl } from "date-fns/locale";
 import { useMemo } from "react";
-import Moment from "react-moment";
 import useMeasure from "react-use-measure";
 import "swiper/css";
 
@@ -105,24 +106,18 @@ const HeroSection = ({
                 </p>
                 <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
                   Lockdowndatum:
-                  <Moment
-                    locale="nl"
-                    className="capitalize"
-                    format="dddd, DD/MM/YYYY"
-                  >
-                    {lockdownDate}
-                  </Moment>
+                  {format(new Date(lockdownDate), "EEEE, dd/MM/yyyy", {
+                    locale: nl,
+                  })}
                   {/* {lockdownDate.toLocaleDateString()} */}
                 </p>
                 <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
                   Leverdatum:
-                  <Moment
-                    locale="nl"
-                    className="capitalize"
-                    format="dddd, DD/MM/YYYY"
-                  >
-                    {getNextDeliveryDate(lockdownDate).toDate()}
-                  </Moment>
+                  {format(
+                    getNextDeliveryDate(lockdownDate),
+                    "EEEE, dd/MM/yyyy",
+                    { locale: nl },
+                  )}
                   {/* {lockdownDate.toLocaleDateString()} */}
                 </p>
               </div>

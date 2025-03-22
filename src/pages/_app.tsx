@@ -12,15 +12,12 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Check, Info, OctagonAlert, TriangleAlert } from "lucide-react";
-import "moment/locale/nl";
 import { Montserrat, Open_Sans, Oswald, Roboto_Serif } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/pages";
 import { useState } from "react";
 import ScrollToTop from "react-scroll-to-top";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import { toast } from "sonner";
 
 const openSans = Open_Sans({
@@ -70,7 +67,7 @@ export default function App({
     ));
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <HydrationBoundary state={pageProps?.dehydratedState}>
         <NuqsAdapter>
           <UserSessionProvider session={{ token, user }}>

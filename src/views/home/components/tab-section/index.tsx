@@ -58,32 +58,61 @@ const TabSection = ({ meals }: Props) => {
     [values],
   );
 
+  // const filteredMeals: Record<string, ExtendMeal[]> | undefined =
+  //   useMemo(() => {
+  //     if (!userKcalForAWeek || !meals || !values) return undefined;
+
+  //     return {
+  //       dinner: meals
+  //         .filter((v) => v.meal == "dinner")
+  //         .slice(0, 4)
+  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 28)),
+  //       breakfast: meals
+  //         .filter((v) => v.meal == "breakfast")
+  //         .slice(0, 4)
+  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 18)),
+  //       lunch: meals
+  //         .filter((v) => v.meal == "lunch")
+  //         .slice(0, 4)
+  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
+  //       snack: meals
+  //         .filter(
+  //           (v) =>
+  //             v.meal == "snacks1" || v.meal == "snacks2" || v.meal == "snacks3",
+  //         )
+  //         .slice(0, 4)
+  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
+  //     };
+  //   }, [meals, userKcalForAWeek, values]);
+
   const filteredMeals: Record<string, ExtendMeal[]> | undefined =
     useMemo(() => {
-      if (!userKcalForAWeek || !meals || !values) return undefined;
+      if (!userKcalForAWeek || !meals) return undefined;
 
-      return {
-        dinner: meals
-          .filter((v) => v.meal == "dinner")
-          .slice(0, 4)
-          .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 28)),
-        breakfast: meals
-          .filter((v) => v.meal == "breakfast")
-          .slice(0, 4)
-          .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 18)),
-        lunch: meals
-          .filter((v) => v.meal == "lunch")
-          .slice(0, 4)
-          .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
-        snack: meals
-          .filter(
-            (v) =>
-              v.meal == "snacks1" || v.meal == "snacks2" || v.meal == "snacks3",
-          )
-          .slice(0, 4)
-          .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
+      const mealTypes = ["dinner", "breakfast", "lunch", "snack"];
+      const mealPercentages = {
+        dinner: 28,
+        breakfast: 18,
+        lunch: 27,
+        snack: 27,
       };
-    }, [meals, userKcalForAWeek, values]);
+
+      const mealsByType = mealTypes.reduce((acc, type) => {
+        const filteredMealsByType = meals
+          .filter((meal) => meal.meal === type)
+          .slice(0, 4)
+          .map((meal) =>
+            extendedMeal(
+              meal,
+              (userKcalForAWeek / 100) * mealPercentages[type as "dinner"],
+            ),
+          );
+        acc[type] = filteredMealsByType;
+        return acc;
+      }, {} as Record<string, ExtendMeal[]>);
+
+      return mealsByType;
+    }, [meals, userKcalForAWeek]);
 
   return (
     <>
@@ -282,12 +311,45 @@ const PolygonShape = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+// const calculateIngredients = (ingredients: Ingredient[], kCalNeed: number) => {
+//   const sumOfKCal = sumOf(ingredients, "kcal");
+//   const sumOfProteins = sumOf(ingredients, "proteins");
+//   const sumOfCarbohydrates = sumOf(ingredients, "carbohydrates");
+//   const sumOfFats = sumOf(ingredients, "fats");
+//   const sumOfFiber = sumOf(ingredients, "fiber");
+
+//   const totalNeededServings = Math.round(kCalNeed / sumOfKCal);
+
+//   const newIngredients = ingredients.map((i) => ({
+//     ...i,
+//     totalNeed: i.quantity * totalNeededServings,
+//   }));
+
+//   return {
+//     sumOfKCal,
+//     sumOfProteins,
+//     sumOfCarbohydrates,
+//     sumOfFats,
+//     sumOfFiber,
+//     ingredients: newIngredients,
+//     totalNeededServings,
+//   };
+// };
+
 const calculateIngredients = (ingredients: Ingredient[], kCalNeed: number) => {
-  const sumOfKCal = sumOf(ingredients, "kcal");
-  const sumOfProteins = sumOf(ingredients, "proteins");
-  const sumOfCarbohydrates = sumOf(ingredients, "carbohydrates");
-  const sumOfFats = sumOf(ingredients, "fats");
-  const sumOfFiber = sumOf(ingredients, "fiber");
+  let sumOfKCal = 0;
+  let sumOfProteins = 0;
+  let sumOfCarbohydrates = 0;
+  let sumOfFats = 0;
+  let sumOfFiber = 0;
+
+  ingredients.forEach((i) => {
+    sumOfKCal += i.kcal;
+    sumOfProteins += i.proteins;
+    sumOfCarbohydrates += i.carbohydrates;
+    sumOfFats += i.fats;
+    sumOfFiber += i.fiber;
+  });
 
   const totalNeededServings = Math.round(kCalNeed / sumOfKCal);
 
@@ -306,6 +368,26 @@ const calculateIngredients = (ingredients: Ingredient[], kCalNeed: number) => {
     totalNeededServings,
   };
 };
+
+// const extendedMeal = (meal: Meal, kCalNeed: number): ExtendMeal => {
+//   const { totalNeededServings, ...value } = calculateIngredients(
+//     meal.ingredients,
+//     kCalNeed,
+//   );
+
+//   return {
+//     ...meal,
+//     kCalNeed,
+//     ingredients: value.ingredients,
+//     totalNeedOfKCal: round(value.sumOfKCal * totalNeededServings),
+//     totalNeedOfProteins: round(value.sumOfProteins * totalNeededServings),
+//     totalNeedOfCarbohydrates: round(
+//       value.sumOfCarbohydrates * totalNeededServings,
+//     ),
+//     totalNeedOfFats: round(value.sumOfFats * totalNeededServings),
+//     totalNeedOfFiber: round(value.sumOfFiber * totalNeededServings),
+//   };
+// };
 
 const extendedMeal = (meal: Meal, kCalNeed: number): ExtendMeal => {
   const { totalNeededServings, ...value } = calculateIngredients(
@@ -327,11 +409,11 @@ const extendedMeal = (meal: Meal, kCalNeed: number): ExtendMeal => {
   };
 };
 
-const sumOf = <T, K extends keyof T>(array: T[], key: K) => {
-  return array?.reduce((previousValue, currentItem) => {
-    return previousValue + currentItem[key as never];
-  }, 0);
-};
+// const sumOf = <T, K extends keyof T>(array: T[], key: K) => {
+//   return array?.reduce((previousValue, currentItem) => {
+//     return previousValue + currentItem[key as never];
+//   }, 0);
+// };
 
 const round = (number: number) => {
   return Math.round(number);

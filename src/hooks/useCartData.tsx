@@ -7,11 +7,11 @@ import { ApiResponseSuccessBase } from "@/types/api-responses";
 import { ProductCart } from "@/types/api-responses/product-attribute";
 import { calculatePercentageOff } from "@/views/cart/components/cart-items-section";
 import useAppliedCoupon from "@/views/cart/hooks/useAppliedCoupon";
+import { useDebouncedCallback } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
-import { useDebouncedCallback } from "use-debounce";
 
 const isUpdatingCartAtom = atom(false);
 

@@ -1,8 +1,15 @@
 import { mealTypeOptions } from "@/constants/meal";
-import { FilterFormSchema } from "@/lib/schemas";
-import { ProductTaxPercentType } from "@/types/api-responses/tax";
-import clsx, { ClassValue } from "clsx";
-import moment from "moment";
+import type { FilterFormSchema } from "@/lib/schemas";
+import type { ProductTaxPercentType } from "@/types/api-responses/tax";
+import clsx, { type ClassValue } from "clsx";
+import {
+  addDays,
+  endOfISOWeek,
+  format,
+  getISODay,
+  getISOWeek,
+  startOfISOWeek,
+} from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
 
@@ -62,14 +69,14 @@ export const normalizeZodError = (errors: ZodError) => {
 };
 
 export function getWeekNumber() {
-  return moment().isoWeek();
+  return getISOWeek(new Date());
 }
 
 export const rootWeekNumber = getWeekNumber();
 
 export function getNextLockdownDate(lockDownDay: number) {
-  const today = moment(); // Current date
-  const todayDay = today.isoWeekday(); // ISO: Monday = 1, Sunday = 7
+  const today = new Date(); // Current date
+  const todayDay = getISODay(today); // ISO: Monday = 1, Sunday = 7
   console.log({ todayDay, lockDownDay });
 
   // Calculate days until the next lockdown day
@@ -78,9 +85,9 @@ export function getNextLockdownDate(lockDownDay: number) {
       ? lockDownDay - todayDay
       : 7 - (todayDay - lockDownDay);
 
-  const nextLockdownDate = today.add(daysUntilLockdown, "days");
+  const nextLockdownDate = addDays(today, daysUntilLockdown);
 
-  return nextLockdownDate.toDate(); // ISO Netherlands format
+  return nextLockdownDate; // ISO Netherlands format
 }
 export const getDateFromIsoWeekAndDay = (
   week: number,
@@ -95,35 +102,33 @@ export const getDateFromIsoWeekAndDay = (
       "Invalid day number. It should be between 1 (Monday) and 7 (Sunday).",
     );
 
-  // Calculate the date
-  const date = moment().year(year).isoWeek(week).isoWeekday(day);
-  return date.toDate();
+  const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
+  const weekStart = addDays(firstDayOfYear, (week - 1) * 7);
+  const date = addDays(weekStart, day - 1);
+
+  return date;
 };
 
 export const getNextDeliveryDate = (date: Date) => {
-  return moment(date).add(2, "days");
+  return addDays(date, 2);
 };
 
 export function getWeekDate(weekNumber?: number) {
-  const currentDate = moment();
-  weekNumber = weekNumber || currentDate.isoWeek();
+  const currentDate = new Date();
+  const currentWeekNumber = getISOWeek(currentDate);
+  weekNumber = weekNumber || currentWeekNumber;
 
-  // Get the year
-  const year = currentDate.year();
+  const year = currentDate.getFullYear();
 
-  // Create a moment object for the first day of the specified week
-  const startDate = moment().year(year).isoWeek(weekNumber).startOf("isoWeek");
+  const startDate = startOfISOWeek(new Date(year, 0, 1));
+  const start = addDays(startDate, (weekNumber - 1) * 7);
 
-  // Create a moment object for the last day of the specified week
-  const endDate = moment(startDate)
-    .year(year)
-    .isoWeek(weekNumber)
-    .endOf("isoWeek");
+  const endDate = endOfISOWeek(new Date(year, 0, 1));
+  const end = addDays(endDate, (weekNumber - 1) * 7);
 
-  // Return the dates in ISO format
   return {
-    start: startDate.toDate(),
-    end: endDate.toDate(),
+    start: start,
+    end: end,
   };
 }
 
@@ -206,5 +211,5 @@ export function calculateDiscount(
 }
 
 export const appDefaultDateFormatter = (date: Date) => {
-  return moment(date).format("dddd, DD-MM-YYYY [at] hh:mm A");
+  return format(date, "EEEE, dd-MM-yyyy 'at' hh:mm a");
 };

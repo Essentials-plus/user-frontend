@@ -222,34 +222,35 @@ const FilterSidebar = () => {
                   )
                     return null;
 
+                  const availableTerms = productAttribute.terms.filter(
+                    (term) => term.products.length > 0,
+                  );
                   return (
                     <div key={productAttribute.id} className="pt-2 first:pt-0">
                       <p className="font-semibold">{productAttribute.name}</p>
                       <div className="mt-2 space-y-2.5 pl-2">
-                        {productAttribute.terms
-                          .filter((term) => term.products.length > 0)
-                          .map((term) => (
-                            <FilterCheckbox
-                              key={term.id}
-                              count={term.products.length}
-                              label={term.name}
-                              checkboxProps={{
-                                checked: terms.includes(term.slug),
-                                onCheckedChange(checked) {
-                                  if (checked) {
-                                    setTerms([...terms, term.slug]);
-                                  } else {
-                                    setTerms(
-                                      terms.filter(
-                                        (subCategorie) =>
-                                          subCategorie !== term.slug,
-                                      ),
-                                    );
-                                  }
-                                },
-                              }}
-                            />
-                          ))}
+                        {availableTerms.map((term) => (
+                          <FilterCheckbox
+                            key={term.id}
+                            count={term.products.length}
+                            label={term.name}
+                            checkboxProps={{
+                              checked: terms.includes(term.slug),
+                              onCheckedChange(checked) {
+                                if (checked) {
+                                  setTerms([...terms, term.slug]);
+                                } else {
+                                  setTerms(
+                                    terms.filter(
+                                      (subCategorie) =>
+                                        subCategorie !== term.slug,
+                                    ),
+                                  );
+                                }
+                              },
+                            }}
+                          />
+                        ))}
                       </div>
                     </div>
                   );
@@ -286,13 +287,6 @@ const FilterSidebar = () => {
               </div>
             </FilterAccordion>
           )}
-          {/* <FilterAccordion value="3" trigger="CATEGORIE">
-            <FilterCheckbox count="1" label="Hello" />
-            <FilterCheckbox count="1" label="Hello" />
-            <FilterCheckbox count="1" label="Hello" />
-            <FilterCheckbox count="1" label="Hello" />
-            <FilterCheckbox count="1" label="Hello" />
-          </FilterAccordion> */}
         </Accordion>
       </div>
     </aside>

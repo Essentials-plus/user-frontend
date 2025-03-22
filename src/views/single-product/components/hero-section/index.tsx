@@ -29,6 +29,7 @@ import useFirstRender from "@/hooks/useFirstRender";
 import usePaginatedQuery from "@/hooks/usePaginatedQuery";
 import DataTablePagination from "@/views/data-table-pagination";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import {
   BadgeCheck,
   ChevronDown,
@@ -37,7 +38,6 @@ import {
   Dot,
   Star,
 } from "lucide-react";
-import moment from "moment";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import "swiper/css";
@@ -320,7 +320,7 @@ const HeroSection = ({ data }: Props) => {
                             </p>
                             <Dot className="size-3.5 opacity-30" />
                             <p className="text-sm capitalize text-app-text">
-                              {moment(review.createdAt).format("MMM DD, YYYY")}
+                              {format(review.createdAt, "MMM dd, yyyy")}
                             </p>
                           </div>
                           <div className="mt-1 flex items-center gap-2.5">

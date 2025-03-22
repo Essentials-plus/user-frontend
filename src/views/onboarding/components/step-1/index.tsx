@@ -156,7 +156,7 @@ const Step1 = ({ user }: Props) => {
         });
       }
     }
-  }, [debouncedZipCode, debouncedHouseNumber, setValue, setError]);
+  }, [debouncedZipCode, debouncedHouseNumber, setValue, setError, clearErrors]);
 
   const totalRequiredCalorie = useTotalCalorie(values);
 

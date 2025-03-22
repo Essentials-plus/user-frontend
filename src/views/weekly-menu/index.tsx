@@ -107,7 +107,7 @@ function WeeklyMenuComponent({
 }: Props) {
   const [selectedDay, setSelectedDay] = useState(1);
 
-  const [selectedMeals, setSelectedMeals] = useState(
+  const [selectedMeals, setSelectedMeals] = useState(() =>
     generateRandomMeals(user, meals),
   );
 
