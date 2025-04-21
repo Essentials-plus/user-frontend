@@ -53,18 +53,18 @@ const CartItemsSection = () => {
   //   );
 
   return (
-    <section className="my-11 w-full overflow-x-hidden">
+    <section className="my-8 lg:my-11 w-full overflow-x-hidden">
       <div className="container" ref={ref}>
-        <h1 className="__h3">Je Winkelwagen</h1>
+        <h1 className="__h4 lg:__h3">Je Winkelwagen</h1>
       </div>
 
-      <div className="mt-9 grid grid-cols-[63%,37%] gap-20">
+      <div className="mt-3 grid grid-cols-1 gap-20 gap-y-8 lg:mt-9 lg:grid-cols-[63%,37%]">
         <div>
           <div
             style={{
               paddingLeft: bounds.left + 24,
             }}
-            className="grid grid-cols-[380px,1fr,1fr,1fr] gap-5 rounded-r-full bg-app-yellow py-4 font-bold"
+            className="grid grid-cols-[380px,1fr,1fr,1fr] gap-5 rounded-r-full bg-app-yellow py-4 font-bold max-lg:hidden"
           >
             <p>Artikel</p>
             <p>Artikelprijs</p>
@@ -75,14 +75,14 @@ const CartItemsSection = () => {
           {productCart.length <= 0 ? (
             <>
               <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
-                <ShoppingCart className="size-14" />
-                <p className="mt-8 text-3xl font-bold text-black">
+                <ShoppingCart className="size-11 lg:size-14" />
+                <p className="mt-5 text-lg font-bold text-black lg:mt-8 lg:text-3xl">
                   ER ZIJN GEEN ARTIKELEN IN <br /> JE WINKELWAGEN
                 </p>
 
                 <Link
                   href={routes.lifestyleProduct}
-                  className={cn(button({ className: "mt-8" }))}
+                  className={cn(button({ className: "mt-5 lg:mt-8" }))}
                 >
                   VERDER WINKELEN
                 </Link>
@@ -93,6 +93,7 @@ const CartItemsSection = () => {
               style={{
                 paddingLeft: bounds.left + 24,
               }}
+              className="max-lg:!px-5"
             >
               {productCart.map((d) => (
                 <ProductCartItem key={d.id} d={d} />
@@ -100,11 +101,11 @@ const CartItemsSection = () => {
             </div>
           )}
         </div>
-        <div className="relative">
+        <div className="relative max-lg:px-5">
           {/* {!user && (
             <div className="inset-0 absolute bg-black/10 z-10 rounded-l-[30px] cursor-not-allowed backdrop-blur-[1px]"></div>
           )} */}
-          <div className="rounded-l-[30px] bg-app-yellow px-8 py-6">
+          <div className="p-5 max-lg:border max-lg:border-app-dark-grey/50 lg:rounded-l-[30px] lg:bg-app-yellow lg:px-8 lg:py-6">
             <div
               style={{
                 paddingRight: bounds.left,

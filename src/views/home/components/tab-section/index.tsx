@@ -58,33 +58,6 @@ const TabSection = ({ meals }: Props) => {
     [values],
   );
 
-  // const filteredMeals: Record<string, ExtendMeal[]> | undefined =
-  //   useMemo(() => {
-  //     if (!userKcalForAWeek || !meals || !values) return undefined;
-
-  //     return {
-  //       dinner: meals
-  //         .filter((v) => v.meal == "dinner")
-  //         .slice(0, 4)
-  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 28)),
-  //       breakfast: meals
-  //         .filter((v) => v.meal == "breakfast")
-  //         .slice(0, 4)
-  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 18)),
-  //       lunch: meals
-  //         .filter((v) => v.meal == "lunch")
-  //         .slice(0, 4)
-  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
-  //       snack: meals
-  //         .filter(
-  //           (v) =>
-  //             v.meal == "snacks1" || v.meal == "snacks2" || v.meal == "snacks3",
-  //         )
-  //         .slice(0, 4)
-  //         .map((m) => extendedMeal(m, (userKcalForAWeek / 100) * 27)),
-  //     };
-  //   }, [meals, userKcalForAWeek, values]);
-
   const filteredMeals: Record<string, ExtendMeal[]> | undefined =
     useMemo(() => {
       if (!userKcalForAWeek || !meals) return undefined;
@@ -97,32 +70,30 @@ const TabSection = ({ meals }: Props) => {
         snack: 27,
       };
 
-      const mealsByType = mealTypes.reduce((acc, type) => {
-        const filteredMealsByType = meals
+      return mealTypes.reduce((acc, type) => {
+        acc[type] = meals
           .filter((meal) => meal.meal === type)
           .slice(0, 4)
           .map((meal) =>
             extendedMeal(
               meal,
-              (userKcalForAWeek / 100) * mealPercentages[type as "dinner"],
+              (userKcalForAWeek / 100) *
+                mealPercentages[type as keyof typeof mealPercentages],
             ),
           );
-        acc[type] = filteredMealsByType;
         return acc;
       }, {} as Record<string, ExtendMeal[]>);
-
-      return mealsByType;
     }, [meals, userKcalForAWeek]);
 
   return (
     <>
-      <div className="relative z-50 mx-auto max-w-[1132px] rounded-3xl border border-black bg-white px-12 py-10 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)]">
-        <div className="flex items-center">
-          <div className="flex items-center gap-x-10">
-            <h3 className="shrink-0 font-oswald text-2xl uppercase">
+      <div className="max-lg:px-5">
+        <div className="relative z-50 mx-auto w-full max-w-[1132px] rounded-2xl lg:rounded-3xl border border-black bg-white px-4 py-5 sm:px-6 md:px-12 md:py-10 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)]">
+          <div className="flex flex-col gap-y-6 lg:flex-row md:items-center sm:gap-x-5 lg:gap-x-10">
+            <h3 className="shrink-0 font-oswald text-xl lg:text-2xl uppercase">
               Laten we starten
             </h3>
-            <div className="grid grid-cols-[1fr,1fr,100px,100px,100px,1fr] gap-x-2.5">
+            <div className="grid grid-cols-2 lg:grid-cols-[1fr,1fr,100px,100px,100px,1fr] max-sm:gap-y-3 gap-4 md:gap-x-2.5 w-full">
               <FilterSearchSelect
                 {...register("goal")}
                 label="Doel:"
@@ -159,7 +130,6 @@ const TabSection = ({ meals }: Props) => {
                 error={errors.weight?.message?.toString()}
                 type="number"
               />
-
               <FilterInputSelect
                 {...register("height")}
                 label="Lengte (cm):"
@@ -180,117 +150,112 @@ const TabSection = ({ meals }: Props) => {
               </FilterSearchSelect>
             </div>
           </div>
+          <p className="mt-4 text-right text-sm font-semibold text-app-black">
+            Je calorie behoefte per dag is:{" "}
+            {typeof userKcalForAWeek === "number" ? (
+              <span className="text-base font-bold">
+                {userKcalForAWeek.toFixed(2)}
+              </span>
+            ) : (
+              "_____"
+            )}{" "}
+            kcal
+          </p>
         </div>
-        <p className="mt-2.5 text-right text-sm font-semibold text-app-black">
-          Je calorie behoefte per dag is:{" "}
-          {typeof userKcalForAWeek === "number" ? (
-            <span className="text-base font-bold">
-              {userKcalForAWeek.toFixed(2)}
-            </span>
-          ) : (
-            "_____"
-          )}{" "}
-          kcal
-        </p>
-      </div>
-      <section className="mt-10">
-        <Tabs.Root orientation="horizontal" defaultValue="home-tab-1">
-          <div className="container">
-            <div className="mx-auto w-full max-w-[736px]">
-              <Tabs.List className="flex w-full items-center justify-between">
-                {homeTabs.map(({ tabKey, trigger: { icon, title } }, i) => (
-                  <Tabs.Trigger key={i} value={tabKey} className="group">
-                    <div className="relative h-[180px] text-[#C4C4C4]/[.85] group-data-[state=active]:text-app-darker-green">
-                      <div className="">{icon}</div>
-                      <h5 className="mt-3 font-oswald text-xl uppercase">
-                        {title}
-                      </h5>
 
-                      <PolygonShape className="absolute bottom-0 left-0 hidden w-full group-data-[state=active]:block" />
-                    </div>
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+        <section className="mt-10">
+          <Tabs.Root orientation="horizontal" defaultValue="home-tab-1">
+            <div className="container">
+              <div className="mx-auto w-full max-w-[736px]">
+                <Tabs.List className="flex justify-between gap-4">
+                  {homeTabs.map(({ tabKey, trigger: { icon, title } }, i) => (
+                    <Tabs.Trigger key={i} value={tabKey} className="group">
+                      <div className="relative h-[100px] lg:h-[180px] text-[#C4C4C4]/[.85] group-data-[state=active]:text-app-darker-green">
+                        <div className="mx-auto w-fit">{icon}</div>
+                        <h5 className="mt-3 text-center font-oswald text-base sm:text-xl uppercase">
+                          {title}
+                        </h5>
+                        <PolygonShape className="absolute bottom-0 left-0 hidden w-[80%] translate-y-px lg:w-full group-data-[state=active]:block" />
+                      </div>
+                    </Tabs.Trigger>
+                  ))}
+                </Tabs.List>
+              </div>
             </div>
-          </div>
-          {/* <div className="pt-[76px] pb-10 bg-app-grey rounded-r-[80px] w-[90%] pr-[76px] flex justify-end">
-         
-        </div> */}
-          <div className="relative isolate">
-            <div className="absolute left-0 z-[-1] h-full w-[calc(50%+634px+16px+76px)] rounded-r-[80px] bg-app-grey"></div>
-            <div className="container pb-10 pt-[76px]">
-              {homeTabs.map(({ tabKey, contentKey }, i) => (
-                <Tabs.Content key={i} value={tabKey}>
-                  <div className="grid grid-cols-2 gap-8 font-montserrat">
-                    {filteredMeals?.[contentKey].map((m, cIndex) => (
-                      <div
-                        key={cIndex}
-                        className="grid grid-cols-[200px,auto] items-center overflow-hidden rounded-[20px] bg-white"
-                      >
-                        <div className="h-full">
-                          <Image
-                            src={m.image}
-                            width={183}
-                            height={174}
-                            alt={m.mealName}
-                            className="aspect-square w-full object-cover"
-                          />
-                        </div>
 
-                        <div className="p-5">
-                          <h3 className="__h3">{m.mealName}</h3>
-                          <div className="mt-6 flex justify-between">
-                            <div>
-                              <p className="text-sm text-app-black">Calorie</p>
-                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
-                                {m.totalNeedOfKCal} kcal
-                              </p>
-                            </div>
-                            <div className="h-11 w-px bg-app-grey"></div>
-                            <div>
-                              <p className="text-sm text-app-black">Proteine</p>
-                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
-                                {m.totalNeedOfProteins} gr
-                              </p>
-                            </div>
-                            <div className="h-11 w-px bg-app-grey"></div>
-                            <div>
-                              <p className="text-sm text-app-black">
-                                Koolhydraten
-                              </p>
-                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
-                                {m.totalNeedOfCarbohydrates} gr
-                              </p>
-                            </div>
-                            <div className="h-11 w-px bg-app-grey"></div>
-                            <div>
-                              <p className="text-sm text-app-black">Vetten</p>
-                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
-                                {m.totalNeedOfFats} gr
-                              </p>
-                            </div>
-                            <div className="h-11 w-px bg-app-grey"></div>
-                            <div>
-                              <p className="text-sm text-app-black">Vezels</p>
-                              <p className="mt-2 text-sm font-bold text-app-dark-blue">
-                                {m.totalNeedOfFiber} gr
-                              </p>
+            <div className="relative isolate">
+              <div className="absolute left-0 z-[-1] h-full w-full md:w-[calc(50%+634px+16px+76px)] max-lg:rounded-2xl lg:rounded-r-[80px] bg-app-grey"></div>
+              <div className="container max-lg:px-2 py-2 lg:pb-10 lg:pt-[76px]">
+                {homeTabs.map(({ tabKey, contentKey }, i) => (
+                  <Tabs.Content key={i} value={tabKey}>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-6 font-montserrat">
+                      {filteredMeals?.[contentKey].map((m, cIndex) => (
+                        <div
+                          key={cIndex}
+                          className="grid grid-cols-1 md:grid-cols-[350px,auto] lg:grid-cols-[200px,auto] items-center overflow-hidden rounded-xl lg:rounded-[20px] bg-white"
+                        >
+                          <div className="h-full">
+                            <Image
+                              src={m.image}
+                              width={183}
+                              height={174}
+                              alt={m.mealName}
+                              className="aspect-video lg:aspect-square w-full object-cover"
+                            />
+                          </div>
+
+                          <div className="p-4 sm:p-5">
+                            <h3 className="__h5 font-semibold lg:__h3">
+                              {m.mealName}
+                            </h3>
+                            <div className="mt-2.5 lg:mt-6 flex flex-wrap sm:justify-between gap-x-7 lg:gap-x-4 gap-y-3">
+                              {[
+                                {
+                                  label: "Calorie",
+                                  value: `${m.totalNeedOfKCal} kcal`,
+                                },
+                                {
+                                  label: "Proteine",
+                                  value: `${m.totalNeedOfProteins} gr`,
+                                },
+                                {
+                                  label: "Koolhydraten",
+                                  value: `${m.totalNeedOfCarbohydrates} gr`,
+                                },
+                                {
+                                  label: "Vetten",
+                                  value: `${m.totalNeedOfFats} gr`,
+                                },
+                                {
+                                  label: "Vezels",
+                                  value: `${m.totalNeedOfFiber} gr`,
+                                },
+                              ].map((item, i) => (
+                                <div key={i} className="flex flex-col">
+                                  <p className="text-xs md:text-sm text-app-black">
+                                    {item.label}
+                                  </p>
+                                  <p className="text-xs md:text-sm font-bold text-app-dark-blue mt-1">
+                                    {item.value}
+                                  </p>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </Tabs.Content>
-              ))}
+                      ))}
+                    </div>
+                  </Tabs.Content>
+                ))}
 
-              <div className="__c_all mt-12">
-                <StartTotdayButton />
+                <div className="__c_all mt-2 lg:mt-12">
+                  <StartTotdayButton className="max-sm:w-full" />
+                </div>
               </div>
             </div>
-          </div>
-        </Tabs.Root>
-      </section>
+          </Tabs.Root>
+        </section>
+      </div>
     </>
   );
 };

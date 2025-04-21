@@ -31,15 +31,15 @@ const AccountInformation = () => {
           </div>
         ) : (
           <>
-            <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-4xl font-semibold text-app-black">
+            <div className="rounded-xl border border-app-dark-grey bg-app-grey p-5 lg:rounded-3xl lg:border-2 lg:px-10 lg:py-8">
+              <div className="flex flex-wrap items-center justify-between gap-5 gap-y-2">
+                <h2 className="text-lg font-semibold text-app-black lg:text-4xl">
                   Persoonlijke gegevens
                 </h2>
 
                 <button
                   onClick={() => setOpenUpdateAddressDialog(true)}
-                  className="text-app-dark-green underline"
+                  className="text-app-dark-green underline max-lg:text-sm"
                 >
                   Profiel bijwerken
                 </button>
@@ -47,16 +47,30 @@ const AccountInformation = () => {
               <div className="mt-6 flex max-w-[618px] justify-between">
                 <div>
                   <div>
-                    <h4 className="text-xl font-bold">{data.data.name}</h4>
-                    <p>E-mail: {data.data.email}</p>
+                    <h4 className="text-base font-bold lg:text-xl">
+                      {data.data.name}
+                    </h4>
+                    <p className="max-lg:text-sm">E-mail: {data.data.email}</p>
                   </div>
                   <div className="mt-7">
-                    <h4 className="text-xl font-bold">Adresgegevens</h4>
-                    <p>Adres: {data.data.address || "- - -"}</p>
-                    <p>Postcode: {data.data.zipCode?.zipCode || "- - -"}</p>
-                    <p>Stad: {data.data.city || "- - -"}</p>
-                    <p>Huisnummer: {data.data.nr || "- - -"}</p>
-                    <p>Toevoeging: {data.data.addition || "- - -"}</p>
+                    <h4 className="text-base font-bold lg:text-xl">
+                      Adresgegevens
+                    </h4>
+                    <p className="max-lg:text-sm">
+                      Adres: {data.data.address || "- - -"}
+                    </p>
+                    <p className="max-lg:text-sm">
+                      Postcode: {data.data.zipCode?.zipCode || "- - -"}
+                    </p>
+                    <p className="max-lg:text-sm">
+                      Stad: {data.data.city || "- - -"}
+                    </p>
+                    <p className="max-lg:text-sm">
+                      Huisnummer: {data.data.nr || "- - -"}
+                    </p>
+                    <p className="max-lg:text-sm">
+                      Toevoeging: {data.data.addition || "- - -"}
+                    </p>
                   </div>
                 </div>
 
@@ -78,22 +92,24 @@ const AccountInformation = () => {
               </div>
             </div>
 
-            <div className="mt-16 rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-4xl font-semibold text-app-black">
+            <div className="mt-16 rounded-xl border border-app-dark-grey bg-app-grey p-5 lg:rounded-3xl lg:border-2 lg:px-10 lg:py-8">
+              <div className="flex flex-wrap items-center justify-between gap-5 gap-y-2">
+                <h2 className="text-lg font-semibold text-app-black lg:text-4xl">
                   Wachtwoord
                 </h2>
 
                 <button
                   onClick={() => setIsOpenUpdatePasswordModal(true)}
-                  className="text-app-dark-green underline"
+                  className="text-app-dark-green underline max-lg:text-sm"
                 >
                   Wachtwoord verandering
                 </button>
               </div>
 
               <div className="mt-5">
-                <h4 className="text-xl font-bold">Huidige wachtwoord</h4>
+                <h4 className="text-base font-bold lg:text-xl">
+                  Huidige wachtwoord
+                </h4>
                 <p>**********</p>
               </div>
             </div>

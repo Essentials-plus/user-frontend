@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const RecipesSection = () => {
   return (
-    <section className="my-[113px]">
-      <div className="container grid grid-cols-4 gap-x-7 gap-y-10 font-montserrat">
+    <section className="my-14 lg:my-[113px]">
+      <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-7 lg:gap-x-7 lg:gap-y-10 font-montserrat">
         {recipes.map(
           ({ weight, description, duration, imgSrc, quantity, title }, i) => (
             <div key={i}>
@@ -26,7 +26,7 @@ const RecipesSection = () => {
                 </div>
               </div>
             </div>
-          )
+          ),
         )}
       </div>
     </section>

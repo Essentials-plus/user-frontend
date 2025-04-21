@@ -107,45 +107,49 @@ const OrderHistory = () => {
       <>
         {!(user?.access == "product") && (
           <>
-            <h2 className="mb-4 text-3xl font-semibold">Maaltijdboxen</h2>
-            <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey p-8">
-              <table className="w-full border-collapse">
-                {" "}
-                <thead>
-                  <tr>
-                    {MealDataTableHeaders.map((header) => (
-                      <th
-                        key={header}
-                        className="px-4 py-2 text-left text-base font-semibold"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {planOrderData?.map((row) => (
-                    <tr
-                      onClick={() => setActiveMealOrderId(row.id)}
-                      className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
-                      key={row.id}
-                    >
-                      <td className="px-4 py-2 text-left text-base">
-                        {new Date(row.createdAt).toDateString()}
-                      </td>
-                      <td className="px-4 py-2 text-left text-base">
-                        {row.week}
-                      </td>
-                      <td className="px-4 py-2 text-left text-base capitalize">
-                        {row.status}
-                      </td>
-                      <td className="px-4 py-2 text-left text-base capitalize">
-                        {currency_symbol} {row.totalAmount.toFixed(2)}
-                      </td>
+            <h2 className="mb-4 text-lg font-semibold lg:text-3xl">
+              Maaltijdboxen
+            </h2>
+            <div className="rounded-xl border-2 border-app-dark-grey bg-app-grey p-3 lg:rounded-3xl lg:p-8">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[420px] border-collapse">
+                  {" "}
+                  <thead>
+                    <tr>
+                      {MealDataTableHeaders.map((header) => (
+                        <th
+                          key={header}
+                          className="px-2 py-1 text-left text-sm font-medium lg:px-4 lg:py-2 lg:text-base lg:font-semibold"
+                        >
+                          {header}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {planOrderData?.map((row) => (
+                      <tr
+                        onClick={() => setActiveMealOrderId(row.id)}
+                        className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
+                        key={row.id}
+                      >
+                        <td className="px-2 py-2.5 text-left text-sm lg:px-4 lg:py-2 lg:text-base">
+                          {new Date(row.createdAt).toDateString()}
+                        </td>
+                        <td className="px-2 py-2.5 text-left text-sm lg:px-4 lg:py-2 lg:text-base">
+                          {row.week}
+                        </td>
+                        <td className="px-2 py-2.5 text-left text-sm capitalize lg:px-4 lg:py-2 lg:text-base">
+                          {row.status}
+                        </td>
+                        <td className="px-2 py-2.5 text-left text-sm capitalize lg:px-4 lg:py-2 lg:text-base">
+                          {currency_symbol} {row.totalAmount.toFixed(2)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <DataTablePagination
                 query={{
                   ...planOrder.query,
@@ -158,52 +162,56 @@ const OrderHistory = () => {
           </>
         )}
 
-        <h2 className="mb-4 mt-12 text-3xl font-semibold">Producten</h2>
-        <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey p-8">
-          <table className="w-full border-collapse">
-            {" "}
-            <thead>
-              <tr>
-                {productTableHeaders.map((header) => (
-                  <th
-                    key={header}
-                    className="px-4 py-2 text-left text-base font-semibold"
-                  >
-                    {" "}
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {orderHistoryData?.map((order) => (
-                <tr
-                  key={order.id}
-                  onClick={() => setActiveOrderId(order.id)}
-                  className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
-                >
-                  <td className="px-4 py-2 text-left text-base">
-                    <div className="max-w-[100px] truncate">
-                      {order.orderId}
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 text-left text-base">
-                    {new Date(order.createdAt).toDateString()}
-                  </td>
-                  <td className="px-4 py-2 text-left text-base capitalize">
-                    {order.status}
-
-                    {order.status === "unpaid" && (
-                      <PayButton orderId={order.id} />
-                    )}
-                  </td>
-                  <td className="px-4 py-2 text-left text-base">
-                    {currency_symbol} {order.amount.toFixed(2)}
-                  </td>
+        <h2 className="mb-4 mt-8 text-lg font-semibold lg:mt-12 lg:text-3xl">
+          Producten
+        </h2>
+        <div className="rounded-xl border-2 border-app-dark-grey bg-app-grey p-3 lg:rounded-3xl lg:p-8">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[500px] border-collapse">
+              {" "}
+              <thead>
+                <tr>
+                  {productTableHeaders.map((header) => (
+                    <th
+                      key={header}
+                      className="px-2 py-1 text-left text-sm font-medium lg:px-4 lg:py-2 lg:text-base lg:font-semibold"
+                    >
+                      {" "}
+                      {header}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orderHistoryData?.map((order) => (
+                  <tr
+                    key={order.id}
+                    onClick={() => setActiveOrderId(order.id)}
+                    className="cursor-pointer border-b border-gray-200 hover:bg-slate-200"
+                  >
+                    <td className="px-2 py-2.5 text-left text-sm lg:px-4 lg:py-2 lg:text-base">
+                      <div className="max-w-[100px] truncate">
+                        {order.orderId}
+                      </div>
+                    </td>
+                    <td className="px-2 py-2.5 text-left text-sm lg:px-4 lg:py-2 lg:text-base">
+                      {new Date(order.createdAt).toDateString()}
+                    </td>
+                    <td className="px-2 py-2.5 text-left text-sm capitalize lg:px-4 lg:py-2 lg:text-base">
+                      {order.status}
+
+                      {order.status === "unpaid" && (
+                        <PayButton orderId={order.id} />
+                      )}
+                    </td>
+                    <td className="px-2 py-2.5 text-left text-sm lg:px-4 lg:py-2 lg:text-base">
+                      {currency_symbol} {order.amount.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <DataTablePagination
             query={{
               ...orderHistory.query,
@@ -287,24 +295,23 @@ function MealOrderModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] xl:max-w-[1300px]">
-        <section className="my-[20px]">
-          <div className="container">
-            <SelectedDays
-              activeDay={selectedDay}
-              onDayClick={(d) => setSelectedDay(d)}
-              totalDays={totalDays}
-            />
-            <div className="mt-20 grid grid-cols-2 gap-6">
-              {currentDayMeals && currentDayMeals.length > 0 ? (
-                sortMealsByMealType(currentDayMeals).map((v, i) => (
-                  <MealCard key={v.id + i} meal={v} />
-                ))
-              ) : (
-                <div>Er is geen maaltijd voor de dag</div>
-              )}
-            </div>
+        <div>
+          <SelectedDays
+            wrapperClassName="max-sm:gap-0"
+            activeDay={selectedDay}
+            onDayClick={(d) => setSelectedDay(d)}
+            totalDays={totalDays}
+          />
+          <div className="mt-8 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {currentDayMeals && currentDayMeals.length > 0 ? (
+              sortMealsByMealType(currentDayMeals).map((v, i) => (
+                <MealCard key={v.id + i} meal={v} />
+              ))
+            ) : (
+              <div>Er is geen maaltijd voor de dag</div>
+            )}
           </div>
-        </section>
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -393,18 +400,17 @@ function ProductOrderHistoryModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] xl:max-w-[1300px]">
-        <section className="my-[20px]">
-          <div className="container">
-            <Card className="overflow-hidden">
-              <CardHeader className="flex flex-row items-start bg-gray-50">
-                <div className="flex gap-4">
-                  <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 overflow-hidden text-lg">
-                      <span className="inline-block truncate">
-                        Order - {order?.orderId}
-                      </span>
-                      {/* <Button
+      <DialogContent className="max-h-[95dvh] overflow-hidden overflow-y-auto max-xl:max-w-[95vw] max-lg:p-0 xl:max-w-[1300px]">
+        <div>
+          <Card className="overflow-hidden">
+            <CardHeader className="flex flex-row items-start bg-gray-50">
+              <div className="flex gap-4">
+                <div className="grid gap-0.5">
+                  <CardTitle className="group flex items-center gap-2 overflow-hidden text-lg">
+                    <span className="inline-block truncate">
+                      Order - {order?.orderId}
+                    </span>
+                    {/* <Button
                         size="icon"
                         variant="outline"
                         className="size-6 opacity-0 transition-opacity group-hover:opacity-100"
@@ -417,119 +423,114 @@ function ProductOrderHistoryModal({
                         )}
                         <span className="sr-only">Copy Order ID</span>
                       </Button> */}
-                    </CardTitle>
-                    <CardDescription>
-                      Date:{" "}
-                      <span className="capitalize">
-                        {appDefaultDateFormatter(new Date(order?.createdAt))}
-                      </span>
-                    </CardDescription>
-                    <CardDescription className="mt-1 flex items-center capitalize">
-                      Toestand: {order.status}{" "}
-                      {order.status === "unpaid" && (
-                        <Button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            getCreateUnpaidOrderSessionMutation.mutate({
-                              orderId: order.id,
-                            });
-                          }}
-                          loading={
-                            getCreateUnpaidOrderSessionMutation.isPending
-                          }
-                          size={"xs"}
-                          className="ml-1.5 inline-flex"
-                        >
-                          Betaal nu
-                        </Button>
-                      )}
-                    </CardDescription>
-                  </div>
+                  </CardTitle>
+                  <CardDescription>
+                    Date:{" "}
+                    <span className="capitalize">
+                      {appDefaultDateFormatter(new Date(order?.createdAt))}
+                    </span>
+                  </CardDescription>
+                  <CardDescription className="mt-1 flex items-center capitalize">
+                    Toestand: {order.status}{" "}
+                    {order.status === "unpaid" && (
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          getCreateUnpaidOrderSessionMutation.mutate({
+                            orderId: order.id,
+                          });
+                        }}
+                        loading={getCreateUnpaidOrderSessionMutation.isPending}
+                        size={"xs"}
+                        className="ml-1.5 inline-flex"
+                      >
+                        Betaal nu
+                      </Button>
+                    )}
+                  </CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent className="p-6 text-sm">
-                <div className="grid gap-3">
-                  <div className="flex items-center justify-between">
-                    <h1 className="text-xl font-semibold">Bestel Details</h1>
-                  </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-6 text-sm">
+              <div className="grid gap-3">
+                <div className="flex items-center justify-between">
+                  <h1 className="text-xl font-semibold">Bestel Details</h1>
+                </div>
 
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Item</TableHead>
-                        <TableHead>Kosten</TableHead>
-                        <TableHead>Qty</TableHead>
-                        <TableHead className="text-right">Totaal</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {order?.orderItems.map((product) => {
-                        const price = product.price;
-                        return (
-                          <TableRow key={product.id}>
-                            <TableCell>
-                              <div className="flex items-center gap-3">
-                                {product.image && (
-                                  <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    width={100}
-                                    height={100}
-                                    className="size-9 rounded-sm bg-gray-100 object-cover"
-                                  />
-                                )}
-                                <div>
-                                  <p className="">{product.name}</p>
-                                  {product.attributes.productVariations && (
-                                    <div className="mt-px flex flex-wrap divide-x text-xs [&>p:first-child]:ml-0 [&>p:first-child]:pl-0 [&>p>span]:text-black [&>p]:ml-2 [&>p]:pl-2">
-                                      {product.attributes.productVariations.map(
-                                        (productVariation, i) => {
-                                          return (
-                                            <Fragment
-                                              key={`${productVariation?.attribute?.id}_${productVariation?.attributeTerm?.id}_${i}`}
-                                            >
-                                              <p>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
+                      <TableHead>Kosten</TableHead>
+                      <TableHead>Qty</TableHead>
+                      <TableHead className="text-right">Totaal</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {order?.orderItems.map((product) => {
+                      const price = product.price;
+                      return (
+                        <TableRow key={product.id}>
+                          <TableCell>
+                            <div className="flex items-center gap-3">
+                              {product.image && (
+                                <Image
+                                  src={product.image}
+                                  alt={product.name}
+                                  width={100}
+                                  height={100}
+                                  className="size-9 rounded-sm bg-gray-100 object-cover"
+                                />
+                              )}
+                              <div>
+                                <p className="">{product.name}</p>
+                                {product.attributes.productVariations && (
+                                  <div className="mt-px flex flex-wrap divide-x text-xs [&>p:first-child]:ml-0 [&>p:first-child]:pl-0 [&>p>span]:text-black [&>p]:ml-2 [&>p]:pl-2">
+                                    {product.attributes.productVariations.map(
+                                      (productVariation, i) => {
+                                        return (
+                                          <Fragment
+                                            key={`${productVariation?.attribute?.id}_${productVariation?.attributeTerm?.id}_${i}`}
+                                          >
+                                            <p>
+                                              {productVariation.attribute?.name}
+                                              :{" "}
+                                              <span>
                                                 {
-                                                  productVariation.attribute
+                                                  productVariation.attributeTerm
                                                     ?.name
                                                 }
-                                                :{" "}
-                                                <span>
-                                                  {
-                                                    productVariation
-                                                      .attributeTerm?.name
-                                                  }
-                                                </span>
-                                              </p>
-                                            </Fragment>
-                                          );
-                                        },
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
+                                              </span>
+                                            </p>
+                                          </Fragment>
+                                        );
+                                      },
+                                    )}
+                                  </div>
+                                )}
                               </div>
-                            </TableCell>
-                            <TableCell>
-                              {currency_symbol}
-                              {price}
-                            </TableCell>
-                            <TableCell>
-                              <span className="mr-2 opacity-40">×</span>
-                              {product.quantity}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {currency_symbol}
-                              {price! * product.quantity}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                  <hr />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {currency_symbol}
+                            {price}
+                          </TableCell>
+                          <TableCell>
+                            <span className="mr-2 opacity-40">×</span>
+                            {product.quantity}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {currency_symbol}
+                            {price! * product.quantity}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+                <hr />
 
-                  {/* <ul className="grid gap-3">
+                {/* <ul className="grid gap-3">
                     <li className="flex items-center justify-between">
                       <span className="">Subtotaal</span>
                       <span>
@@ -581,138 +582,132 @@ function ProductOrderHistoryModal({
                     </li>
                   </ul> */}
 
-                  <ul className="grid gap-0.5 [&>li]:px-2 [&>li]:py-1.5">
+                <ul className="grid gap-0.5 [&>li]:px-2 [&>li]:py-1.5">
+                  <li className="flex items-center justify-between">
+                    <span>Subtotaal (excl. BTW)</span>
+                    <span>
+                      {currency_symbol}
+                      {(orderTotalBeforeDiscount - totalTaxAmount)?.toFixed(2)}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>BTW (9%)</span>
+                    <span>
+                      {currency_symbol}
+                      {totalTax9Percent?.toFixed(2)}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>BTW (21%)</span>
+                    <span>
+                      {currency_symbol}
+                      {totalTax21Percent?.toFixed(2)}
+                    </span>
+                  </li>
+                  {order?.coupon && (
                     <li className="flex items-center justify-between">
-                      <span>Subtotaal (excl. BTW)</span>
                       <span>
-                        {currency_symbol}
-                        {(orderTotalBeforeDiscount - totalTaxAmount)?.toFixed(
-                          2,
+                        Coupon(s) -{" "}
+                        <span className="font-medium">{order.coupon.code}</span>
+                      </span>
+                      <span>
+                        - {currency_symbol}
+                        {orderTotalBeforeDiscount && (
+                          <>
+                            {order?.coupon.type === CouponTypeEnum.amount
+                              ? (
+                                  orderTotalBeforeDiscount - order.coupon.value
+                                ).toFixed(2)
+                              : order?.coupon.type === CouponTypeEnum.percent
+                              ? (
+                                  (orderTotalBeforeDiscount / 100) *
+                                  order.coupon.value
+                                ).toFixed(2)
+                              : "-"}
+                          </>
                         )}
                       </span>
                     </li>
-                    <li className="flex items-center justify-between">
-                      <span>BTW (9%)</span>
-                      <span>
-                        {currency_symbol}
-                        {totalTax9Percent?.toFixed(2)}
-                      </span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span>BTW (21%)</span>
-                      <span>
-                        {currency_symbol}
-                        {totalTax21Percent?.toFixed(2)}
-                      </span>
-                    </li>
-                    {order?.coupon && (
-                      <li className="flex items-center justify-between">
-                        <span>
-                          Coupon(s) -{" "}
-                          <span className="font-medium">
-                            {order.coupon.code}
-                          </span>
+                  )}
+                  <li className="flex items-center justify-between">
+                    <span>Verzendkosten (21% BTW inbegrepen)</span>
+                    <span>
+                      {Number(orderShippingAmount) > 0 && (
+                        <span className="mr-2 opacity-50">
+                          (BTW {currency_symbol}
+                          {shippingTaxAmount.toFixed(2)})
                         </span>
-                        <span>
-                          - {currency_symbol}
-                          {orderTotalBeforeDiscount && (
-                            <>
-                              {order?.coupon.type === CouponTypeEnum.amount
-                                ? (
-                                    orderTotalBeforeDiscount -
-                                    order.coupon.value
-                                  ).toFixed(2)
-                                : order?.coupon.type === CouponTypeEnum.percent
-                                ? (
-                                    (orderTotalBeforeDiscount / 100) *
-                                    order.coupon.value
-                                  ).toFixed(2)
-                                : "-"}
-                            </>
-                          )}
-                        </span>
-                      </li>
-                    )}
-                    <li className="flex items-center justify-between">
-                      <span>Verzendkosten (21% BTW inbegrepen)</span>
-                      <span>
-                        {Number(orderShippingAmount) > 0 && (
-                          <span className="mr-2 opacity-50">
-                            (BTW {currency_symbol}
-                            {shippingTaxAmount.toFixed(2)})
-                          </span>
-                        )}
-                        {currency_symbol}
-                        {orderShippingAmount.toFixed(2)}
-                      </span>
-                    </li>
-                    <li className="flex items-center justify-between font-semibold">
-                      <span>Totaal</span>
-                      <span>
-                        {currency_symbol}
-                        {Number(order?.amount).toFixed(2)}
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-                <hr className="my-4" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-3">
-                    <div className="font-semibold">Verzend informatie</div>
-                    <address className="grid gap-0.5 not-italic">
-                      <span>Huisnummer: {order?.shippingAddress.nr}</span>
-                      <span>Adres: {order?.shippingAddress.address}</span>
-                      <span>Stad: {order?.shippingAddress.city}</span>
-                      <span>Postcode: {order?.shippingAddress.zipCode}</span>
-                      <span>
-                        Toevoeging: {order?.shippingAddress.addition || "- - -"}
-                      </span>
-                    </address>
-                  </div>
-                  <div className="grid auto-rows-max gap-3">
-                    <div className="font-semibold">Facturatie gegevens</div>
-                    <div>Hetzelfde als verzendadres</div>
-                  </div>
-                </div>
-                <hr className="my-4" />
+                      )}
+                      {currency_symbol}
+                      {orderShippingAmount.toFixed(2)}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between font-semibold">
+                    <span>Totaal</span>
+                    <span>
+                      {currency_symbol}
+                      {Number(order?.amount).toFixed(2)}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <hr className="my-4" />
+              <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-3">
-                  <div className="font-semibold">Klant informatie</div>
-                  <dl className="grid gap-3">
-                    <div className="flex items-center justify-between">
-                      <dt>Klant</dt>
-                      <dd>
-                        {order?.shippingAddress.name}{" "}
-                        {order?.shippingAddress.surname}
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <dt>Email</dt>
-                      <dd>
-                        <a
-                          className="hover:underline"
-                          href={`mailto:${order?.user.email}`}
-                        >
-                          {order?.user.email}
-                        </a>
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <dt>Phone</dt>
-                      <dd>
-                        <a
-                          className="hover:underline"
-                          href={`tel:${order?.shippingAddress.mobile}`}
-                        >
-                          {order?.shippingAddress.mobile || "-"}
-                        </a>
-                      </dd>
-                    </div>
-                  </dl>
+                  <div className="font-semibold">Verzend informatie</div>
+                  <address className="grid gap-0.5 not-italic">
+                    <span>Huisnummer: {order?.shippingAddress.nr}</span>
+                    <span>Adres: {order?.shippingAddress.address}</span>
+                    <span>Stad: {order?.shippingAddress.city}</span>
+                    <span>Postcode: {order?.shippingAddress.zipCode}</span>
+                    <span>
+                      Toevoeging: {order?.shippingAddress.addition || "- - -"}
+                    </span>
+                  </address>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+                <div className="grid auto-rows-max gap-3">
+                  <div className="font-semibold">Facturatie gegevens</div>
+                  <div>Hetzelfde als verzendadres</div>
+                </div>
+              </div>
+              <hr className="my-4" />
+              <div className="grid gap-3">
+                <div className="font-semibold">Klant informatie</div>
+                <dl className="grid gap-3">
+                  <div className="flex items-center justify-between">
+                    <dt>Klant</dt>
+                    <dd>
+                      {order?.shippingAddress.name}{" "}
+                      {order?.shippingAddress.surname}
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <dt>Email</dt>
+                    <dd>
+                      <a
+                        className="hover:underline"
+                        href={`mailto:${order?.user.email}`}
+                      >
+                        {order?.user.email}
+                      </a>
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <dt>Phone</dt>
+                    <dd>
+                      <a
+                        className="hover:underline"
+                        href={`tel:${order?.shippingAddress.mobile}`}
+                      >
+                        {order?.shippingAddress.mobile || "-"}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </DialogContent>
     </Dialog>
   );

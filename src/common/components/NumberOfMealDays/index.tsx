@@ -20,7 +20,7 @@ const NumberOfMealDays = ({
               onValueChange(i + 1);
             }}
             className={cn(
-              "w-12 h-8 border-r cursor-pointer border-black __c_all last:border-r-0",
+              "w-9 lg:w-12 h-8 max-lg:text-sm border-r cursor-pointer border-black __c_all last:border-r-0",
               i + 1 === value && "bg-app-yellow",
             )}
           >

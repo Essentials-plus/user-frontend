@@ -37,8 +37,8 @@ const FormWrapper = ({
             </div>
           </div>
         </div>
-        <div className="mx-auto max-w-[calc(1000px+48px)] px-6">
-          <div className="relative isolate w-full overflow-hidden rounded-[50px] border-2 border-black bg-white px-9 pb-[56px] pt-5">
+        <div className="mx-auto max-w-[calc(1000px+48px)] px-5 lg:px-6">
+          <div className="relative isolate w-full overflow-hidden rounded-3xl border-2 border-black bg-white p-6 lg:rounded-[50px] lg:px-9 lg:py-10">
             {children}
             <div className="absolute right-0 top-0 z-[-1] translate-x-[30%] translate-y-[-30%]">
               {!isCornerImgHidden && (

@@ -1,11 +1,11 @@
 const ExpectResultsSection = () => {
   return (
-    <section className="mt-20">
+    <section className="mt-8 lg:mt-20">
       <div className="container">
-        <div className="w-full bg-app-yellow px-[120px] py-10 text-white">
+        <div className="w-full space-y-5 bg-app-yellow p-5 text-white lg:px-[120px] lg:py-10">
           <div>
-            <h2 className="__h2">Hoe Werkt Het?</h2>
-            <div className="__body_18 mt-5 space-y-4 [&>div>p:first-child]:font-semibold">
+            <h2 className="__h4 lg:__h2">Hoe Werkt Het?</h2>
+            <div className="__body_16 lg:__body_18 mt-5 space-y-4 [&>div>p:first-child]:font-semibold">
               <div>
                 <p>Bereken Je Behoefte:</p>
                 <p>
@@ -31,8 +31,8 @@ const ExpectResultsSection = () => {
           </div>
 
           <div>
-            <h2 className="__h2">Wat Bieden Wij?</h2>
-            <div className="__body_18 mt-5 space-y-4 [&>div>p:first-child]:font-semibold">
+            <h2 className="__h4 lg:__h2">Wat Bieden Wij?</h2>
+            <div className="__body_16 lg:__body_18 mt-5 space-y-4 [&>div>p:first-child]:font-semibold">
               <div>
                 <p>Personalisatie:</p>
                 <p>

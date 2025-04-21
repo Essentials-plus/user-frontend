@@ -33,7 +33,7 @@ const NumberOfMealsPerDay = ({
             key={item.value}
             onClick={() => onValueChange(item.value)}
             className={cn(
-              "min-w-12 px-6 h-8 border-r last:border-r-0 cursor-pointer border-black __c_all",
+              "min-w-9 lg:min-w-12 px-3 lg:px-6 h-8 max-lg:text-sm border-r last:border-r-0 cursor-pointer border-black __c_all",
               value === item.value && "bg-app-yellow",
             )}
           >

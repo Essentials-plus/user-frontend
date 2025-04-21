@@ -17,13 +17,13 @@ const ProductsByCategorySection = () => {
   );
 
   return (
-    <section className="my-20">
+    <section className="my-10 lg:my-20">
       <div className="container">
-        <div className="mt-16 space-y-20">
+        <div className="space-y-20">
           <section className="scroll-mt-40">
             <div>
               <div className="flex items-center gap-4">
-                <h2 className="__h2 shrink-0 capitalize text-app-black">
+                <h2 className="__h4 lg:__h2 shrink-0 capitalize text-app-black">
                   Bestsellers
                 </h2>
                 <div className="h-px grow bg-black" />
@@ -48,7 +48,7 @@ const ProductsByCategorySection = () => {
               </div>
             ) : (
               <div>
-                <div className="mb-5 mt-10 grid grid-cols-4 gap-8">
+                <div className="my-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-4 lg:gap-8">
                   {bestSelletProductsQuery.query.data?.data.map((product) => (
                     <ProductCard key={product.id} data={product} />
                   ))}

@@ -38,17 +38,21 @@ const MealsForPublicUsers = ({
 
   return (
     <>
-      <div className="relative flex min-h-[calc(70vh)] max-w-[100vw] items-center overflow-x-hidden">
+      <div className="relative lg:flex min-h-[calc(70vh)] max-w-[100vw] items-center overflow-x-hidden">
         <div className="container">
-          <div className="max-w-[659px]">
-            <h1 className="__h1 uppercase">Essentials Menu</h1>
-            <p className="__body_25 mb-10 mt-5 uppercase text-black">
+          <div className="max-w-[659px] max-lg:pt-20">
+            <h1 className="max-lg:text-4xl font-semibold lg:__h1 uppercase">
+              Essentials Menu
+            </h1>
+            <p className="__body_16 lg:__body_25 mt-3 mb-6 lg:mb-10 lg:mt-5 uppercase text-black">
               Wekelijks varierende recepten. <br />
               Simpel thuis bezorgt!
             </p>
-            <p className="__h2 mt-14 uppercase">WEEKmenu Van</p>
+            <p className="text-xl font-semibold lg:__h2 mt-6 lg:mt-14 uppercase">
+              WEEKmenu Van
+            </p>
 
-            <div className="mt-5 max-w-[500px]">
+            <div className="mt-3 lg:mt-5 max-w-[500px]">
               <WeekNumbersSlider
                 onWeekChange={setActiveWeekNumber}
                 weekNumber={activeWeekNumber}
@@ -57,8 +61,10 @@ const MealsForPublicUsers = ({
             </div>
 
             <div className="mt-9">
-              <h3 className="__h3 font-bold uppercase">categorieën</h3>
-              <div className="mt-3 flex items-center gap-x-2">
+              <h3 className="text-xl lg:__h3 max-lg:font-semibold font-bold uppercase">
+                categorieën
+              </h3>
+              <div className="mt-3 flex items-center flex-wrap gap-2">
                 {mealTypeOptions.map((option) => (
                   <button
                     onClick={() =>
@@ -68,7 +74,7 @@ const MealsForPublicUsers = ({
                     }
                     key={option.value}
                     className={cn(
-                      "h-9 border-2 text-base border-app-black rounded-lg px-4 __c_all",
+                      "h-8 lg:h-9 border-2 text-sm lg:text-base border-app-black rounded-lg px-3 lg:px-4 __c_all",
                       activeMealType === option.value &&
                         "text-white bg-app-darker-green border-app-darker-green",
                     )}
@@ -81,7 +87,7 @@ const MealsForPublicUsers = ({
           </div>
         </div>
 
-        <div className="absolute right-0 top-0 h-full w-[45%] overflow-hidden bg-app-darker-green">
+        <div className="absolute right-0 top-0 h-full w-[45%] overflow-hidden bg-app-darker-green max-lg:hidden">
           <Image
             src={"/imgs/women-cooking.jpg"}
             alt="women-cooking"
@@ -92,8 +98,8 @@ const MealsForPublicUsers = ({
         </div>
       </div>
 
-      <section className="my-[113px]">
-        <div className="container grid grid-cols-4 gap-x-7 gap-y-10 font-montserrat">
+      <section className="my-10 lg:my-[113px]">
+        <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-7 lg:gap-x-7 lg:gap-y-10 font-montserrat">
           {meals.map((meal, i) => (
             <div key={meal.id} ref={getRef(i, meals)}>
               <Image
@@ -103,9 +109,11 @@ const MealsForPublicUsers = ({
                 height={263}
                 className="h-[210px] bg-app-grey object-cover"
               />
-              <h4 className="__h4 mt-4 line-clamp-2">{meal.mealName}</h4>
+              <h4 className="__h4 mt-3 lg:mt-4 line-clamp-2">
+                {meal.mealName}
+              </h4>
               <p className="__body_16 text-app-text">{meal.shortDescription}</p>
-              <div className="mt-5 flex items-center gap-x-2.5">
+              <div className="mt-3 lg:mt-5 flex items-center gap-x-2.5">
                 <div className="flex items-center gap-x-2">
                   <ClockIcon />
                   <p className="text-sm font-medium">{meal.cookingTime}</p>

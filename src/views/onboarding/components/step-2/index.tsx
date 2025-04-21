@@ -166,8 +166,8 @@ const Step2 = ({ user }: Props) => {
 
   return (
     <div>
-      <h3 className="__h3 font-bold">Uw maaltijd wensen: </h3>
-      <p className="mt-2.5 text-base font-bold text-app-text">
+      <h3 className="__h3 font-bold max-lg:text-lg">Uw maaltijd wensen: </h3>
+      <p className="mt-1.5 text-base font-medium text-black lg:mt-2.5 lg:font-bold lg:text-app-text">
         Zodra u bent aangemeld, heeft u de mogelijkheid om uw gezin toe te
         voegen
       </p>
@@ -186,9 +186,9 @@ const Step2 = ({ user }: Props) => {
         />
       </div>
 
-      <hr className="my-8 w-full border-t border-black" />
+      <hr className="my-6 w-full border-t border-black/20 lg:my-8" />
 
-      <div className="grid grid-cols-[auto,280px] gap-x-5">
+      <div className="grid grid-cols-1 gap-x-5 gap-y-6 md:grid-cols-[auto,280px]">
         <MealPlansBrakdown
           mealsPerDay={mealsPerDay}
           totalRequiredCalorie={totalRequiredCalorie || 0}
@@ -196,7 +196,7 @@ const Step2 = ({ user }: Props) => {
 
         <div className="flex items-end">
           <div>
-            <div className="rounded-3xl border border-black px-6 py-5">
+            <div className="rounded-xl border border-black p-4 lg:rounded-3xl lg:px-6 lg:py-5">
               <p className="text-base font-bold">Je caloriebehoefte</p>
 
               <div className="mt-2">

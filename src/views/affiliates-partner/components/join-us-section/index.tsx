@@ -4,9 +4,9 @@ import Image from "next/image";
 
 const JoinUsSection = () => {
   return (
-    <section className="my-[112px]">
+    <section className="mb-8 mt-14 lg:my-[112px]">
       <div className="container">
-        <div className="grid grid-cols-[550px,auto] items-center gap-x-20">
+        <div className="flex flex-col gap-x-[100px] gap-y-5 lg:grid lg:grid-cols-[550px,auto] lg:items-center">
           <Image
             src={"/imgs/affiliates-partner/section-2-img.jpg"}
             alt="section-2-img"
@@ -16,8 +16,8 @@ const JoinUsSection = () => {
           />
 
           <div>
-            <h2 className="__h2">Hoe Werkt Het?</h2>
-            <div className="__body_18 mt-4">
+            <h2 className="__h4 lg:__h2">Hoe Werkt Het?</h2>
+            <div className="__body_16 lg:__body_18 mt-2 lg:mt-4">
               <ul className="space-y-2.5 pl-10 [&>li]:list-item [&>li]:list-disc">
                 <li>
                   Meld Je Aan: Vul eenvoudig het aanmeldformulier in en maak een
@@ -34,8 +34,8 @@ const JoinUsSection = () => {
               </ul>
             </div>
 
-            <h3 className="__h2 mt-6">Sluit Je Vandaag Nog Aan!</h3>
-            <div className="__body_18 mt-4">
+            <h3 className="__h4 lg:__h2 mt-6">Sluit Je Vandaag Nog Aan!</h3>
+            <div className="__body_16 lg:__body_18 mt-2 lg:mt-4">
               <p>
                 Samen maken we gezonde keuzes eenvoudiger en toegankelijker.
                 Klik op de knop hieronder en meld je aan om vandaag nog te

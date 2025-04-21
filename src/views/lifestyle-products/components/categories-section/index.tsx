@@ -33,15 +33,34 @@ const CategoriesSection = ({
     }),
   );
   return (
-    <section {...section} className={cn("mt-20", section?.className)}>
+    <section {...section} className={cn("mt-12 lg:mt-20", section?.className)}>
       <div className="mx-auto max-w-[1920px]">
         {!disableTitle && (
-          <h2 className="text-center text-2xl font-extrabold uppercase">
+          <h2 className="text-center text-xl font-extrabold uppercase lg:text-2xl">
             Ontdek onze categorieën
           </h2>
         )}
-        <div className="mt-5">
-          <Swiper slidesPerView={6.2} spaceBetween={0}>
+        <div className="lg:mt-5">
+          <Swiper
+            breakpoints={{
+              0: {
+                slidesPerView: 2.2,
+              },
+              640: {
+                slidesPerView: 3.2,
+              },
+              1024: {
+                slidesPerView: 4.2,
+              },
+              1280: {
+                slidesPerView: 5.2,
+              },
+              1536: {
+                slidesPerView: 6.2,
+              },
+            }}
+            spaceBetween={0}
+          >
             {categoriesQuery.data?.data.map((category) => (
               <SwiperSlide
                 key={category.id}

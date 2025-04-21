@@ -4,30 +4,34 @@ import TextArea from "@/common/components/ui/textarea";
 
 const GiftVoucherSection = () => {
   return (
-    <section className="my-[100px]">
+    <section className="my-8 lg:my-[100px]">
       <div className="container">
-        <div className="grid grid-cols-[420px,auto] gap-x-20">
+        <div className="grid grid-cols-1 gap-x-20 gap-y-5 lg:grid-cols-[420px,auto]">
           <div className="h-full">
-            <h3 className="text-3xl font-semibold">Bestel een cadeaubon</h3>
-            <div className="__c_all mt-8 h-[260px] bg-[#D9D9D9] px-16">
+            <h3 className="text-xl font-semibold lg:text-3xl">
+              Bestel een cadeaubon
+            </h3>
+            <div className="__c_all mt-4 h-[260px] bg-[#D9D9D9] px-16 lg:mt-8">
               <h4 className="__h4">Cadeaubon 1dag maaltijd €25,-</h4>
             </div>
           </div>
 
           <div>
             <h4 className="__h4">Wie is de ontvanger?</h4>
-            <div className="my-5 grid grid-cols-3 gap-x-10 gap-y-6">
-              <Input bordered label="Naam:" />
-              <Input bordered label="Email:" />
-              <Input bordered label="Verzenddatum" />
-              <div className="col-span-3">
+            <div className="my-4 grid grid-cols-1 gap-y-6 lg:my-5">
+              <div className="grid grid-cols-1 gap-x-10 md:grid-cols-2 lg:grid-cols-3">
+                <Input bordered label="Naam:" />
+                <Input bordered label="Email:" />
+                <Input bordered label="Verzenddatum" />
+              </div>
+              <div>
                 <TextArea
                   bordered
                   label="Voeg een persoonlijke bericht toe:"
                   rows={6}
                 />
               </div>
-              <p className="col-span-3">
+              <p>
                 Één cadeaubon t.w.v. €25,- bevat een dagmaaltijd van 6
                 maaltijdmomenten voor één persoon.
                 <br />

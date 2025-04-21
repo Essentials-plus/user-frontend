@@ -1,6 +1,6 @@
 const TermsSection = () => {
   return (
-    <section className="my-[100px]">
+    <section className="my-8 lg:my-[100px]">
       <div className="container">
         <div className="__body_16">
           <p>

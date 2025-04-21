@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 const DescriptionSection = () => {
   return (
-    <section className="mb-[105px] mt-[65px]">
+    <section className="my-8 lg:mb-[105px] lg:mt-[65px]">
       <div className="container">
         <div className="mx-auto max-w-[680px]">
           <div className="space-y-6">

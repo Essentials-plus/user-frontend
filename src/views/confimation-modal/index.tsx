@@ -42,7 +42,7 @@ function ConfirmationModal({
             <button
               type="button"
               className={cn(
-                "text-primary border border-primary p-[7px_40.23px]",
+                "text-primary border border-primary max-sm:w-full py-2 sm:px-10",
                 btnStyle,
               )}
               onClick={() => {
@@ -56,7 +56,7 @@ function ConfirmationModal({
               type="button"
               onClick={() => onConfirm?.(() => setIsOpenDialog(false))}
               className={cn(
-                "bg-app-darker-green p-[8px_16px] min-w-[120px]  text-white",
+                "bg-app-darker-green py-2 px-4 max-sm:w-full sm:min-w-[120px]  text-white",
                 btnStyle,
               )}
             >

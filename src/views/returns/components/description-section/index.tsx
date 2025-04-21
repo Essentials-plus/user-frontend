@@ -2,7 +2,7 @@ import { essentialsPlusEmail } from "@/constants";
 
 const DescriptionSection = () => {
   return (
-    <section className="my-[101px]">
+    <section className="my-8 lg:my-[101px]">
       <div className="container">
         <div className="__body_16 mx-auto max-w-[1010px]">
           <p>

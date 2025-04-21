@@ -80,12 +80,12 @@ const JouGevenesUpdateModal = ({ data, onClose }: Props) => {
   };
   return (
     <>
-      <div className=" w-full ">
+      <div className="w-full">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 gap-x-5"
         >
-          <div className="mt-4 grid grid-cols-4 gap-x-5 gap-y-6">
+          <div className="mt-4 grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-6">
             <Input
               label="Leeftijd:"
               bordered

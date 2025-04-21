@@ -96,7 +96,7 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
             
             <UpdateProfile name="profile" control={control} />
           </div> */}
-          <div className="mt-4 grid grid-cols-4 gap-x-5 gap-y-6">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2 lg:mt-4 lg:grid-cols-4 lg:gap-y-6">
             <Input
               label="Voornaam:"
               bordered

@@ -44,7 +44,7 @@ function PaymentSuccessModal({
             <button
               type="button"
               className={cn(
-                "text-primary border border-primary p-[7px_40.23px]",
+                "text-primary max-sm:w-full border border-primary py-[7px] sm:px-10",
                 btnStyle,
               )}
               onClick={() => {
@@ -62,7 +62,7 @@ function PaymentSuccessModal({
                 router.push(routes.weeklyMenu);
               }}
               className={cn(
-                "bg-app-darker-green p-[8px_16px] min-w-[120px]  text-white",
+                "bg-app-darker-green max-sm:w-full py-[7px] sm:px-[26px] lg:min-w-[120px]  text-white",
                 btnStyle,
               )}
             >

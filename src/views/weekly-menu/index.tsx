@@ -5,6 +5,11 @@ import {
   getWeeklyMealQueryOptions,
 } from "@/api-clients/user-api-client/queries";
 import MealCard from "@/common/components/meal-card";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/common/components/ui/alert";
 import Button from "@/common/components/ui/button";
 import Spinner from "@/common/components/ui/spinner";
 import useClientRefetch from "@/hooks/useClientRefetch";
@@ -20,6 +25,7 @@ import { User } from "@/types/api-responses/users";
 import HeroSection from "@/views/weekly-menu/components/hero-section";
 import MealsForPublicUsers from "@/views/weekly-menu/components/meals-for-public-users";
 import { useQuery } from "@tanstack/react-query";
+import { Calendar, Clock } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { mealPlans } from "../onboarding/components/step-2";
@@ -202,6 +208,13 @@ function WeeklyMenuComponent({
     return selectedMeals.every((e) => e.meals.length);
   }, [selectedMeals]);
 
+  console.log({
+    isButtonAvailable,
+    isOrder,
+    confirmOrderWeek,
+    weekNumber,
+  });
+
   return (
     <>
       <HeroSection
@@ -211,7 +224,7 @@ function WeeklyMenuComponent({
         totalNeedOfData={totalNeedOfData}
         lockdownDate={lockdownDate}
       />
-      <section className="my-[100px]">
+      <section className="my-7 lg:my-[100px]">
         {orderHistory ? (
           <MealOrderHistory data={orderHistory} />
         ) : (
@@ -221,7 +234,7 @@ function WeeklyMenuComponent({
               onDayClick={(d) => setSelectedDay(d)}
               totalDays={totalDays}
             />
-            <div className="mt-20 grid grid-cols-2 gap-6">
+            <div className="mt-5 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
               {currentDayMeals && currentDayMeals.length > 0 ? (
                 currentDayMeals.map((v) => (
                   <MealCard
@@ -232,25 +245,23 @@ function WeeklyMenuComponent({
                   />
                 ))
               ) : (
-                <div>Er is geen maaltijd voor de dag</div>
+                <div className="col-span-2 text-center py-5 text-red-600">
+                  Er is geen maaltijd voor de dag
+                </div>
               )}
             </div>
             {isButtonAvailable && (
-              <div className="mt-12 flex justify-end">
+              <div className="mt-8 lg:mt-12 flex justify-end">
                 {isOrder ? (
                   <Button onClick={onOrderConfirm} loading={loading}>
                     Bezorg mijn box
                   </Button>
                 ) : (
                   <>
-                    {weekNumber !== confirmOrderWeek ? (
-                      <div>
-                        Deze week kunt u niet bestellen, selecteer week{" "}
-                        {confirmOrderWeek}
-                      </div>
-                    ) : (
-                      <div>Wacht alstublieft tot volgende week</div>
-                    )}
+                    <OrderNotification
+                      confirmOrderWeek={confirmOrderWeek}
+                      weekNumber={weekNumber}
+                    />
                   </>
                 )}
               </div>
@@ -259,6 +270,41 @@ function WeeklyMenuComponent({
         )}
       </section>
     </>
+  );
+}
+
+interface OrderNotificationProps {
+  weekNumber: number;
+  confirmOrderWeek: number;
+}
+function OrderNotification({
+  weekNumber,
+  confirmOrderWeek,
+}: OrderNotificationProps) {
+  if (weekNumber !== confirmOrderWeek) {
+    return (
+      <Alert className="border-yellow-200 bg-yellow-50">
+        <Calendar className="h-5 w-5 text-yellow-600" />
+        <AlertTitle className="text-yellow-700">
+          Bestelling niet mogelijk
+        </AlertTitle>
+        <AlertDescription>
+          Deze week kunt u niet bestellen. Selecteer week{" "}
+          <span className="font-semibold">{confirmOrderWeek}</span> om uw
+          bestelling te plaatsen.
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  return (
+    <Alert variant="destructive" className="border-red-200 bg-red-50">
+      <Clock className="h-5 w-5 text-red-600" />
+      <AlertTitle className="text-red-700">Even geduld</AlertTitle>
+      <AlertDescription>
+        Wacht alstublieft tot volgende week om uw bestelling te plaatsen.
+      </AlertDescription>
+    </Alert>
   );
 }
 
@@ -296,7 +342,7 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         onDayClick={(d) => setSelectedDay(d)}
         totalDays={totalDays}
       />
-      <div className="mt-20 grid grid-cols-2 gap-6">
+      <div className="mt-5 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
         {currentDayMeals && currentDayMeals.length > 0 ? (
           sortMealsByMealType(currentDayMeals).map((v, i) => (
             <MealCard key={v.id + i} meal={v} />
@@ -304,6 +350,20 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         ) : (
           <div>Er is geen maaltijd voor de dag</div>
         )}
+      </div>
+
+      <div className="mt-8 lg:mt-12 flex justify-end">
+        <Alert className="border-blue-200 bg-blue-50">
+          <Calendar className="h-5 w-5 text-blue-600" />
+          <AlertTitle className="text-blue-700">
+            U heeft al een bestelling geplaatst voor week{" "}
+            <span className="font-semibold">{data.week}</span>
+          </AlertTitle>
+          <AlertDescription>
+            U kunt uw bestelling niet meer wijzigen. Neem contact op met de
+            klantenservice als u hulp nodig heeft.
+          </AlertDescription>
+        </Alert>
       </div>
     </div>
   );

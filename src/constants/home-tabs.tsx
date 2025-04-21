@@ -8,7 +8,7 @@ export const homeTabs = [
     tabKey: "home-tab-1",
     contentKey: "breakfast",
     trigger: {
-      icon: <BreakfastIcon className="h-[55px]" />,
+      icon: <BreakfastIcon className="h-9 lg:h-[55px]" />,
       title: "Ontbijt",
     },
     content: {
@@ -48,7 +48,7 @@ export const homeTabs = [
     tabKey: "home-tab-2",
     contentKey: "lunch",
     trigger: {
-      icon: <LunchIcon className="h-[55px]" />,
+      icon: <LunchIcon className="h-9 lg:h-[55px]" />,
       title: "Lunch",
     },
     content: {
@@ -74,7 +74,7 @@ export const homeTabs = [
     tabKey: "home-tab-3",
     contentKey: "dinner",
     trigger: {
-      icon: <DinnerIcon className="h-[55px]" />,
+      icon: <DinnerIcon className="h-9 lg:h-[55px]" />,
       title: "dinner",
     },
     content: {
@@ -101,7 +101,7 @@ export const homeTabs = [
     contentKey: "snack",
 
     trigger: {
-      icon: <SnackIcon className="h-[55px]" />,
+      icon: <SnackIcon className="h-9 lg:h-[55px]" />,
       title: "snack",
     },
     content: {

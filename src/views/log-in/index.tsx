@@ -137,17 +137,15 @@ const LogIn = () => {
   };
 
   return (
-    <section className="mb-[168px] mt-[99px]">
+    <section className="my-8 lg:mb-[168px] lg:mt-[99px]">
       <div className="container">
         {hasGuestLogin && (
-          <h1 className="mb-5 flex items-center gap-2 text-[34px]/[48px] font-extrabold uppercase">
+          <h1 className="mb-5 flex items-center gap-2 text-2xl font-extrabold uppercase lg:text-[34px]/[48px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={32}
-              height={32}
               viewBox="0 0 32 32"
               fill="none"
-              className="shrink-0"
+              className="w-7 shrink-0 lg:w-8"
             >
               <path
                 fillRule="evenodd"
@@ -172,108 +170,118 @@ const LogIn = () => {
         )}
         <div
           className={cn(
-            "grid grid-cols-[520px,auto] gap-x-[120px]",
-            hasGuestLogin && "grid-cols-2 gap-16",
+            "grid grid-cols-1 lg:grid-cols-[520px,auto] gap-x-[120px] gap-8",
+            hasGuestLogin && "lg:grid-cols-2 gap-x-16",
           )}
         >
-          <div
-            className={cn(
-              "py-[56px] px-20 rounded-r-[80px] bg-app-yellow",
-              hasGuestLogin &&
-                "rounded bg-white border border-[#d8d8d8] px-10 py-7",
-            )}
-          >
-            <h2
+          <div>
+            <div
               className={cn(
-                hasGuestLogin && "text-3xl",
-                "text-left uppercase text-2xl font-extrabold",
+                "lg:py-[56px] p-6 rounded-3xl lg:px-20 lg:rounded-r-[80px] bg-app-yellow",
+                hasGuestLogin &&
+                  "!rounded bg-white border border-[#d8d8d8] lg:px-10 lg:py-7",
               )}
             >
-              Inloggen
-            </h2>
-            <div className="mt-6">
-              <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-                <Input
-                  label="E-mailadres"
-                  className="bg-[#F1F1F1]"
-                  {...register("email")}
-                  error={errors.email?.message?.toString()}
-                />
-                <div>
-                  <PasswordInput
-                    {...register("password")}
-                    error={errors.password?.message?.toString()}
-                    label="Wachtwoord"
+              <h2
+                className={cn(
+                  hasGuestLogin && "text-xl lg:text-3xl",
+                  "text-left uppercase text-xl lg:text-2xl font-extrabold",
+                )}
+              >
+                Inloggen
+              </h2>
+              <div className="mt-5 lg:mt-6">
+                <form
+                  className="space-y-4 lg:space-y-5"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <Input
+                    label="E-mailadres"
                     className="bg-[#F1F1F1]"
+                    {...register("email")}
+                    error={errors.email?.message?.toString()}
                   />
-                </div>
-
-                <div className="flex items-center justify-between">
                   <div>
-                    <div className="flex w-fit select-none items-center gap-x-1.5">
-                      <input
-                        type="checkbox"
-                        id="__forgotPass"
-                        className="size-4 cursor-pointer accent-app-dark-green"
-                        checked={remember}
-                        onChange={() => {
-                          setRemember((s) => !s);
-                        }}
-                      />
-                      <label htmlFor="__forgotPass" className="cursor-pointer">
-                        Ingelogd blijven
-                      </label>
+                    <PasswordInput
+                      {...register("password")}
+                      error={errors.password?.message?.toString()}
+                      label="Wachtwoord"
+                      className="bg-[#F1F1F1]"
+                    />
+                  </div>
+
+                  <div className="flex gap-x-5 gap-y-3 max-md:!mt-1.5 max-md:flex-col-reverse md:items-center md:justify-between">
+                    <div>
+                      <div className="flex w-fit select-none items-center gap-x-1.5">
+                        <input
+                          type="checkbox"
+                          id="__forgotPass"
+                          className="size-4 cursor-pointer accent-app-dark-green"
+                          checked={remember}
+                          onChange={() => {
+                            setRemember((s) => !s);
+                          }}
+                        />
+                        <label
+                          htmlFor="__forgotPass"
+                          className="cursor-pointer"
+                        >
+                          Ingelogd blijven
+                        </label>
+                      </div>
+                    </div>
+                    <div className="max-md:flex max-md:justify-end">
+                      <Link
+                        href={routes.lostPassword}
+                        className="text-sm text-app-dark-green"
+                      >
+                        Wachtwoord vergeten?
+                      </Link>
                     </div>
                   </div>
-                  <Link
-                    href={routes.lostPassword}
-                    className="text-sm text-app-dark-green"
-                  >
-                    Wachtwoord vergeten?
-                  </Link>
-                </div>
 
-                <Button
-                  loading={isSubmitting}
-                  type="submit"
-                  className="w-full text-base"
-                >
-                  Inloggen
-                </Button>
-                <div className="flex items-center gap-x-3">
-                  <div className="h-px w-full bg-black"></div>
-                  <span>of</span>
-                  <div className="h-px w-full bg-black"></div>
-                </div>
-              </form>
-              <div className="mt-6">
-                <div className="space-y-5">
-                  <button className="__c_all relative h-11 w-full rounded-lg bg-[#1A73E8] text-center">
-                    <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
-                      <FcGoogle />
+                  <Button
+                    loading={isSubmitting}
+                    type="submit"
+                    className="w-full text-base"
+                  >
+                    Inloggen
+                  </Button>
+                  <div className="flex items-center gap-x-3">
+                    <div className="h-px w-full bg-black"></div>
+                    <span>of</span>
+                    <div className="h-px w-full bg-black"></div>
+                  </div>
+                </form>
+                <div className="mt-6">
+                  <div className="space-y-3 lg:space-y-5">
+                    <button className="__c_all relative h-11 w-full rounded-lg bg-[#1A73E8] text-center">
+                      <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
+                        <FcGoogle />
+                      </div>
+                      <p className="text-white">Inloggen met Google</p>
+                    </button>
+                    <button className="__c_all relative h-11 w-full rounded-lg bg-black text-center">
+                      <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
+                        <FaApple />
+                      </div>
+                      <p className="text-white">Inloggen met Apple</p>
+                    </button>
+                    <button className="__c_all relative h-11 w-full rounded-lg bg-[#1A73E8] text-center">
+                      <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
+                        <FaFacebookF />
+                      </div>
+                      <p className="text-white">Inloggen met Facebook</p>
+                    </button>
+                    <div className="flex items-center justify-between max-lg:!mt-5">
+                      <p>Nog niet geregistreerd?</p>
+                      <Link
+                        href={routes.register}
+                        className="text-sm text-app-dark-green"
+                      >
+                        Registreren
+                      </Link>
                     </div>
-                    <p className="text-white">Inloggen met Google</p>
-                  </button>
-                  <button className="__c_all relative h-11 w-full rounded-lg bg-black text-center">
-                    <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
-                      <FaApple />
-                    </div>
-                    <p className="text-white">Inloggen met Apple</p>
-                  </button>
-                  <button className="__c_all relative h-11 w-full rounded-lg bg-[#1A73E8] text-center">
-                    <div className="__c_all absolute left-1 top-1/2 aspect-square h-4/5 -translate-y-1/2 rounded-l-md bg-white text-xl">
-                      <FaFacebookF />
-                    </div>
-                    <p className="text-white">Inloggen met Facebook</p>
-                  </button>
-                  <div className="flex items-center justify-between">
-                    <p>Nog niet geregistreerd?</p>
-                    <Link
-                      href={routes.register}
-                      className="text-sm text-app-dark-green"
-                    >
-                      Registreren
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -286,6 +294,7 @@ const LogIn = () => {
               src={"/imgs/log-in-page-img.png"}
               alt="log-in-page-img"
               width={1022}
+              className="max-lg:hidden"
               height={1265}
             />
           )}
@@ -359,13 +368,13 @@ const GuestCheckoutLoginForm = ({
         className={cn(
           "py-[56px] px-20 rounded-r-[80px] bg-app-yellow",
           hasGuestLogin &&
-            "rounded bg-white border border-[#d8d8d8] px-10 py-7",
+            "rounded bg-white border border-[#d8d8d8] p-6 lg:px-10 lg:py-7",
         )}
       >
         <h2
           className={cn(
-            hasGuestLogin && "text-3xl",
-            "text-left uppercase text-2xl font-extrabold",
+            hasGuestLogin && "text-xl lg:text-3xl",
+            "text-left uppercase text-xl lg:text-2xl font-extrabold",
           )}
         >
           {isGuestUserIdEmail
@@ -374,8 +383,8 @@ const GuestCheckoutLoginForm = ({
         </h2>
         <div className="mt-6">
           {isGuestUserIdEmail ? (
-            <div className="flex items-center gap-3 rounded-lg border border-app-black/15 bg-app-black/5 p-3">
-              <FaRegUserCircle className="size-6" />
+            <div className="sm:flex grid grid-cols-[16px,auto] max-sm:gap-x-2 items-center gap-3 rounded-lg border border-app-black/15 bg-app-black/5 p-3">
+              <FaRegUserCircle className="size-4 lg:size-6 shrink-0" />
               <div className="text-app-black">{guestUserId}</div>
 
               <button
@@ -396,7 +405,7 @@ const GuestCheckoutLoginForm = ({
                     refetch();
                   }
                 }}
-                className="ml-auto rounded-md bg-app-danger px-3 py-1.5 text-sm font-semibold text-white duration-200 hover:opacity-80"
+                className="sm:ml-auto max-sm:col-span-2 rounded-md bg-app-danger px-3 py-1.5 text-sm font-semibold text-white duration-200 hover:opacity-80"
               >
                 Uitloggen
               </button>

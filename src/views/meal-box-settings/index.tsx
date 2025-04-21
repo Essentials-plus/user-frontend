@@ -6,12 +6,12 @@ import Spinner from "@/common/components/ui/spinner";
 import routes from "@/config/routes";
 import { useUserSession } from "@/hooks/useUserSession";
 import { getClientErrorMsg } from "@/lib/utils";
+import JouGegevens from "@/views/meal-box-settings/JouGegevens";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "sonner";
 import ConfirmationModal from "../confimation-modal";
-import JouGegevens from "./JouGegevens";
 
 const MealBoxSettings = () => {
   const { data, isLoading, refetch } = useQuery(getUserQueryOptions());
@@ -115,15 +115,17 @@ const MealBoxSettings = () => {
           Bezig met laden...
         </div>
       ) : (
-        <div className="rounded-3xl border-2 border-app-dark-grey bg-app-grey px-10 py-8">
-          <h2 className="text-4xl font-semibold text-app-black">
+        <div className="rounded-xl border border-app-dark-grey bg-app-grey p-5 lg:rounded-3xl lg:border-2 lg:px-10 lg:py-8">
+          <h2 className="text-lg font-semibold text-app-black lg:text-4xl">
             {planStatus === "active" && "Actieve"}
             {planStatus === "canceled" && "Annuleer"} Maaltijdboxen
           </h2>
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h4 className="text-xl font-bold">Essentials+ Maaltijdbox</h4>
-              <p className="my-1.5 text-app-black">
+              <h4 className="text-base font-bold lg:text-xl">
+                Essentials+ Maaltijdbox
+              </h4>
+              <p className="my-1.5 text-app-black max-lg:text-sm">
                 {data?.data?.address}, {data?.data?.city},{" "}
                 {data?.data?.zipCode?.zipCode}
               </p>
@@ -133,7 +135,9 @@ const MealBoxSettings = () => {
             </div> */}
             </div>
             {u?.access == "product" ? (
-              <Button onClick={handleMealOrder}>Maaltijd bestellen</Button>
+              <Button className="max-md:text-sm" onClick={handleMealOrder}>
+                Maaltijd bestellen
+              </Button>
             ) : (
               <>
                 {planStatus == "active" ? (
@@ -145,7 +149,9 @@ const MealBoxSettings = () => {
                       loading={loading}
                       // loading={true}
                     >
-                      <Button>Annuleer of pauzeer mijn maaltijdbox</Button>
+                      <Button className="max-lg:px-4 max-md:text-sm">
+                        Annuleer of pauzeer mijn maaltijdbox
+                      </Button>
                     </ConfirmationModal>
 
                     {/* <Button

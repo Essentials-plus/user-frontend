@@ -3,9 +3,9 @@ import FaqDynamicDivision from "@/views/faq/components/faq-dynamic-division";
 
 const FaqSection = () => {
   return (
-    <section className="my-[101px]">
+    <section className="my-8 lg:my-[101px]">
       <div className="container">
-        <div className="mx-auto max-w-[1000px] space-y-[100px]">
+        <div className="mx-auto max-w-[1000px] space-y-12 lg:space-y-[100px]">
           <FaqDynamicDivision
             title="E+ maaltijdplannen"
             faqs={[

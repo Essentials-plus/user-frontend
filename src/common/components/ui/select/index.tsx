@@ -77,7 +77,7 @@ export const FilterSearchSelect = forwardRef<
           ref={ref}
           {...props}
           className={cn(
-            "h-[46px] placeholder:text-sm placeholder:font-bold truncate placeholder:opacity-50 text-sm font-bold outline-none w-full border-[3px] border-app-darker-green pl-4 pr-[42px] rounded-[15px] text-[#6B6B6B]",
+            "h-[46px] placeholder:text-sm placeholder:font-bold truncate placeholder:opacity-50 text-sm font-bold outline-none w-full border-[1.5px] lg:border-[3px] border-app-darker-green pl-4 pr-[42px] rounded-[15px] text-[#6B6B6B]",
             props.className,
           )}
         >
@@ -111,7 +111,7 @@ export const FilterInputSelect = forwardRef<
           ref={ref}
           {...props}
           className={cn(
-            "h-[46px] placeholder:text-sm truncate placeholder:font-bold placeholder:opacity-50 text-sm font-bold outline-none w-full border-[3px] border-app-darker-green pl-4 pr-[42px] rounded-[15px] text-[#6B6B6B]",
+            "h-[46px] placeholder:text-sm truncate placeholder:font-bold placeholder:opacity-50 text-sm font-bold outline-none w-full border-[1.5px] lg:border-[3px] border-app-darker-green pl-4 pr-[42px] rounded-[15px] text-[#6B6B6B]",
             props.className,
           )}
         />

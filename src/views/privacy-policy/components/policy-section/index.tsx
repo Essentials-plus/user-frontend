@@ -1,8 +1,8 @@
 const PolicySection = () => {
   return (
-    <section className="my-[100px]">
+    <section className="my-8 lg:my-[100px]">
       <div className="mx-auto max-w-[calc(1010px+48px)] px-6">
-        <div className="__body_18">
+        <div className="__body_16 lg:__body_18">
           In deze privacyverklaring vind je onze gegevens, lees je wat
           persoonsgegevens zijn, wat onder verwerking van persoonsgegevens wordt
           verstaan, voor welke doeleinden wij je persoonsgegevens verwerken, wat

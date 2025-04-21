@@ -12,20 +12,34 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/common/components/ui/breadcrumb";
+import Button from "@/common/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/common/components/ui/sheet";
 import Skeleton from "@/common/components/ui/skeleton";
 import routes from "@/config/routes";
-import { getApiErrorMessage } from "@/lib/utils";
+import { cn, getApiErrorMessage } from "@/lib/utils";
 import DataTablePagination from "@/views/data-table-pagination";
 import CategoriesSection from "@/views/lifestyle-products/components/categories-section";
 import ProductCard from "@/views/lifestyle-products/components/product-card";
 import FilterSidebar from "@/views/products/components/filter-sidebar";
 import useProductsFilter from "@/views/products/hooks/useProductsFilter";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ListFilter } from "lucide-react";
 import { useMemo } from "react";
 
 const Products = () => {
-  const { products, category, productsQuery, setSort, sort } =
-    useProductsFilter();
+  const {
+    products,
+    category,
+    productsQuery,
+    setSort,
+    sort,
+    totalAppliedFilters,
+    clearAllFilters,
+  } = useProductsFilter();
 
   const findCategory = useMemo(
     () =>
@@ -39,7 +53,7 @@ const Products = () => {
     <>
       <CategoriesSection
         section={{
-          className: "mt-2.5 mb-5",
+          className: "max-lg:mt-0 mt-2.5 mb-2 lg:mb-5",
         }}
         disableTitle
         categoryLinkHref="#breadcrumb"
@@ -75,35 +89,71 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="mb-20 mt-5">
+      <section className="mb-20 lg:mt-5">
         <div className="container">
-          <div className="grid grid-cols-[265px,auto] gap-x-12">
-            <FilterSidebar />
+          <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-[265px,auto]">
+            <div className="max-lg:hidden">
+              <FilterSidebar />
+            </div>
 
             <div>
-              {findCategory ? (
-                <Accordion type="single" collapsible>
-                  <AccordionItem
-                    value="as"
-                    className="border-y border-app-black"
+              <div className="relative items-center justify-between max-lg:flex">
+                {findCategory ? (
+                  <Accordion type="single" collapsible>
+                    <AccordionItem
+                      value="as"
+                      className="border-app-black lg:border-y max-lg:[&_h3]:w-fit"
+                    >
+                      <AccordionTrigger className="gap-2 text-xl lg:py-3.5 lg:text-3xl">
+                        {findCategory?.name}
+                      </AccordionTrigger>
+                      <AccordionContent className="">
+                        <div className="max-lg:pt-2">
+                          {findCategory?.description || (
+                            <p className="text-app-text">
+                              Er is geen beschrijving voor deze categorie
+                              opgegeven.
+                            </p>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                ) : (
+                  <h1 className="text-xl font-extrabold text-app-black lg:text-3xl">
+                    Alle producten
+                  </h1>
+                )}
+
+                <Sheet>
+                  <SheetTrigger
+                    className={cn(
+                      "flex items-center gap-2.5 lg:hidden",
+                      findCategory && "absolute right-0 top-0.5",
+                    )}
                   >
-                    <AccordionTrigger className="py-3.5 text-3xl">
-                      {findCategory?.name}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      {findCategory?.description || (
-                        <p className="text-app-text">
-                          Er is geen beschrijving voor deze categorie opgegeven.
-                        </p>
-                      )}
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              ) : (
-                <h1 className="text-3xl font-extrabold text-app-black">
-                  Alle producten
-                </h1>
-              )}
+                    <ListFilter className="size-5" /> Filters
+                    {totalAppliedFilters > 0 && (
+                      <div className="-ml-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white">
+                        {totalAppliedFilters}
+                      </div>
+                    )}
+                  </SheetTrigger>
+                  <SheetContent side={"left"}>
+                    <FilterSidebar />
+
+                    {totalAppliedFilters > 0 && (
+                      <div className="absolute bottom-0 left-0 w-full p-6">
+                        <SheetClose asChild>
+                          <Button onClick={clearAllFilters} className="w-full">
+                            Clear all filters
+                          </Button>
+                        </SheetClose>
+                      </div>
+                    )}
+                  </SheetContent>
+                </Sheet>
+              </div>
 
               <div className="mt-5 flex items-center justify-between border-b border-app-black pb-4">
                 {productsQuery.query.isFetching ? (
@@ -139,7 +189,7 @@ const Products = () => {
                 </div>
               </div>
 
-              <div className="mt-8 grid grid-cols-3 gap-6">
+              <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-8 lg:grid-cols-3">
                 {productsQuery.query.isFetching ? (
                   <>
                     {Array(6)
@@ -153,7 +203,7 @@ const Products = () => {
                     {getApiErrorMessage(productsQuery.query.error)}
                   </p>
                 ) : products.length <= 0 ? (
-                  <p className="col-span-3 mx-auto max-w-[700px] px-5 text-center text-app-text">
+                  <p className="col-span-3 mx-auto max-w-[700px] px-5 py-20 text-center text-app-text">
                     Sorry, we konden helaas geen resultaten vinden die matchen
                     met de gekozen filters. Probeer een nieuwe zoekopdracht
                   </p>

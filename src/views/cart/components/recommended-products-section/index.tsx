@@ -17,11 +17,11 @@ const RecommendedProductsSection = () => {
 
   if (products.length <= 0) return null;
   return (
-    <section className="my-[100px]">
+    <section className="my-8 lg:my-[100px]">
       <div className="container">
-        <h2 className="__h2 text-center">Aanbevolen producten</h2>
+        <h2 className="__h4 lg:__h2 text-center">Aanbevolen producten</h2>
 
-        <div className="mt-12 grid grid-cols-4 gap-5">
+        <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:mt-12 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} data={product} />
           ))}

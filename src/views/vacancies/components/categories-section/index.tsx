@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const CategoriesSection = () => {
   return (
-    <section className="my-[101px]">
+    <section className="my-8 lg:my-[101px]">
       <div className="container">
         <div className="mx-auto max-w-[1010px]">
           <p className="text-lg font-semibold">
@@ -11,7 +11,7 @@ const CategoriesSection = () => {
             moment hebben we 3 openstaande vacatures.
           </p>
 
-          <div className="mt-[45px]">
+          <div className="mt-6 lg:mt-[45px]">
             <div className="space-y-10">
               <Category
                 title="Orderpicker"
@@ -47,8 +47,8 @@ type CategoryProps = {
 const Category = ({ desciption, title, url }: CategoryProps) => {
   return (
     <div className="space-y-3">
-      <h4 className="__h4">{title}</h4>
-      <p className="__body_18">{desciption}</p>
+      <h4 className="__h4 max-lg:text-lg">{title}</h4>
+      <p className="__body_16 lg:__body_18">{desciption}</p>
       <Link
         href={routes.vacancy(url)}
         className="__c_all h-10 w-fit rounded-md bg-app-darker-green px-10 text-lg font-bold text-white duration-200 hover:bg-app-dark-green/80"

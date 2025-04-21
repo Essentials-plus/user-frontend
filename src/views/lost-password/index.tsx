@@ -42,9 +42,9 @@ const LostPassword = () => {
   return (
     <section className="mb-[167px] mt-[99px]">
       <div className="container">
-        <div className="grid grid-cols-[500px,auto] items-center gap-x-[120px]">
-          <div className="rounded-r-[80px] bg-app-yellow px-20 py-[56px]">
-            <h2 className="__h2 text-center">Wachtwoord vergeten?</h2>
+        <div className="grid grid-cols-1 items-center gap-x-[120px] lg:grid-cols-[500px,auto]">
+          <div className="bg-app-yellow px-6 py-8 max-lg:rounded-3xl lg:rounded-r-[80px] lg:px-20 lg:py-[56px]">
+            <h2 className="__h3 lg:__h2 text-center">Wachtwoord vergeten?</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
               <div className="space-y-5">
                 <Input
@@ -72,7 +72,7 @@ const LostPassword = () => {
             alt="lost-password-image"
             width={1680}
             height={886}
-            className="size-full object-contain"
+            className="size-full object-contain max-lg:hidden"
           />
         </div>
       </div>

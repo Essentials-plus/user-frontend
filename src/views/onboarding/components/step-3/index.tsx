@@ -164,9 +164,9 @@ const Step3 = ({ user, payment_method }: Props) => {
 
   return (
     <div>
-      <div className="grid grid-cols-[auto,333px] gap-x-8">
+      <div className="grid grid-cols-1 gap-6 gap-x-8 lg:grid-cols-[auto,333px]">
         <div>
-          <h3 className="__h3 font-bold">Uw betaalgegevens:</h3>
+          <h3 className="__h3 font-bold max-lg:text-lg">Uw betaalgegevens:</h3>
           <div className="mt-2 bg-[#41AA3F]/15 px-4 py-2">
             <p className="text-sm text-app-dark-green">
               Jouw betaalgegevens zijn nodig om jouw eerst maaltijdbox te
@@ -176,7 +176,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </p>
           </div>
 
-          <div className="my-5 grid grid-cols-2 gap-5">
+          <div className="my-5 grid grid-cols-1 gap-5 gap-y-3 lg:grid-cols-2">
             {currency_type == "eur" && (
               // <PaymentMethodModal
               //   onClose={() => {
@@ -194,7 +194,7 @@ const Step3 = ({ user, payment_method }: Props) => {
               >
                 <div
                   className={cn(
-                    "border border-app-dark-grey cursor-pointer hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[78px] w-full __c_all justify-start px-6 ",
+                    "border border-app-dark-grey cursor-pointer hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
                     paymentMethod && "pointer-events-none opacity-50",
                   )}
                 >
@@ -220,7 +220,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             >
               <div
                 className={cn(
-                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[78px] w-full __c_all justify-start px-6 ",
+                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
                   paymentMethod && "pointer-events-none opacity-50",
                 )}
               >
@@ -252,7 +252,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             >
               <div
                 className={cn(
-                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[78px] w-full __c_all justify-start px-6 ",
+                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
                   paymentMethod && "pointer-events-none opacity-50",
                 )}
               >
@@ -272,7 +272,7 @@ const Step3 = ({ user, payment_method }: Props) => {
 
             {/* <div
               className={cn(
-                "border border-app-dark-grey h-[78px] w-full __c_all justify-start px-6",
+                "border border-app-dark-grey h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6",
                 paymentMethod &&
                   paymentMethod.type != "klarna" &&
                   "pointer-events-none opacity-50"
@@ -305,7 +305,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </label>
           </div>
 
-          <div className="mb-2.5 mt-10">
+          <div className="mb-4 lg:mb-3 mt-5 lg:mt-10 max-lg:text-sm">
             <strong>Voorwaarden:</strong> Door op “Bestellen en betalen” te
             klikken, ga je akkoord met onze{" "}
             <Link
@@ -353,7 +353,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             >
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <Spinner className="size-6" />
+                  <Spinner className="size-4 lg:size-6" />
                   Bestellen en betalen...
                 </div>
               ) : (
@@ -364,7 +364,7 @@ const Step3 = ({ user, payment_method }: Props) => {
         </div>
 
         <div>
-          <div className="overflow-hidden rounded-3xl border border-black p-5">
+          <div className="overflow-hidden rounded-xl lg:rounded-3xl border border-black p-5">
             <h4 className="text-base font-bold">Bestel overzicht:</h4>
             <div className="mt-2.5 flex items-center gap-x-5">
               <Image
@@ -410,7 +410,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </div>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-3xl border border-black p-5">
+          <div className="mt-6 overflow-hidden rounded-xl lg:rounded-3xl border border-black p-5">
             <div className="space-y-2.5">
               <h4 className="text-base font-bold">Bezorging</h4>
               <p>Eerste bezorging in uw regio:</p>

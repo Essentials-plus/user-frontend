@@ -51,6 +51,11 @@ const useStartToday = () => {
             : router.push(routes.onboarding("payment"));
           return;
         }
+
+        (await replaceRoute)
+          ? router.replace(routes.weeklyMenu)
+          : router.push(routes.weeklyMenu);
+        return;
       } catch (error) {
         toast.error(getClientErrorMsg(error));
       }
@@ -60,15 +65,16 @@ const useStartToday = () => {
 
   const handleStartToday = useCallback(
     async ({ replaceRoute }: { replaceRoute?: boolean } = {}) => {
+      console.log({ authUser, access: authUser?.access });
       if (!authUser) {
         return replaceRoute
           ? await router.replace(registerRouteWithRedirectToOnboarding)
           : await router.push(registerRouteWithRedirectToOnboarding);
       }
-      if (authUser && authUser.access == "product") {
+      if (authUser && authUser.access === "product") {
         return await handleMealOrder({ replaceRoute });
       }
-      if (authUser && authUser.access == "all") {
+      if (authUser && authUser.access === "all") {
         return replaceRoute
           ? await router.replace(routes.weeklyMenu)
           : await router.push(routes.weeklyMenu);

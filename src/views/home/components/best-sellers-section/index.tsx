@@ -17,12 +17,12 @@ const BestSellersSection = () => {
   if (spotlightsProductBanners.length <= 0) return null;
 
   return (
-    <section className="mb-[106px] mt-[119px]">
+    <section className="my-16 md:mb-10 md:mt-10 lg:mb-[106px] lg:mt-[119px]">
       <div className="mx-auto max-w-[1920px]">
-        <h2 className="text-center text-2xl font-extrabold uppercase">
+        <h2 className="text-center text-xl font-extrabold uppercase sm:text-2xl">
           In de spotlights
         </h2>
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {spotlightsProductBanners.map((item) => {
             const product = item.product;
             const discountPercentage =
@@ -42,30 +42,30 @@ const BestSellersSection = () => {
               <Link
                 href={routes.product(product.slug)}
                 key={item.id}
-                className="group relative isolate block pb-[62.5%]"
+                className="group relative isolate block aspect-[16/10] sm:aspect-[4/3] md:aspect-[3/2]"
               >
                 <div className="absolute inset-0.5 z-[-1] bg-gray-900" />
                 <Image
                   fill
                   src={item.image}
                   alt={item.title}
-                  className="object-cover object-right"
+                  className="object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-black/20 opacity-0 duration-300 group-hover:opacity-100" />
-                {discountPercentage && (
-                  <div className="absolute right-0 top-5 flex min-h-[25px] items-center justify-center bg-app-primary px-2.5 py-0.5 text-xs font-semibold text-white">
+                <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                {discountPercentage > 0 && (
+                  <div className="absolute right-2 top-2 sm:top-4 sm:right-4 flex min-h-[25px] items-center justify-center bg-app-primary px-2.5 py-0.5 text-xs font-semibold text-white">
                     -{discountPercentage.toFixed(0)}% Korting
                   </div>
                 )}
 
-                <div className="absolute left-0 top-1/2 w-full -translate-y-1/2 px-5">
+                <div className="absolute left-0 top-1/2 w-full -translate-y-1/2 px-4 sm:px-6">
                   <div
-                    className="max-w-[150px] text-2xl font-extrabold text-white"
+                    className="max-w-[150px] text-lg font-extrabold text-white sm:text-2xl"
                     dangerouslySetInnerHTML={{
                       __html: item.title,
                     }}
                   />
-                  <Button className="mt-5 px-6 text-sm font-bold">
+                  <Button className="mt-3 px-4 py-2 text-xs font-bold sm:mt-5 sm:px-6 sm:text-sm">
                     SHOP NU
                   </Button>
                 </div>

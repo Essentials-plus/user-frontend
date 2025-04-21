@@ -16,24 +16,26 @@ const Footer = () => {
     subscribeToNewsletterMutation,
     validationError,
   } = useSubscribeToNewsletter();
+
   return (
-    <footer className="pb-[30px]">
+    <footer className="pb-8 sm:pb-10 lg:pb-[30px]">
       <div
         style={{
           marginLeft: bounds.left + 24,
         }}
-        className="h-4 rounded-l-[50px] bg-app-darker-green"
+        className="h-3 lg:h-4 rounded-l-[50px] bg-app-darker-green"
       ></div>
+
       <div ref={ref} className="container">
         <div className="mt-11">
-          <div className="flex items-center justify-between">
-            <Logo className="max-w-[320px]" />
-            <div className="flex items-center gap-x-5">
+          <div className="flex flex-col items-center justify-between gap-y-6 sm:flex-row">
+            <Logo className="max-w-[200px] sm:max-w-[280px] md:max-w-[320px]" />
+            <div className="flex flex-wrap justify-center gap-4 sm:justify-end sm:gap-x-5">
               {footer.social.map(({ icon, url }, i) => (
                 <a
                   href={url}
                   key={i}
-                  className="__c_all aspect-square h-[45px] rounded-full bg-app-grey text-xl duration-200 hover:bg-app-grey/60"
+                  className="__c_all aspect-square h-10 w-10 rounded-full bg-app-grey text-xl duration-200 hover:bg-app-grey/60 sm:h-[45px] sm:w-[45px]"
                 >
                   {icon}
                 </a>
@@ -42,20 +44,22 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mb-10 mt-8 border-b border-app-dark-grey shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"></div>
+        <div className="my-8 border-b border-app-dark-grey/50 sm:my-10"></div>
 
-        <div className="grid grid-cols-[520px,auto] gap-x-[140px]">
+        <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-[520px,auto] lg:gap-x-[80px] xl:gap-x-[140px]">
           <div>
-            <h3 className="__h3 font-normal">Blijf op de hoogte</h3>
-            <p className="__body_16 mb-4 mt-3">
+            <h3 className="__h3 font-normal text-lg sm:text-xl">
+              Blijf op de hoogte
+            </h3>
+            <p className="__body_16 mb-4 mt-3 text-sm sm:text-base">
               Schrijf je nu in voor onze wekelijkse nieuwsbrief en ontvang
               essentiële informatie!
             </p>
             <div className="flex flex-col items-start gap-y-2">
-              <div className="flex w-full items-center gap-x-6">
+              <div className="flex w-full flex-col gap-y-3 sm:flex-row sm:items-center sm:gap-x-6">
                 <input
                   type="text"
-                  className="h-12 grow rounded-full border border-[#6B6B6B] px-5 outline-none"
+                  className="h-12 w-full rounded-full border border-[#6B6B6B] px-5 text-sm outline-none"
                   placeholder="Vul e-mailadres in"
                   value={email}
                   onChange={handleEmailChange}
@@ -63,7 +67,7 @@ const Footer = () => {
                 <Button
                   onClick={handleFormSubmit}
                   disabled={subscribeToNewsletterMutation.isPending}
-                  className="w-[132px] px-5 text-base"
+                  className="w-full sm:w-[132px] px-5 text-sm sm:text-base"
                 >
                   {subscribeToNewsletterMutation.isPending ? (
                     <Spinner className="size-4" />
@@ -77,12 +81,14 @@ const Footer = () => {
               )}
             </div>
 
-            <div className="mt-[60px] flex items-center justify-between">
+            <div className="mt-10 flex flex-col items-start justify-between gap-y-4 sm:mt-[60px] sm:flex-row sm:items-center">
               <div className="flex items-center gap-x-2">
                 <div className="h-2.5 w-12 rounded-full bg-app-yellow"></div>
-                <p className="text-sm text-app-text">© 2024 EssentialsPlus</p>
+                <p className="text-sm text-app-text">
+                  © {new Date().getFullYear()} EssentialsPlus
+                </p>
               </div>
-              <div className="flex items-center gap-x-4">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-x-4">
                 {footer.paymentIcons.map(({ icon }, i) => (
                   <span key={i}>{icon}</span>
                 ))}
@@ -90,17 +96,17 @@ const Footer = () => {
             </div>
           </div>
 
-          <nav className="flex justify-between">
+          <nav className="flex flex-wrap justify-between gap-y-8">
             {footer.navigations.map(({ label, links }, i) => (
-              <ul key={i} className="space-y-2.5">
+              <ul key={i} className="space-y-2.5 min-w-[130px]">
                 <li className="pb-2.5">
-                  <h4 className="__h4 text-lg">{label}</h4>
+                  <h4 className="__h4 text-base font-semibold">{label}</h4>
                 </li>
                 {links.map(({ label, url }, i) => (
                   <li key={i}>
                     <Link
                       href={url}
-                      className="__body_16 duration-200 hover:opacity-70"
+                      className="__body_16 text-sm duration-200 hover:opacity-70"
                     >
                       {label}
                     </Link>

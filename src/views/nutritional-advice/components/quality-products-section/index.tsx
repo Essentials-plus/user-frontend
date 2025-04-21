@@ -6,9 +6,9 @@ import Link from "next/link";
 
 const QualityProductsSection = () => {
   return (
-    <section className="my-[104px]">
+    <section className="my-8 lg:my-[104px]">
       <div className="container">
-        <div className="mx-auto grid max-w-[1100px] grid-cols-[405px,auto] gap-x-16">
+        <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-x-16 gap-y-4 lg:grid-cols-[405px,auto]">
           <div className="size-full bg-[#CCCCCC]">
             <Image
               src={"/imgs/nutritional-advice/section-1.jpg"}
@@ -19,12 +19,14 @@ const QualityProductsSection = () => {
             />
           </div>
           <div>
-            <h2 className="__h2 font-oswald">Gezond, Lekker en Makkelijk</h2>
-            <p className="__body_16 mb-10 mt-7 text-app-text">
+            <h2 className="__h4 lg:__h2 font-oswald">
+              Gezond, Lekker en Makkelijk
+            </h2>
+            <p className="__body_16 mb-4 mt-2 text-app-text lg:mb-10 lg:mt-7">
               Met Essentialst maak je een einde aan ingewikkelde diëten en
               eentonige maaltijden. Onze recepten zijn:
             </p>
-            <ul className="space-y-5 font-montserrat text-app-green">
+            <ul className="space-y-3 font-montserrat text-app-green lg:space-y-5">
               <li className="flex items-center gap-x-4">
                 <CheckIcon className="w-5 shrink-0" />
                 <span>

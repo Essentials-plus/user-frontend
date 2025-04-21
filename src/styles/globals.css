@@ -112,3 +112,15 @@ select {
 .__product_img_aspect_ratio {
   @apply w-full aspect-square object-cover object-center;
 }
+
+#onlyMobilePagination .swiper-pagination-bullet {
+  @apply size-1.5 bg-[#B0B2B6] rounded-full;
+}
+#onlyMobilePagination
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  @apply bg-app-primary;
+}
+
+select {
+  @apply bg-white;
+}

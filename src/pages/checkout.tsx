@@ -38,14 +38,12 @@ const CheckoutPage = () => {
   return (
     <section className="my-12">
       <div className="container">
-        <h1 className="mb-5 flex items-center gap-2 text-[34px]/[48px] font-extrabold uppercase">
+        <h1 className="mb-5 flex items-center gap-2 text-lg font-extrabold uppercase lg:text-[34px]/[48px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={32}
-            height={32}
             viewBox="0 0 32 32"
             fill="none"
-            className="shrink-0"
+            className="w-6 shrink-0 lg:w-8"
           >
             <path
               fillRule="evenodd"
@@ -67,9 +65,9 @@ const CheckoutPage = () => {
           </svg>
           Veilig afrekenen
         </h1>
-        <div className="grid grid-cols-[55%,auto] gap-12">
+        <div className="grid grid-cols-1 gap-12 gap-y-6 lg:grid-cols-[55%,auto]">
           <div>
-            <div className="rounded border border-[#d8d8d8] px-10 py-7">
+            <div className="rounded border border-[#d8d8d8] p-5 lg:px-10 lg:py-7">
               <h2 className="border-b border-app-text/40 pb-4 text-base font-extrabold text-app-black">
                 Stap 1 van 1
                 <span className="mt-0.5 block font-normal text-app-text">
@@ -82,11 +80,10 @@ const CheckoutPage = () => {
                   <option value="Nederland">Nederland</option>
                 </Select>
 
-                <div className="flex w-fit items-center gap-5 border-b-[3px] border-app-black px-16 py-3.5">
+                <div className="flex w-fit items-center gap-5 border-b-[3px] border-app-black px-4 py-2.5 max-lg:pr-7 lg:px-16 lg:py-3.5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width={30}
-                    height={21}
+                    className="w-5 lg:w-[30px]"
                     viewBox="0 0 30 21"
                     fill="none"
                   >
@@ -147,8 +144,10 @@ const CheckoutPage = () => {
                   </svg>
 
                   <div>
-                    <p className="font-bold uppercase">BEZORGEN</p>
-                    <p className="mt-0 font-medium">
+                    <p className="font-bold uppercase max-lg:text-sm">
+                      BEZORGEN
+                    </p>
+                    <p className="mt-0 font-medium max-lg:text-xs">
                       {cartOverview.shippingAmount <= 0
                         ? "GRATIS"
                         : `${currency_symbol}${cartOverview.shippingAmount}`}
@@ -160,8 +159,8 @@ const CheckoutPage = () => {
             </div>
           </div>
           <div>
-            <div className="rounded border border-[#d8d8d8] px-10 py-7">
-              <h2 className="text-2xl font-extrabold uppercase">
+            <div className="rounded border border-[#d8d8d8] p-5 lg:px-10 lg:py-7">
+              <h2 className="text-lg font-extrabold uppercase lg:text-2xl">
                 Besteloverzicht
               </h2>
               {productCart.map((d) => (
@@ -454,7 +453,7 @@ const EnterAddressForm = () => {
             
             <UpdateProfile name="profile" control={control} />
           </div> */}
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 gap-y-4 md:grid-cols-2">
             <Input
               className="border-none bg-[#F1F1F1]"
               label="Voornaam:"
@@ -541,7 +540,7 @@ const EnterAddressForm = () => {
             </label>
           )}
 
-          <div className="!mt-8">
+          <div className="!mt-6 lg:!mt-8">
             {user ? (
               <Button type="submit" className="w-full uppercase">
                 Wijzigingen opslaan

@@ -31,22 +31,27 @@ const HeroSection = ({
   const [ref, bounds] = useMeasure();
 
   const currentWeekDates = useMemo(() => getWeekDate(weekNumber), [weekNumber]);
+  const roundedContainerStyle =
+    "rounded-lg lg:rounded-[10px] bg-white px-2 py-1 lg:px-9 lg:py-1.5 text-center max-lg:flex max-lg:items-center max-lg:gap-1.5";
+  const heroSectionTitleClass =
+    "text-sm lg:text-lg max-lg:font-semibold font-bold";
+
   return (
     <section
       className={cn(
         "mt-[55px] duration-200",
-        !bounds.left && "opacity-0 pointer-events-none",
+        // !bounds.left && "opacity-0 pointer-events-none",
       )}
     >
       <div className="container" ref={ref}></div>
 
-      <div style={{ paddingLeft: bounds.left }}>
-        <div className="grid grid-cols-[480px,auto] gap-12">
-          <div className="pl-6">
-            <h1 className="text-center text-4xl font-bold uppercase">
+      <div className="max-lg:!px-5" style={{ paddingLeft: bounds.left }}>
+        <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-[480px,auto] gap-12">
+          <div className="lg:pl-6">
+            <h1 className="text-center text-xl lg:text-4xl font-semibold lg:font-bold uppercase">
               WEEKmenu Van
             </h1>
-            <div className="mt-5">
+            <div className="mt-3 lg:mt-5">
               <WeekNumbersSlider
                 onWeekChange={onWeekChange}
                 weekNumber={weekNumber}
@@ -54,7 +59,7 @@ const HeroSection = ({
               />
             </div>
 
-            <div className="rounded-b-[40px] bg-[#D9D9D9] px-8 py-4 text-xl font-semibold">
+            <div className="rounded-b-2xl lg:rounded-b-[40px] bg-[#D9D9D9] px-4 py-3 lg:px-8 lg:py-4 text-sm font-medium lg:text-xl lg:font-semibold">
               <p>
                 Reeks: <br /> {currentWeekDates.start.toLocaleDateString()} tm{" "}
                 {currentWeekDates.end.toLocaleDateString()}
@@ -65,60 +70,58 @@ const HeroSection = ({
           <div>
             <div
               style={{ paddingRight: bounds.left }}
-              className="rounded-l-[40px] bg-app-darker-green"
+              className="lg:rounded-l-[40px] bg-app-darker-green max-lg:rounded-xl"
             >
-              <div className="py-11 pl-12 pr-6">
-                <div className="flex flex-wrap items-center gap-5">
-                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
-                    <p className="text-lg font-bold">
+              <div className="max-lg:p-4 lg:py-11 lg:pl-12 lg:pr-6">
+                <div className="flex flex-wrap items-center gap-2 lg:gap-5">
+                  <div className={roundedContainerStyle}>
+                    <p className={heroSectionTitleClass}>
                       {totalNeedOfData.totalNeedOfKCal}
                     </p>
-                    <p className="text-sm">Kcal</p>
+                    <p className="text-xs lg:text-sm">Kcal</p>
                   </div>
-                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
-                    <p className="text-lg font-bold">
+                  <div className={roundedContainerStyle}>
+                    <p className={heroSectionTitleClass}>
                       {totalNeedOfData.totalNeedOfProteins} g
                     </p>
-                    <p className="text-sm">Proteins</p>
+                    <p className="text-xs lg:text-sm">Proteins</p>
                   </div>
-                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
-                    <p className="text-lg font-bold">
+                  <div className={roundedContainerStyle}>
+                    <p className={heroSectionTitleClass}>
                       {totalNeedOfData.totalNeedOfCarbohydrates} g
                     </p>
-                    <p className="text-sm">Carbohydrate</p>
+                    <p className="text-xs lg:text-sm">Carbohydrate</p>
                   </div>
-                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
-                    <p className="text-lg font-bold">
+                  <div className={roundedContainerStyle}>
+                    <p className={heroSectionTitleClass}>
                       {totalNeedOfData.totalNeedOfFats} g
                     </p>
-                    <p className="text-sm">Fats</p>
+                    <p className="text-xs lg:text-sm">Fats</p>
                   </div>
-                  <div className="rounded-[10px] bg-white px-9 py-1.5 text-center">
-                    <p className="text-lg font-bold">
+                  <div className={roundedContainerStyle}>
+                    <p className={heroSectionTitleClass}>
                       {totalNeedOfData.totalNeedOfFiber} g
                     </p>
-                    <p className="text-sm">Fiber</p>
+                    <p className="text-xs lg:text-sm">Fiber</p>
                   </div>
                 </div>
 
-                <p className="mt-12 text-left font-semibold text-white">
+                <p className="mt-6 lg:mt-12 text-left text-sm font-medium lg:font-semibold text-white">
                   Uw eerst volgende lockdown en bezorgmomenten zijn:
                 </p>
-                <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
-                  Lockdowndatum:
+                <p className="mt-2 flex items-center gap-4 text-base lg:text-3xl font-semibold text-white">
+                  Lockdowndatum:{" "}
                   {format(new Date(lockdownDate), "EEEE, dd/MM/yyyy", {
                     locale: nl,
                   })}
-                  {/* {lockdownDate.toLocaleDateString()} */}
                 </p>
-                <p className="mt-2 flex items-center gap-4 text-3xl font-semibold text-white">
-                  Leverdatum:
+                <p className="mt-1 lg:mt-2 flex items-center gap-4 text-base lg:text-3xl font-semibold text-white">
+                  Leverdatum:{" "}
                   {format(
                     getNextDeliveryDate(lockdownDate),
                     "EEEE, dd/MM/yyyy",
                     { locale: nl },
                   )}
-                  {/* {lockdownDate.toLocaleDateString()} */}
                 </p>
               </div>
             </div>

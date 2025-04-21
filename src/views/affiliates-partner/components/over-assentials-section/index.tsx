@@ -2,12 +2,12 @@ import Image from "next/image";
 
 const OverAssentialsSection = () => {
   return (
-    <section className="mt-[112px]">
+    <section className="mt-8 lg:mt-[112px]">
       <div className="container">
-        <div className="grid grid-cols-[auto,550px] items-center gap-x-[100px]">
+        <div className="flex flex-col-reverse gap-x-[100px] gap-y-5 lg:grid lg:grid-cols-[auto,550px] lg:items-center">
           <div>
-            <h2 className="__h2">Word Partner van Essentials+</h2>
-            <div className="__body_18 mt-4">
+            <h2 className="__h4 lg:__h2">Word Partner van Essentials+</h2>
+            <div className="__body_16 lg:__body_18 mt-2 lg:mt-4">
               Ben jij enthousiast over gezond leven en voeding? Wil je jouw
               passie delen en tegelijkertijd extra inkomsten genereren? Sluit je
               aan bij ons Affiliates Partner-programma en word onderdeel van

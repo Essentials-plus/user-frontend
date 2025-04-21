@@ -162,17 +162,17 @@ const Step1 = ({ user }: Props) => {
 
   return (
     <div>
-      <h3 className="__h3 font-bold">Uw gegevens: </h3>
-      <p className="mt-2.5 text-base font-bold text-app-text">
+      <h3 className="__h3 font-bold max-lg:text-lg">Uw gegevens: </h3>
+      <p className="mt-1.5 text-base font-medium text-black lg:mt-2.5 lg:font-bold lg:text-app-text">
         Zodra u bent aangemeld, heeft u de mogelijkheid om uw gezin toe te
         voegen
       </p>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-8 grid grid-cols-[auto,280px] gap-x-5"
+        className="mt-8 grid grid-cols-1 gap-x-5 gap-y-6 xl:grid-cols-[auto,280px]"
       >
-        <div className="grid grid-cols-3 gap-x-5 gap-y-6">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-6">
           <Input
             label="Voornaam:"
             bordered
@@ -280,9 +280,9 @@ const Step1 = ({ user }: Props) => {
           />
         </div>
 
-        <div className="flex items-end">
+        <div className="lg:flex lg:items-end">
           <div>
-            <div className="rounded-3xl border border-black px-6 py-5">
+            <div className="rounded-xl border border-black px-6 py-5 lg:rounded-3xl">
               <p className="text-base font-bold">
                 Je dagelijkse caloriebehoefte
               </p>

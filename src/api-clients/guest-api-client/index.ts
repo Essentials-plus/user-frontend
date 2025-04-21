@@ -4,6 +4,9 @@ import { getCookie, setCookie } from "cookies-next";
 
 const guestApiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_GUEST_API_BASE_URL,
+  headers: {
+    "ngrok-skip-browser-warning": "hi",
+  },
 });
 
 guestApiClient.interceptors.request.use(

@@ -29,7 +29,8 @@ export const button = cva(
         md: "h-10 rounded-lg px-6 text-base font-medium",
         sm: "h-8 rounded-md px-4 text-sm",
         xs: "h-5 rounded px-1.5 py-0.5 text-xs",
-        default: "h-12 rounded-lg px-8 text-lg font-semibold",
+        default:
+          "h-12 rounded-lg px-8 text-base font-medium lg:text-lg lg:font-semibold",
       },
       iconButton: {
         true: "aspect-square",

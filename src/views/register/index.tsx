@@ -58,55 +58,53 @@ const Register = () => {
 
   const password = watch("password");
   return (
-    <section className="mb-[100px] mt-20">
-      <FormWrapper>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1 className="__h1 font-medium">Registreren</h1>
-          <div className="mt-8 grid grid-cols-[auto,250px] gap-x-5">
-            <div className="grid grid-cols-2 gap-x-5 gap-y-6">
-              <Input
-                label="Voornaam:"
-                bordered
-                {...register("name")}
-                error={errors.name?.message?.toString()}
-              />
-              <Input
-                label="Achternaam:"
-                bordered
-                {...register("surname")}
-                error={errors.surname?.message?.toString()}
-              />
+    <FormWrapper>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <h1 className="__h3 lg:__h1 font-medium">Registreren</h1>
+        <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-[auto,250px]">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-4 lg:grid-cols-2 lg:gap-y-6">
+            <Input
+              label="Voornaam:"
+              bordered
+              {...register("name")}
+              error={errors.name?.message?.toString()}
+            />
+            <Input
+              label="Achternaam:"
+              bordered
+              {...register("surname")}
+              error={errors.surname?.message?.toString()}
+            />
 
+            <Input
+              label="Email:"
+              bordered
+              {...register("email")}
+              error={errors.email?.message?.toString()}
+            />
+            <div>
               <Input
-                label="Email:"
+                type="password"
+                label="Wachtwoord:"
                 bordered
-                {...register("email")}
-                error={errors.email?.message?.toString()}
+                {...register("password")}
+                error={errors.password?.message?.toString()}
               />
-              <div>
-                <Input
-                  type="password"
-                  label="Wachtwoord:"
-                  bordered
-                  {...register("password")}
-                  error={errors.password?.message?.toString()}
-                />
-                {!!password && (
-                  <div className="mt-2.5">
-                    <PasswordStrengthBar password={password} />
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="flex items-end">
-              <Button loading={isSubmitting} type="submit" className="w-full">
-                Registreren
-              </Button>
+              {!!password && (
+                <div className="mt-2.5">
+                  <PasswordStrengthBar password={password} />
+                </div>
+              )}
             </div>
           </div>
-        </form>
-      </FormWrapper>
-    </section>
+          <div className="flex items-end">
+            <Button loading={isSubmitting} type="submit" className="w-full">
+              Registreren
+            </Button>
+          </div>
+        </div>
+      </form>
+    </FormWrapper>
   );
 };
 

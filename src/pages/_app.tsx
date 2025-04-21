@@ -80,7 +80,7 @@ export default function App({
               }
             `}</style>
             {getLayout(<Component {...pageProps} />)}
-            <ScrollToTop smooth />
+            <ScrollToTop className="max-lg:!bottom-5 max-lg:!right-5" smooth />
             <Toaster
               visibleToasts={5}
               toastOptions={{

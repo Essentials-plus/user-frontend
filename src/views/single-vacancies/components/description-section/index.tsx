@@ -1,6 +1,6 @@
 const DescriptionSection = () => {
   return (
-    <section className="mb-[101px] mt-[76px]">
+    <section className="my-8 lg:mb-[101px] lg:mt-[76px]">
       <div className="container">
         <div className="mx-auto max-w-[1010px]">
           <p className="text-lg font-semibold">

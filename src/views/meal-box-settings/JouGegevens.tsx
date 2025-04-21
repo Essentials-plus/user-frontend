@@ -80,8 +80,8 @@ export default function JouGegevens() {
     (userData?.plan?.numberOfDays ?? 0);
   return (
     <>
-      <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-[20px] gap-y-8">
+        <div className="flex flex-wrap items-center justify-between gap-5">
           <h1 className="font-bold">Jou gegevens:</h1>
           <button
             onClick={() => setOpenJouGevenesModal(true)}
@@ -90,9 +90,9 @@ export default function JouGegevens() {
             Gegevens bijwerken
           </button>
         </div>
-        <div className="grid grid-cols-[auto,300px] gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[auto,300px]">
           <div>
-            <div className="grid grid-cols-2 gap-[16px]">
+            <div className="grid grid-cols-1 gap-[16px] 2xl:grid-cols-2">
               {jouGegeves.map((item, index) => (
                 <div key={`ud${index}`} className="flex flex-col gap-[8px]">
                   <label htmlFor="" className="font-medium">
@@ -196,7 +196,7 @@ export default function JouGegevens() {
         open={openJouGevenesModal}
         onOpenChange={() => setOpenJouGevenesModal(false)}
       >
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl max-md:p-5">
           <DialogHeader>
             <DialogTitle>Profiel bijwerken</DialogTitle>
           </DialogHeader>

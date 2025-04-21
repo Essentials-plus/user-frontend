@@ -3,12 +3,12 @@ import { ReactNode } from "react";
 
 const YourGoalsSection = () => {
   return (
-    <section className="my-[100px]">
+    <section className="my-8 lg:my-[100px]">
       <div className="container">
-        <h2 className="mx-auto max-w-[1148px] text-4xl font-semibold">
+        <h2 className="mx-auto max-w-[1148px] text-lg font-semibold md:text-xl lg:text-4xl">
           Behaal je doelen met een persoonlijk supplementen advies{" "}
         </h2>
-        <p className="__body_18 mx-auto mt-6 max-w-[1148px]">
+        <p className="__body_16 lg:__body_18 mx-auto mt-4 max-w-[1148px] lg:mt-6">
           Het supplementeren van je voeding is niet altijd nodig, maar kan wel
           een handje helpen. Onze experts creëren voor jou een op maat gemaakt
           supplementen gebaseerd op je voorkeuren en leefstijl. Haal je doelen
@@ -19,11 +19,11 @@ const YourGoalsSection = () => {
 
         <div className="mt-14">
           <div className="mx-auto max-w-[1148px]">
-            <h2 className="mb-16 text-4xl font-semibold">
+            <h2 className="mb-16 text-lg font-semibold md:text-xl lg:text-4xl">
               Ons standaard aanbevolen supplementen
             </h2>
 
-            <div className="space-y-16">
+            <div className="gap-x-7 gap-y-10 max-md:space-y-10 md:grid md:grid-cols-2 lg:block lg:space-y-16">
               <SingleRow
                 circleColor="#39A137"
                 product={{ title: "E+ Creatine", prcie: "€9,90" }}
@@ -109,7 +109,7 @@ const SingleRow = ({
 }) => {
   return (
     <div
-      className="grid grid-cols-[259px,auto] gap-x-16"
+      className="grid grid-cols-1 gap-x-16 gap-y-5 md:last:col-span-2 lg:grid-cols-[259px,auto]"
       style={{ direction: isRtl ? "rtl" : "unset" }}
     >
       <div>
@@ -131,7 +131,9 @@ const SingleRow = ({
         <h4 className="mb-2 mt-3.5 text-center text-lg font-bold">
           {product.title}
         </h4>
-        <p className="__body_18 mb-2 text-center">{product.prcie}</p>
+        <p className="__body_16 lg:__body_18 mb-2 text-center">
+          {product.prcie}
+        </p>
         <div className="mb-2 flex justify-center">
           <button className="h-10 rounded-lg border-2 border-app-dark-green px-5">
             In winkelmandje +
@@ -145,7 +147,10 @@ const SingleRow = ({
         </a>
       </div>
 
-      <div className="__body_18" style={{ direction: isRtl ? "ltr" : "unset" }}>
+      <div
+        className="__body_16 lg:__body_18"
+        style={{ direction: isRtl ? "ltr" : "unset" }}
+      >
         {text}
       </div>
     </div>

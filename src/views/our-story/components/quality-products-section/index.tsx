@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const QualityProductsSection = () => {
   return (
-    <section className="mb-[107px] mt-[72px]">
+    <section className="mb-8 mt-5 lg:mb-[107px] lg:mt-[72px]">
       <div className="container">
-        <div className="grid grid-cols-[500px,auto] items-center gap-x-20">
+        <div className="grid grid-cols-1 items-center gap-x-20 gap-y-4 lg:grid-cols-[500px,auto]">
           <Image
             src={"/imgs/our-story/quality-products-section-img.jpg"}
             alt="quality-products-section-img"
@@ -15,16 +15,16 @@ const QualityProductsSection = () => {
           />
 
           <div>
-            <h2 className="__h2 max-w-[620px] font-oswald font-normal uppercase">
+            <h2 className="__h4 lg:__h2 max-w-[620px] font-oswald font-normal uppercase">
               Kwaliteit en versheid voor iedereen
             </h2>
-            <p className="__body_16 my-8 leading-8">
+            <p className="__body_16 my-2 leading-8 lg:my-8">
               Bij Essentials+ draait alles om kwaliteit. Wij selecteren de beste
               ingrediënten en ontwerpen onze maaltijden met zorg en aandacht
               voor verschillende doelgroepen:
             </p>
 
-            <ul className="space-y-5">
+            <ul className="space-y-3 max-lg:mt-4 lg:space-y-5">
               <li className="flex items-center gap-x-4">
                 <CheckIcon className="w-5 shrink-0" />
                 <p className="__body_16 font-medium text-app-green">

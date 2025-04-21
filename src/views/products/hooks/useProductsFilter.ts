@@ -7,6 +7,7 @@ import {
   parseAsString,
   useQueryState,
 } from "nuqs";
+import { useMemo } from "react";
 
 const useProductsFilter = () => {
   const [sort, setSort] = useQueryState(
@@ -30,6 +31,28 @@ const useProductsFilter = () => {
       throttleMs: 500,
     }),
   );
+
+  const totalAppliedFilters = useMemo(
+    () =>
+      [category, query, subCategories, terms, minMaxPrice].filter((item) => {
+        if (Array.isArray(item)) {
+          if (item.length > 0) return true;
+          return false;
+        }
+
+        return !!item;
+      }).length,
+    [category, minMaxPrice, query, subCategories, terms],
+  );
+
+  const clearAllFilters = () => {
+    setCategory(null);
+    setQuery(null);
+    setSubCategories([]);
+    setTerms([]);
+    setMinMaxPrice([]);
+    setSort("relevance");
+  };
 
   const productsQuery = usePaginatedQuery(({ page }) => {
     return {
@@ -67,6 +90,8 @@ const useProductsFilter = () => {
     setMinMaxPrice,
     query,
     setQuery,
+    totalAppliedFilters,
+    clearAllFilters,
   };
 };
 

@@ -1,10 +1,9 @@
-import Button from "@/common/components/ui/button";
+import Button, { button } from "@/common/components/ui/button";
 import useCartData from "@/hooks/useCartData";
 import { cn, getApiErrorMessage, getClientErrorMsg } from "@/lib/utils";
 import { ProductType } from "@/types/api-responses/product-attribute";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FaMinus, FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 // Import Swiper React components
 import ReactRatingComponent from "react-rating";
@@ -28,6 +27,7 @@ import useActiveCurrency from "@/hooks/useActiveCurrency";
 import useFirstRender from "@/hooks/useFirstRender";
 import usePaginatedQuery from "@/hooks/usePaginatedQuery";
 import DataTablePagination from "@/views/data-table-pagination";
+import { useMediaQuery } from "@mantine/hooks";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
@@ -36,12 +36,14 @@ import {
   ChevronLeft,
   ChevronRight,
   Dot,
+  MinusIcon,
+  PlusIcon,
   Star,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import "swiper/css";
-import { Controller, Navigation } from "swiper/modules";
+import { Controller, Navigation, Pagination } from "swiper/modules";
 
 const ProductReviewForm = dynamic(
   () => import("@/views/single-product/components/product-review-form"),
@@ -55,6 +57,7 @@ const HeroSection = ({ data }: Props) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [firstSwiper, setFirstSwiper] = useState<any>(null);
   const [secondSwiper, setSecondSwiper] = useState<any>(null);
+  const isTablet = useMediaQuery("(min-width: 1024px)");
 
   const [openReviewForm, setOpenReviewForm] = useState(false);
 
@@ -106,19 +109,38 @@ const HeroSection = ({ data }: Props) => {
   const totalReviewsCount =
     productReviewsQueryOptions.query.data?.meta?.totalCount;
   return (
-    <section className="mb-20 mt-[72px]">
-      <div className="container">
-        <div className="grid grid-cols-[700px,auto] gap-10">
+    <section className="lg:mb-20 lg:mt-[72px]">
+      <div className="lg:container">
+        <div className="grid grid-cols-1 lg:grid-cols-[700px,auto] gap-y-5 gap-10">
           <div>
-            <div className="grid grid-cols-[auto,606px] gap-6">
-              <div className="h-full">
+            <div className="lg:grid lg:grid-cols-[auto,606px] gap-6 flex flex-col-reverse gap-y-[5px]">
+              <div className="lg:h-full max-lg:px-[5px]">
                 <Swiper
                   ref={firstSwiperRef}
-                  className="!h-full max-h-[700px]"
+                  className="!h-full max-h-[500px]"
                   grabCursor
-                  slidesPerView={"auto"}
-                  direction="vertical"
-                  spaceBetween={24}
+                  breakpoints={{
+                    0: {
+                      direction: "horizontal",
+                      slidesPerView: 5,
+                      spaceBetween: 5,
+                    },
+                    600: {
+                      direction: "horizontal",
+                      slidesPerView: 8,
+                      spaceBetween: 5,
+                    },
+                    768: {
+                      direction: "horizontal",
+                      slidesPerView: 12,
+                      spaceBetween: 5,
+                    },
+                    1024: {
+                      direction: "vertical",
+                      slidesPerView: "auto",
+                      spaceBetween: 24,
+                    },
+                  }}
                   modules={[Controller]}
                   onSwiper={setFirstSwiper}
                   controller={{ control: secondSwiper }}
@@ -126,7 +148,7 @@ const HeroSection = ({ data }: Props) => {
                   {sliderImages.map((image, i) => (
                     <SwiperSlide
                       className={cn(
-                        "!w-full !h-auto !aspect-square cursor-pointer",
+                        "lg:!w-full lg:!h-auto !aspect-square cursor-pointer",
                       )}
                       key={`slide_${i}`}
                       onClick={() => {
@@ -158,7 +180,10 @@ const HeroSection = ({ data }: Props) => {
               </div>
               <div className="relative">
                 <Swiper
-                  modules={[Controller, Navigation]}
+                  modules={[Controller, Navigation, Pagination]}
+                  pagination={{
+                    el: "#onlyMobilePagination",
+                  }}
                   onSwiper={setSecondSwiper}
                   controller={{ control: firstSwiper }}
                   autoHeight
@@ -191,7 +216,7 @@ const HeroSection = ({ data }: Props) => {
 
                 <button
                   id="prevNavigationBtn"
-                  className="absolute left-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="absolute max-lg:hidden left-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <ChevronLeft
                     className="size-12 drop-shadow"
@@ -200,188 +225,27 @@ const HeroSection = ({ data }: Props) => {
                 </button>
                 <button
                   id="nextNavigationBtn"
-                  className="absolute right-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="absolute max-lg:hidden right-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <ChevronRight
                     className="size-12 drop-shadow"
                     strokeWidth={1}
                   />
                 </button>
+
+                <div
+                  id="onlyMobilePagination"
+                  className="lg:hidden absolute z-10 flex items-center gap-1.5 left-1/2 -translate-x-1/2 bottom-3"
+                ></div>
               </div>
             </div>
-
-            <Accordion
-              type="single"
-              collapsible
-              className="mt-10 [&>div]:border-t-[1.5px] [&>div]:border-app-text/60"
-            >
-              {data.longDescription && (
-                <AccordionItem value="long-description">
-                  <AccordionTrigger className="py-4 text-xl">
-                    PRODUCT OVERZICHT
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div
-                      className="prose"
-                      dangerouslySetInnerHTML={{
-                        __html: data.longDescription,
-                      }}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              )}
-              {!!data.faqs?.length &&
-                data.faqs.map((faq) => (
-                  <AccordionItem key={faq.id} value={faq.id}>
-                    <AccordionTrigger className="py-4 text-xl">
-                      {faq.title}
-                    </AccordionTrigger>
-                    <AccordionContent>{faq.content}</AccordionContent>
-                  </AccordionItem>
-                ))}
-
-              {!!data.specs?.length &&
-                data.specs.map((spec) => (
-                  <AccordionItem key={spec.id} value={spec.id}>
-                    <AccordionTrigger className="py-4 text-xl">
-                      {spec.label}
-                    </AccordionTrigger>
-                    <AccordionContent>{spec.value}</AccordionContent>
-                  </AccordionItem>
-                ))}
-
-              <AccordionItem value="reviews">
-                <AccordionTrigger className="py-4 text-xl">
-                  KLANTREVIEWS
-                  <div className="ml-auto mr-2 flex items-center gap-2">
-                    <div className="translate-y-[3px]">
-                      <ReactRating
-                        // fullSymbol="fa fa-star-o fa-2x"
-                        emptySymbol={<Star className="size-5" stroke="black" />}
-                        fullSymbol={
-                          <Star
-                            className="size-5"
-                            fill="black"
-                            stroke="black"
-                          />
-                        }
-                        initialRating={averageRating}
-                        readonly
-                      />
-                    </div>
-                    {typeof totalReviewsCount === "number" && (
-                      <span className="text-sm font-normal text-app-text">
-                        ({totalReviewsCount})
-                      </span>
-                    )}
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="pt-5">
-                  <div className="flex items-center justify-between">
-                    <p className="font-semibold">
-                      Algemene rating ({averageRating || "0.00"})
-                    </p>
-
-                    {(canGiveReview || openReviewForm) && (
-                      <Button
-                        intent={"outline-primary"}
-                        size={"md"}
-                        className="font-semibold"
-                        onClick={() => setOpenReviewForm(!openReviewForm)}
-                      >
-                        {openReviewForm ? "ANNULEREN" : "SCHRIJF JE RECENSIE"}
-                      </Button>
-                    )}
-                  </div>
-
-                  {openReviewForm && canGiveReview && (
-                    <ProductReviewForm
-                      productId={data.id}
-                      onSuccess={() => {
-                        setOpenReviewForm(false);
-                        canGiveReviewQueryOptions.refetch();
-                        productReviewsQueryOptions.query.refetch();
-                      }}
-                    />
-                  )}
-
-                  <div className="mt-5">
-                    {/** Rating --Start-- */}
-                    {productReviewsQueryOptions.query.isError ? (
-                      <p className="px-5 py-14 text-center text-app-danger">
-                        {getApiErrorMessage(
-                          productReviewsQueryOptions.query.error,
-                        )}
-                      </p>
-                    ) : (
-                      productReviews.map((review) => (
-                        <div
-                          className="border-t-[1.5px] border-app-text/20 py-5"
-                          key={review.id}
-                        >
-                          <div className="flex items-center justify-start gap-1">
-                            <p className="text-base font-semibold">
-                              {review.user?.name}
-                            </p>
-                            <Dot className="size-3.5 opacity-30" />
-                            <p className="text-sm capitalize text-app-text">
-                              {format(review.createdAt, "MMM dd, yyyy")}
-                            </p>
-                          </div>
-                          <div className="mt-1 flex items-center gap-2.5">
-                            <div className="translate-y-0.5">
-                              <ReactRating
-                                emptySymbol={
-                                  <Star className="size-4" stroke="black" />
-                                }
-                                fullSymbol={
-                                  <Star
-                                    className="size-4"
-                                    fill="black"
-                                    stroke="black"
-                                  />
-                                }
-                                initialRating={review.rating}
-                                readonly
-                              />
-                            </div>
-                            <div className="h-3.5 w-px bg-app-text/30"></div>
-                            <div className="flex items-center gap-1 text-sm font-semibold text-app-primary">
-                              <BadgeCheck className="size-5 fill-app-primary stroke-white" />{" "}
-                              Geverifieerde aankoop
-                            </div>
-                          </div>
-
-                          <p className="mt-2 text-app-text">{review.comment}</p>
-                        </div>
-                      ))
-                    )}
-
-                    {productReviewsQueryOptions.query.isFetching && (
-                      <div className="flex justify-center py-5">
-                        <Spinner className="size-8" />
-                      </div>
-                    )}
-                    {/** Rating --End-- */}
-                  </div>
-                  <DataTablePagination
-                    query={{
-                      ...productReviewsQueryOptions.query,
-                      activePage: productReviewsQueryOptions.activePage,
-                      fetchPage: productReviewsQueryOptions.fetchPage,
-                      totalPage: productReviewsQueryOptions.totalPage,
-                    }}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
           </div>
 
-          <div>
-            <h1 className="__h1 text-app-black">{data.name}</h1>
+          <div className="max-lg:px-5">
+            <h1 className="__h4 lg:__h1 text-app-black">{data.name}</h1>
             {data.description && (
               <div
-                className="prose mt-3 max-w-[480px]"
+                className="prose-sm lg:prose mt-2 lg:mt-3 max-w-[480px]"
                 dangerouslySetInnerHTML={{
                   __html: data.description || "",
                 }}
@@ -436,6 +300,182 @@ const HeroSection = ({ data }: Props) => {
               </>
             )}
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[700px,auto] gap-10 max-lg:px-5">
+          <Accordion
+            type="single"
+            collapsible
+            className="mt-10 [&>div]:border-t-[1.5px] [&>div]:border-app-text/60"
+          >
+            {data.longDescription && (
+              <AccordionItem value="long-description">
+                <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
+                  PRODUCT OVERZICHT
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div
+                    className="prose"
+                    dangerouslySetInnerHTML={{
+                      __html: data.longDescription,
+                    }}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {!!data.faqs?.length &&
+              data.faqs.map((faq) => (
+                <AccordionItem key={faq.id} value={faq.id}>
+                  <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
+                    {faq.title}
+                  </AccordionTrigger>
+                  <AccordionContent className="whitespace-pre-line">
+                    {faq.content}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+
+            {!!data.specs?.length &&
+              data.specs.map((spec) => (
+                <AccordionItem key={spec.id} value={spec.id}>
+                  <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
+                    {spec.label}
+                  </AccordionTrigger>
+                  <AccordionContent className="whitespace-pre-line">
+                    {spec.value}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+
+            <AccordionItem value="reviews">
+              <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
+                KLANTREVIEWS
+                <div className="ml-auto mr-2 flex items-center gap-2">
+                  <div className="translate-y-[3px]">
+                    <ReactRating
+                      // fullSymbol="fa fa-star-o fa-2x"
+                      emptySymbol={
+                        <Star className="size-4 lg:size-5" stroke="black" />
+                      }
+                      fullSymbol={
+                        <Star
+                          className="size-4 lg:size-5"
+                          fill="black"
+                          stroke="black"
+                        />
+                      }
+                      initialRating={averageRating}
+                      readonly
+                    />
+                  </div>
+                  {typeof totalReviewsCount === "number" && (
+                    <span className="text-sm font-normal text-app-text">
+                      ({totalReviewsCount})
+                    </span>
+                  )}
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pt-2 lg:pt-5">
+                <div className="flex sm:items-center max-sm:flex-col gap-4 sm:justify-between">
+                  <p className="font-semibold">
+                    Algemene rating ({averageRating || "0.00"})
+                  </p>
+
+                  {(canGiveReview || openReviewForm) && (
+                    <Button
+                      intent={"outline-primary"}
+                      size={"md"}
+                      className="font-semibold"
+                      onClick={() => setOpenReviewForm(!openReviewForm)}
+                    >
+                      {openReviewForm ? "ANNULEREN" : "SCHRIJF JE RECENSIE"}
+                    </Button>
+                  )}
+                </div>
+
+                {openReviewForm && canGiveReview && (
+                  <ProductReviewForm
+                    productId={data.id}
+                    onSuccess={() => {
+                      setOpenReviewForm(false);
+                      canGiveReviewQueryOptions.refetch();
+                      productReviewsQueryOptions.query.refetch();
+                    }}
+                  />
+                )}
+
+                <div className="mt-5">
+                  {/** Rating --Start-- */}
+                  {productReviewsQueryOptions.query.isError ? (
+                    <p className="px-5 py-14 text-center text-app-danger">
+                      {getApiErrorMessage(
+                        productReviewsQueryOptions.query.error,
+                      )}
+                    </p>
+                  ) : (
+                    productReviews.map((review) => (
+                      <div
+                        className="border-t-[1.5px] border-app-text/20 py-5"
+                        key={review.id}
+                      >
+                        <div className="flex items-center justify-start gap-1">
+                          <p className="text-base font-semibold">
+                            {review.user?.name}
+                          </p>
+                          <Dot className="size-3.5 opacity-30" />
+                          <p className="text-sm capitalize text-app-text">
+                            {format(review.createdAt, "MMM dd, yyyy")}
+                          </p>
+                        </div>
+                        <div className="mt-1 flex items-center gap-2.5">
+                          <div className="translate-y-0.5">
+                            <ReactRating
+                              emptySymbol={
+                                <Star className="size-4" stroke="black" />
+                              }
+                              fullSymbol={
+                                <Star
+                                  className="size-4"
+                                  fill="black"
+                                  stroke="black"
+                                />
+                              }
+                              initialRating={review.rating}
+                              readonly
+                            />
+                          </div>
+                          <div className="h-3.5 w-px bg-app-text/30"></div>
+                          <div className="flex items-center gap-1 text-sm font-semibold text-app-primary">
+                            <BadgeCheck className="size-5 fill-app-primary stroke-white" />{" "}
+                            Geverifieerde aankoop
+                          </div>
+                        </div>
+
+                        <p className="mt-2 text-app-text max-lg:text-sm">
+                          {review.comment}
+                        </p>
+                      </div>
+                    ))
+                  )}
+
+                  {productReviewsQueryOptions.query.isFetching && (
+                    <div className="flex justify-center py-5">
+                      <Spinner className="size-8" />
+                    </div>
+                  )}
+                  {/** Rating --End-- */}
+                </div>
+                <DataTablePagination
+                  query={{
+                    ...productReviewsQueryOptions.query,
+                    activePage: productReviewsQueryOptions.activePage,
+                    fetchPage: productReviewsQueryOptions.fetchPage,
+                    totalPage: productReviewsQueryOptions.totalPage,
+                  }}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
     </section>
@@ -506,9 +546,9 @@ function ProductVariationSection({
   return (
     <div>
       {data.attributes.map((attribute) => (
-        <div key={attribute.id} className="mt-5">
+        <div key={attribute.id} className="mt-3 lg:mt-5">
           {/* <pre>{JSON.stringify(v?.appearance, null, 2)}</pre> */}
-          <div className="text-lg font-semibold capitalize">
+          <div className="text-sm lg:text-lg font-semibold capitalize">
             {attribute.name}
           </div>
           {(attribute as any)?.appearance === "dropdown" ? (
@@ -524,7 +564,7 @@ function ProductVariationSection({
                     });
                   });
                 }}
-                className="h-10 w-auto min-w-[200px] cursor-pointer rounded-md border-[1.5px] border-app-text/40 bg-white px-3 pr-8 text-base font-bold text-app-black outline-none focus:border-app-black"
+                className="h-8 lg:h-10 w-auto min-w-[200px] cursor-pointer rounded-md border-[1.5px] border-app-text/40 bg-white px-3 pr-8 text-sm lg:text-base font-bold text-app-black outline-none focus:border-app-black"
               >
                 <option value="">Selecteer optie</option>
                 {attribute.terms
@@ -559,7 +599,7 @@ function ProductVariationSection({
                       });
                     }}
                     className={cn(
-                      " border-2 duration-200 ring-offset-1 outline-none focus-visible:ring-1 flex items-center gap-2   border-app-darker-green  text-app-darker-green focus-visible:ring-app-darker-green text-base font-medium h-10 rounded-lg px-4 disabled:opacity-70",
+                      "border-2 duration-200 max-lg:text-sm max-lg:px-3 max-lg:h-8 ring-offset-1 outline-none focus-visible:ring-1 flex items-center gap-2   border-app-darker-green  text-app-darker-green focus-visible:ring-app-darker-green text-base font-medium h-10 rounded-lg px-4 disabled:opacity-70",
                       selectedTerms.find((vv) => vv.attributeTermId == t.id) &&
                         "bg-app-darker-green text-white",
                     )}
@@ -664,67 +704,73 @@ function PriceButtonSection({
   if (!displayPrice) return null;
 
   return (
-    <div className="mt-7 flex w-full items-center gap-3 border-y border-black py-4">
-      <p className="font-open-sans text-4xl font-medium text-app-black">
+    <div className="mt-7 grid grid-cols-2 gap-y-3 md:flex w-full items-center gap-3 border-t md:border-y border-app-black/20 py-4">
+      <p className="font-open-sans text-xl lg:text-4xl font-bold md:font-medium text-app-black">
         {currency_symbol}
         {displayPrice}
       </p>
 
       {!isDisabled && (
-        <div className="flex items-center">
-          <button
-            onClick={() => {
-              setCounter((prev) => prev - 1);
-            }}
-            disabled={counter <= 1}
-            className="px-4 py-2.5 text-lg font-medium disabled:opacity-50"
-          >
-            <FaMinus />
-          </button>
-          <div className="__c_all aspect-square w-10 rounded-full border-2 border-app-dark-grey font-open-sans">
-            {counter}
+        <div className="max-md:flex max-md:justify-end">
+          <div className="flex w-fit items-center gap-2 rounded-full border border-app-dark-grey/50 p-0.5">
+            <button
+              onClick={() => {
+                setCounter((prev) => prev - 1);
+              }}
+              disabled={counter <= 1}
+              className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 disabled:opacity-30 lg:size-9"
+            >
+              <PlusIcon className="size-3.5 lg:size-4" />
+            </button>
+            <div className="font-open-sans max-lg:text-sm">{counter}</div>
+            <button
+              onClick={() => {
+                setCounter((prev) => prev + 1);
+              }}
+              disabled={counter == limit}
+              className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 lg:size-9"
+            >
+              <MinusIcon className="size-3.5 lg:size-4" />
+            </button>
           </div>
-          <button
-            onClick={() => {
-              setCounter((prev) => prev + 1);
-            }}
-            disabled={counter == limit}
-            className="px-4 py-2.5 text-lg  font-medium disabled:opacity-50"
-          >
-            <FaPlus />
-          </button>
         </div>
       )}
 
-      {limit == 0 ? (
-        <Button
-          className="pointer-events-none ml-5 px-4"
-          intent={"danger"}
-          size={"md"}
-        >
-          Geen voorraad meer
-        </Button>
-      ) : (
-        <>
-          {isDisabled ? (
-            <Link href={routes.cart}>
-              <Button className="ml-5 px-4" size={"md"}>
+      <div className="max-md:col-span-2">
+        {limit == 0 ? (
+          <Button
+            className="pointer-events-none lg:ml-5 px-4 max-md:w-full"
+            intent={"danger"}
+            size={"md"}
+          >
+            Geen voorraad meer
+          </Button>
+        ) : (
+          <>
+            {isDisabled ? (
+              <Link
+                className={button({
+                  className: "lg:ml-5 px-4 max-md:w-full",
+                  size: "md",
+                })}
+                href={routes.cart}
+              >
                 Ga naar winkelwagen
+              </Link>
+            ) : (
+              <Button
+                loading={loading}
+                disabled={loading || isDisabled}
+                onClick={onAddItem}
+                className="px-4 max-md:w-full"
+                size={"md"}
+              >
+                {isDisabled ? "Al in winkelwagen" : "In Winkelmandje"}
               </Button>
-            </Link>
-          ) : (
-            <Button
-              loading={loading}
-              disabled={loading || isDisabled}
-              onClick={onAddItem}
-              className="px-4"
-              size={"md"}
-            >
-              {isDisabled ? "Al in winkelwagen" : "In Winkelmandje"}
-            </Button>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

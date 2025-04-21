@@ -4,7 +4,7 @@ import { HTMLAttributes } from "react";
 
 const HowItWorksFlowsSection = () => {
   return (
-    <section className="my-[100px] space-y-[100px]">
+    <section className="my-8 space-y-10 lg:my-[100px] lg:space-y-[100px]">
       <Flow
         title="1. Bereken jouw persoonlijke caloriebehoefte"
         description="Om je te helpen met een maaltijdplan dat past bij jouw lichaam en doelen, beginnen we met een eenvoudige berekening. Tijdens het aanmeldproces vragen we om wat basisinformatie, zoals je leeftijd, gewicht, lengte en activiteitenniveau. Dit helpt ons te bepalen hoeveel calorieën je nodig hebt om gezond te blijven, aan te komen, of juist af te vallen. Geen zorgen als dit nieuw voor je is; we leggen alles uit en doen het rekenen voor jou!"
@@ -67,20 +67,20 @@ const Flow = ({
   return (
     <section>
       <div className="container">
-        <div className="grid grid-cols-[auto,600px] items-center gap-x-[100px]">
-          <div className={cn(reverseLayout && "order-2")}>
-            <h2 className="__h2 font-oswald font-normal uppercase text-app-darker-green">
+        <div className="grid grid-cols-1 items-center gap-x-[100px] gap-y-4 lg:grid-cols-[auto,600px]">
+          <div className={cn(reverseLayout && "order-2", "max-lg:order-2")}>
+            <h2 className="__h4 lg:__h2 font-oswald font-normal uppercase text-app-darker-green">
               {title}
             </h2>
-            <p className="__body_18 mt-4 max-w-[500px] text-app-black">
+            <p className="__body_16 lg:__body_18 mt-2 max-w-[500px] text-app-black lg:mt-4">
               {description}
             </p>
           </div>
-          <div className="relative overflow-hidden rounded-[20px] bg-app-dark-grey/20">
+          <div className="relative overflow-hidden rounded-2xl bg-app-dark-grey/20 lg:rounded-[20px]">
             <div
               {...imgLabelProps}
               className={cn(
-                "absolute top-10 left-0 z-10 rounded-r-2xl px-8 h-14 flex items-center justify-center __body_16 font-montserrat font-bold text-white bg-app-orange",
+                "absolute top-6 lg:top-10 left-0 z-10 rounded-r-2xl px-5 lg:px-8 h-10 lg:h-14 flex items-center justify-center text-sm lg:__body_16 font-montserrat font-bold text-white bg-app-orange",
                 className,
               )}
             />

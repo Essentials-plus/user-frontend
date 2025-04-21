@@ -68,11 +68,16 @@ const ProductReviewForm = ({
   };
 
   return (
-    <div className="mt-8 rounded-md border border-app-text/20 bg-white p-6 pt-5">
+    <div className="mt-5 lg:mt-8 rounded-md border border-app-text/20 bg-white p-4 lg:p-6 lg:pt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="mb-6 text-xl font-bold">Schrijf je review hier</h2>
+        <h2 className="mb-5 lg:mb-6 text-lg lg:text-xl font-bold">
+          Schrijf je review hier
+        </h2>
         <div>
-          <label className="mb-1.5 inline-block font-semibold" htmlFor="review">
+          <label
+            className="mb-1.5 max-lg:text-sm inline-block font-semibold"
+            htmlFor="review"
+          >
             Bekijk beschrijving
           </label>
           <textarea
@@ -80,7 +85,7 @@ const ProductReviewForm = ({
             id="review"
             rows={6}
             placeholder="Laat ons weten wat je van dit product vindt"
-            className="block w-full resize-none border-b-[3px] border-transparent bg-app-black/5 p-4 outline-none focus:border-app-black"
+            className="block w-full max-lg:text-sm resize-none border-b-[3px] border-transparent bg-app-black/5 p-4 outline-none focus:border-app-black"
             {...register("comment")}
           />
           {errors.comment && (
@@ -96,9 +101,13 @@ const ProductReviewForm = ({
           <div className="translate-y-1">
             <ReactRating
               // fullSymbol="fa fa-star-o fa-2x"
-              emptySymbol={<Star className="size-8" stroke="#888" />}
+              emptySymbol={<Star className="size-5 lg:size-8" stroke="#888" />}
               fullSymbol={
-                <Star className="size-8" fill="black" stroke="black" />
+                <Star
+                  className="size-5 lg:size-8"
+                  fill="black"
+                  stroke="black"
+                />
               }
               fractions={1}
               initialRating={ratingValue}
