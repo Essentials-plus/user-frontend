@@ -68,14 +68,14 @@ const ProductReviewForm = ({
   };
 
   return (
-    <div className="mt-5 lg:mt-8 rounded-md border border-app-text/20 bg-white p-4 lg:p-6 lg:pt-5">
+    <div className="mt-5 rounded-md border border-app-text/20 bg-white p-4 lg:mt-8 lg:p-6 lg:pt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="mb-5 lg:mb-6 text-lg lg:text-xl font-bold">
+        <h2 className="mb-5 text-lg font-bold lg:mb-6 lg:text-xl">
           Schrijf je review hier
         </h2>
         <div>
           <label
-            className="mb-1.5 max-lg:text-sm inline-block font-semibold"
+            className="mb-1.5 inline-block font-semibold max-lg:text-sm"
             htmlFor="review"
           >
             Bekijk beschrijving
@@ -85,7 +85,7 @@ const ProductReviewForm = ({
             id="review"
             rows={6}
             placeholder="Laat ons weten wat je van dit product vindt"
-            className="block w-full max-lg:text-sm resize-none border-b-[3px] border-transparent bg-app-black/5 p-4 outline-none focus:border-app-black"
+            className="block w-full resize-none border-b-[3px] border-transparent bg-app-black/5 p-4 outline-none focus:border-app-black max-lg:text-sm"
             {...register("comment")}
           />
           {errors.comment && (

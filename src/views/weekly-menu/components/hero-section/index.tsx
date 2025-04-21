@@ -46,9 +46,9 @@ const HeroSection = ({
       <div className="container" ref={ref}></div>
 
       <div className="max-lg:!px-5" style={{ paddingLeft: bounds.left }}>
-        <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-[480px,auto] gap-12">
+        <div className="grid grid-cols-1 gap-12 gap-y-4 lg:grid-cols-[480px,auto]">
           <div className="lg:pl-6">
-            <h1 className="text-center text-xl lg:text-4xl font-semibold lg:font-bold uppercase">
+            <h1 className="text-center text-xl font-semibold uppercase lg:text-4xl lg:font-bold">
               WEEKmenu Van
             </h1>
             <div className="mt-3 lg:mt-5">
@@ -59,7 +59,7 @@ const HeroSection = ({
               />
             </div>
 
-            <div className="rounded-b-2xl lg:rounded-b-[40px] bg-[#D9D9D9] px-4 py-3 lg:px-8 lg:py-4 text-sm font-medium lg:text-xl lg:font-semibold">
+            <div className="rounded-b-2xl bg-[#D9D9D9] px-4 py-3 text-sm font-medium lg:rounded-b-[40px] lg:px-8 lg:py-4 lg:text-xl lg:font-semibold">
               <p>
                 Reeks: <br /> {currentWeekDates.start.toLocaleDateString()} tm{" "}
                 {currentWeekDates.end.toLocaleDateString()}
@@ -70,7 +70,7 @@ const HeroSection = ({
           <div>
             <div
               style={{ paddingRight: bounds.left }}
-              className="lg:rounded-l-[40px] bg-app-darker-green max-lg:rounded-xl"
+              className="bg-app-darker-green max-lg:rounded-xl lg:rounded-l-[40px]"
             >
               <div className="max-lg:p-4 lg:py-11 lg:pl-12 lg:pr-6">
                 <div className="flex flex-wrap items-center gap-2 lg:gap-5">
@@ -106,16 +106,16 @@ const HeroSection = ({
                   </div>
                 </div>
 
-                <p className="mt-6 lg:mt-12 text-left text-sm font-medium lg:font-semibold text-white">
+                <p className="mt-6 text-left text-sm font-medium text-white lg:mt-12 lg:font-semibold">
                   Uw eerst volgende lockdown en bezorgmomenten zijn:
                 </p>
-                <p className="mt-2 flex items-center gap-4 text-base lg:text-3xl font-semibold text-white">
+                <p className="mt-2 flex items-center gap-4 text-base font-semibold text-white lg:text-3xl">
                   Lockdowndatum:{" "}
                   {format(new Date(lockdownDate), "EEEE, dd/MM/yyyy", {
                     locale: nl,
                   })}
                 </p>
-                <p className="mt-1 lg:mt-2 flex items-center gap-4 text-base lg:text-3xl font-semibold text-white">
+                <p className="mt-1 flex items-center gap-4 text-base font-semibold text-white lg:mt-2 lg:text-3xl">
                   Leverdatum:{" "}
                   {format(
                     getNextDeliveryDate(lockdownDate),

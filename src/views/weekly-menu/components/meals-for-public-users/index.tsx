@@ -38,21 +38,21 @@ const MealsForPublicUsers = ({
 
   return (
     <>
-      <div className="relative lg:flex min-h-[calc(70vh)] max-w-[100vw] items-center overflow-x-hidden">
+      <div className="relative min-h-[calc(70vh)] max-w-[100vw] items-center overflow-x-hidden lg:flex">
         <div className="container">
           <div className="max-w-[659px] max-lg:pt-20">
-            <h1 className="max-lg:text-4xl font-semibold lg:__h1 uppercase">
+            <h1 className="lg:__h1 font-semibold uppercase max-lg:text-4xl">
               Essentials Menu
             </h1>
-            <p className="__body_16 lg:__body_25 mt-3 mb-6 lg:mb-10 lg:mt-5 uppercase text-black">
+            <p className="__body_16 lg:__body_25 mb-6 mt-3 uppercase text-black lg:mb-10 lg:mt-5">
               Wekelijks varierende recepten. <br />
               Simpel thuis bezorgt!
             </p>
-            <p className="text-xl font-semibold lg:__h2 mt-6 lg:mt-14 uppercase">
+            <p className="lg:__h2 mt-6 text-xl font-semibold uppercase lg:mt-14">
               WEEKmenu Van
             </p>
 
-            <div className="mt-3 lg:mt-5 max-w-[500px]">
+            <div className="mt-3 max-w-[500px] lg:mt-5">
               <WeekNumbersSlider
                 onWeekChange={setActiveWeekNumber}
                 weekNumber={activeWeekNumber}
@@ -61,10 +61,10 @@ const MealsForPublicUsers = ({
             </div>
 
             <div className="mt-9">
-              <h3 className="text-xl lg:__h3 max-lg:font-semibold font-bold uppercase">
+              <h3 className="lg:__h3 text-xl font-bold uppercase max-lg:font-semibold">
                 categorieën
               </h3>
-              <div className="mt-3 flex items-center flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
                 {mealTypeOptions.map((option) => (
                   <button
                     onClick={() =>
@@ -99,7 +99,7 @@ const MealsForPublicUsers = ({
       </div>
 
       <section className="my-10 lg:my-[113px]">
-        <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-7 lg:gap-x-7 lg:gap-y-10 font-montserrat">
+        <div className="container grid grid-cols-1 gap-x-6 gap-y-7 font-montserrat md:grid-cols-2 lg:grid-cols-4 lg:gap-x-7 lg:gap-y-10">
           {meals.map((meal, i) => (
             <div key={meal.id} ref={getRef(i, meals)}>
               <Image
@@ -109,11 +109,11 @@ const MealsForPublicUsers = ({
                 height={263}
                 className="h-[210px] bg-app-grey object-cover"
               />
-              <h4 className="__h4 mt-3 lg:mt-4 line-clamp-2">
+              <h4 className="__h4 mt-3 line-clamp-2 lg:mt-4">
                 {meal.mealName}
               </h4>
               <p className="__body_16 text-app-text">{meal.shortDescription}</p>
-              <div className="mt-3 lg:mt-5 flex items-center gap-x-2.5">
+              <div className="mt-3 flex items-center gap-x-2.5 lg:mt-5">
                 <div className="flex items-center gap-x-2">
                   <ClockIcon />
                   <p className="text-sm font-medium">{meal.cookingTime}</p>

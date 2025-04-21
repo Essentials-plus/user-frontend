@@ -18,16 +18,11 @@ const ProtectedRoutes = async ({ ctx: { req, res } }: AppContext) => {
 
     if (!isValid) throw new Error();
 
-    // const isMatch = pathname.match(AuthRouteRegex);
-    // if (isMatch) await serverClientRedirect(routes.home);
-
     return {
       token,
       user: parseJson(userStr),
     };
   } catch (err) {
-    // const isMatch = pathname.match(UserRouteRegex);
-    // if (isMatch) await serverClientRedirect(routes.logIn);
     return {};
   }
 };

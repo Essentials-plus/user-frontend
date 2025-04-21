@@ -5,10 +5,10 @@ const HowDoesItWorkSection = () => {
   return (
     <section className="relative isolate pt-10 lg:pt-[63px]">
       <div className="container">
-        <h2 className="__h3 max-lg:text-center lg:__h2">Hoe werkt het</h2>
+        <h2 className="__h3 lg:__h2 max-lg:text-center">Hoe werkt het</h2>
 
-        <div className="lg:mb-20 lg:mt-16 my-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 gap-y-7 lg:gap-x-10">
+        <div className="my-8 lg:mb-20 lg:mt-16">
+          <div className="grid grid-cols-1 gap-5 gap-y-7 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10">
             {howDoesItWorksCards.map(({ description, title }, i) => (
               <div
                 key={i}
@@ -18,8 +18,8 @@ const HowDoesItWorkSection = () => {
                   i === 1 && "bg-white",
                 )}
               >
-                <h4 className="text-lg lg:__h4 font-bold">{title}</h4>
-                <p className="__body_16 lg:__body_18 mt-4 lg:mt-6 font-medium">
+                <h4 className="lg:__h4 text-lg font-bold">{title}</h4>
+                <p className="__body_16 lg:__body_18 mt-4 font-medium lg:mt-6">
                   {description}
                 </p>
 
@@ -38,7 +38,7 @@ const HowDoesItWorkSection = () => {
         </div>
       </div>
 
-      <div className="absolute left-0 top-0 z-[-1] h-[715px] max-lg:hidden w-1/2 bg-app-yellow"></div>
+      <div className="absolute left-0 top-0 z-[-1] h-[715px] w-1/2 bg-app-yellow max-lg:hidden"></div>
     </section>
   );
 };

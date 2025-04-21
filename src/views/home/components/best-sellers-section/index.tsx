@@ -17,7 +17,7 @@ const BestSellersSection = () => {
   if (spotlightsProductBanners.length <= 0) return null;
 
   return (
-    <section className="my-16 md:mb-10 md:mt-10 lg:mb-[106px] lg:mt-[119px]">
+    <section className="my-16 md:my-10 lg:mb-[106px] lg:mt-[119px]">
       <div className="mx-auto max-w-[1920px]">
         <h2 className="text-center text-xl font-extrabold uppercase sm:text-2xl">
           In de spotlights
@@ -53,7 +53,7 @@ const BestSellersSection = () => {
                 />
                 <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 {discountPercentage > 0 && (
-                  <div className="absolute right-2 top-2 sm:top-4 sm:right-4 flex min-h-[25px] items-center justify-center bg-app-primary px-2.5 py-0.5 text-xs font-semibold text-white">
+                  <div className="absolute right-2 top-2 flex min-h-[25px] items-center justify-center bg-app-primary px-2.5 py-0.5 text-xs font-semibold text-white sm:right-4 sm:top-4">
                     -{discountPercentage.toFixed(0)}% Korting
                   </div>
                 )}

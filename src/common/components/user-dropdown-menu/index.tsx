@@ -53,7 +53,7 @@ const UserDropdownMenu = ({}: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="__c_all __fv aspect-square h-9 overflow-hidden rounded-full lg:border border-app-black duration-200 hover:scale-105">
+        <button className="__c_all __fv aspect-square h-9 overflow-hidden rounded-full border-app-black duration-200 hover:scale-105 lg:border">
           <LuUser className="size-5 lg:size-4" />
         </button>
       </DropdownMenuTrigger>
@@ -62,13 +62,13 @@ const UserDropdownMenu = ({}: Props) => {
         loop
         align="end"
         sideOffset={10}
-        className="rounded-xl border border-app-dark-grey bg-white min-w-[160px]"
+        className="min-w-[160px] rounded-xl border border-app-dark-grey bg-white"
       >
         {menuItems.map((menuItem, i) => (
           <DropdownMenuItem
             key={i}
             asChild
-            className="rounded-lg cursor-pointer"
+            className="cursor-pointer rounded-lg"
           >
             <Link
               href={menuItem.url}
@@ -77,7 +77,7 @@ const UserDropdownMenu = ({}: Props) => {
                   logout();
                 }
               }}
-              className="__body_16 flex items-center gap-2.5 px-4 pl-3.5 py-2.5 text-app-text outline-none"
+              className="__body_16 flex items-center gap-2.5 px-4 py-2.5 pl-3.5 text-app-text outline-none"
             >
               <menuItem.icon className="size-5" />
               {menuItem.label}

@@ -302,7 +302,7 @@ function MealOrderModal({
             onDayClick={(d) => setSelectedDay(d)}
             totalDays={totalDays}
           />
-          <div className="mt-8 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-20 lg:grid-cols-2">
             {currentDayMeals && currentDayMeals.length > 0 ? (
               sortMealsByMealType(currentDayMeals).map((v, i) => (
                 <MealCard key={v.id + i} meal={v} />

@@ -31,7 +31,7 @@ const HeroSection = () => {
     >
       <div className="container">
         <div className="ml-auto max-w-[659px] max-lg:py-14 lg:pl-28">
-          <h1 className="text-4xl font-bold lg:__h1 uppercase">
+          <h1 className="lg:__h1 text-4xl font-bold uppercase">
             {data?.title}
           </h1>
           <div

@@ -27,13 +27,13 @@ const SingleProduct = () => {
       <HeroSection data={data?.data} />
       {data.data.linkedProducts.length > 0 ? (
         <>
-          <div className="my-8 lg:my-12 h-px bg-app-black/20" />
+          <div className="my-8 h-px bg-app-black/20 lg:my-12" />
           <section className="mb-12">
             <div className="container">
               <h2 className="__h4 lg:__h3 text-center">
                 Misschien vind je dit ook leuk
               </h2>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-6 lg:mt-10 lg:grid-cols-4">
+              <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-4">
                 {data.data.linkedProducts.map((product) => (
                   <ProductCard key={product.id} data={product as any} />
                 ))}

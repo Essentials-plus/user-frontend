@@ -305,7 +305,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </label>
           </div>
 
-          <div className="mb-4 lg:mb-3 mt-5 lg:mt-10 max-lg:text-sm">
+          <div className="mb-4 mt-5 max-lg:text-sm lg:mb-3 lg:mt-10">
             <strong>Voorwaarden:</strong> Door op “Bestellen en betalen” te
             klikken, ga je akkoord met onze{" "}
             <Link
@@ -364,7 +364,7 @@ const Step3 = ({ user, payment_method }: Props) => {
         </div>
 
         <div>
-          <div className="overflow-hidden rounded-xl lg:rounded-3xl border border-black p-5">
+          <div className="overflow-hidden rounded-xl border border-black p-5 lg:rounded-3xl">
             <h4 className="text-base font-bold">Bestel overzicht:</h4>
             <div className="mt-2.5 flex items-center gap-x-5">
               <Image
@@ -410,7 +410,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </div>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-xl lg:rounded-3xl border border-black p-5">
+          <div className="mt-6 overflow-hidden rounded-xl border border-black p-5 lg:rounded-3xl">
             <div className="space-y-2.5">
               <h4 className="text-base font-bold">Bezorging</h4>
               <p>Eerste bezorging in uw regio:</p>

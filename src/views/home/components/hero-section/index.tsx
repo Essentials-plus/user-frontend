@@ -17,14 +17,14 @@ const HeroSection = () => {
     >
       <div className="container">
         <div className="max-w-[659px] max-lg:pt-16">
-          <h1 className="text-4xl font-bold lg:__h1 uppercase max-lg:text-white">
+          <h1 className="lg:__h1 text-4xl font-bold uppercase max-lg:text-white">
             Gezond eten <br /> makkelijk gemaakt{" "}
           </h1>
-          <p className="__body_16 uppercase text-black lg:__body_25 mb-10 mt-5 font-medium max-lg:text-white/90">
+          <p className="__body_16 lg:__body_25 mb-10 mt-5 font-medium uppercase text-black max-lg:text-white/90">
             Complete dagpakketen afgestemd op <br /> jou unieke behoeftes
           </p>
           <div className="flex lg:justify-center">
-            <StartTotdayButton className="lg:-translate-x-10 max-lg:bg-white max-lg:text-app-darker-green" />
+            <StartTotdayButton className="max-lg:bg-white max-lg:text-app-darker-green lg:-translate-x-10" />
           </div>
         </div>
       </div>

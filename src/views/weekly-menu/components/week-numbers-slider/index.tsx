@@ -25,7 +25,7 @@ const WeekNumbersSlider = ({
           nextEl: "#nextBtn",
         }}
       >
-        {weekNumberList.map((w, i) => {
+        {weekNumberList.map((w) => {
           // const isLast = i === weekNumberList.length - 1;
           return (
             <SwiperSlide
@@ -39,10 +39,10 @@ const WeekNumbersSlider = ({
                   w === weekNumber && "bg-app-yellow",
                 )}
               >
-                <p className="text-sm lg:__body_18 font-semibold lg:font-bold uppercase">
+                <p className="lg:__body_18 text-sm font-semibold uppercase lg:font-bold">
                   Week
                 </p>
-                <h3 className="mt-1 text-xl lg:text-5xl font-bold">
+                <h3 className="mt-1 text-xl font-bold lg:text-5xl">
                   {w.toString().padStart(2)}
                 </h3>
               </div>
@@ -53,13 +53,13 @@ const WeekNumbersSlider = ({
 
       <button
         id="prevBtn"
-        className="absolute right-[calc(100%-16px)] z-20 max-lg:disabled:hidden lg:right-[calc(100%+8px)] top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50"
+        className="absolute right-[calc(100%-16px)] top-1/2 z-20 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50 max-lg:disabled:hidden lg:right-[calc(100%+8px)]"
       >
         <ChevronLeft className="size-4" />
       </button>
       <button
         id="nextBtn"
-        className="absolute left-[calc(100%-16px)] z-20 max-lg:disabled:hidden lg:left-[calc(100%+8px)] top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50"
+        className="absolute left-[calc(100%-16px)] top-1/2 z-20 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-app-black/10 bg-app-grey disabled:cursor-not-allowed disabled:opacity-50 max-lg:disabled:hidden lg:left-[calc(100%+8px)]"
       >
         <ChevronRight className="size-4" />
       </button>

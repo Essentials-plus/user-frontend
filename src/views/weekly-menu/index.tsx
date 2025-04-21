@@ -234,7 +234,7 @@ function WeeklyMenuComponent({
               onDayClick={(d) => setSelectedDay(d)}
               totalDays={totalDays}
             />
-            <div className="mt-5 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-20 lg:grid-cols-2">
               {currentDayMeals && currentDayMeals.length > 0 ? (
                 currentDayMeals.map((v) => (
                   <MealCard
@@ -245,13 +245,13 @@ function WeeklyMenuComponent({
                   />
                 ))
               ) : (
-                <div className="col-span-2 text-center py-5 text-red-600">
+                <div className="col-span-2 py-5 text-center text-red-600">
                   Er is geen maaltijd voor de dag
                 </div>
               )}
             </div>
             {isButtonAvailable && (
-              <div className="mt-8 lg:mt-12 flex justify-end">
+              <div className="mt-8 flex justify-end lg:mt-12">
                 {isOrder ? (
                   <Button onClick={onOrderConfirm} loading={loading}>
                     Bezorg mijn box
@@ -284,7 +284,7 @@ function OrderNotification({
   if (weekNumber !== confirmOrderWeek) {
     return (
       <Alert className="border-yellow-200 bg-yellow-50">
-        <Calendar className="h-5 w-5 text-yellow-600" />
+        <Calendar className="size-5 text-yellow-600" />
         <AlertTitle className="text-yellow-700">
           Bestelling niet mogelijk
         </AlertTitle>
@@ -299,7 +299,7 @@ function OrderNotification({
 
   return (
     <Alert variant="destructive" className="border-red-200 bg-red-50">
-      <Clock className="h-5 w-5 text-red-600" />
+      <Clock className="size-5 text-red-600" />
       <AlertTitle className="text-red-700">Even geduld</AlertTitle>
       <AlertDescription>
         Wacht alstublieft tot volgende week om uw bestelling te plaatsen.
@@ -342,7 +342,7 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         onDayClick={(d) => setSelectedDay(d)}
         totalDays={totalDays}
       />
-      <div className="mt-5 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="mt-5 grid grid-cols-1 gap-6 lg:mt-20 lg:grid-cols-2">
         {currentDayMeals && currentDayMeals.length > 0 ? (
           sortMealsByMealType(currentDayMeals).map((v, i) => (
             <MealCard key={v.id + i} meal={v} />
@@ -352,9 +352,9 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         )}
       </div>
 
-      <div className="mt-8 lg:mt-12 flex justify-end">
+      <div className="mt-8 flex justify-end lg:mt-12">
         <Alert className="border-blue-200 bg-blue-50">
-          <Calendar className="h-5 w-5 text-blue-600" />
+          <Calendar className="size-5 text-blue-600" />
           <AlertTitle className="text-blue-700">
             U heeft al een bestelling geplaatst voor week{" "}
             <span className="font-semibold">{data.week}</span>

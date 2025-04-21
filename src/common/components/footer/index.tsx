@@ -23,7 +23,7 @@ const Footer = () => {
         style={{
           marginLeft: bounds.left + 24,
         }}
-        className="h-3 lg:h-4 rounded-l-[50px] bg-app-darker-green"
+        className="h-3 rounded-l-[50px] bg-app-darker-green lg:h-4"
       ></div>
 
       <div ref={ref} className="container">
@@ -35,7 +35,7 @@ const Footer = () => {
                 <a
                   href={url}
                   key={i}
-                  className="__c_all aspect-square h-10 w-10 rounded-full bg-app-grey text-xl duration-200 hover:bg-app-grey/60 sm:h-[45px] sm:w-[45px]"
+                  className="__c_all aspect-square size-10 rounded-full bg-app-grey text-xl duration-200 hover:bg-app-grey/60 sm:size-[45px]"
                 >
                   {icon}
                 </a>
@@ -48,7 +48,7 @@ const Footer = () => {
 
         <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-[520px,auto] lg:gap-x-[80px] xl:gap-x-[140px]">
           <div>
-            <h3 className="__h3 font-normal text-lg sm:text-xl">
+            <h3 className="__h3 text-lg font-normal sm:text-xl">
               Blijf op de hoogte
             </h3>
             <p className="__body_16 mb-4 mt-3 text-sm sm:text-base">
@@ -67,7 +67,7 @@ const Footer = () => {
                 <Button
                   onClick={handleFormSubmit}
                   disabled={subscribeToNewsletterMutation.isPending}
-                  className="w-full sm:w-[132px] px-5 text-sm sm:text-base"
+                  className="w-full px-5 text-sm sm:w-[132px] sm:text-base"
                 >
                   {subscribeToNewsletterMutation.isPending ? (
                     <Spinner className="size-4" />
@@ -98,7 +98,7 @@ const Footer = () => {
 
           <nav className="flex flex-wrap justify-between gap-y-8">
             {footer.navigations.map(({ label, links }, i) => (
-              <ul key={i} className="space-y-2.5 min-w-[130px]">
+              <ul key={i} className="min-w-[130px] space-y-2.5">
                 <li className="pb-2.5">
                   <h4 className="__h4 text-base font-semibold">{label}</h4>
                 </li>

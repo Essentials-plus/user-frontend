@@ -27,7 +27,6 @@ import useActiveCurrency from "@/hooks/useActiveCurrency";
 import useFirstRender from "@/hooks/useFirstRender";
 import usePaginatedQuery from "@/hooks/usePaginatedQuery";
 import DataTablePagination from "@/views/data-table-pagination";
-import { useMediaQuery } from "@mantine/hooks";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
@@ -57,7 +56,6 @@ const HeroSection = ({ data }: Props) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [firstSwiper, setFirstSwiper] = useState<any>(null);
   const [secondSwiper, setSecondSwiper] = useState<any>(null);
-  const isTablet = useMediaQuery("(min-width: 1024px)");
 
   const [openReviewForm, setOpenReviewForm] = useState(false);
 
@@ -111,10 +109,10 @@ const HeroSection = ({ data }: Props) => {
   return (
     <section className="lg:mb-20 lg:mt-[72px]">
       <div className="lg:container">
-        <div className="grid grid-cols-1 lg:grid-cols-[700px,auto] gap-y-5 gap-10">
+        <div className="grid grid-cols-1 gap-10 gap-y-5 lg:grid-cols-[700px,auto]">
           <div>
-            <div className="lg:grid lg:grid-cols-[auto,606px] gap-6 flex flex-col-reverse gap-y-[5px]">
-              <div className="lg:h-full max-lg:px-[5px]">
+            <div className="flex flex-col-reverse gap-6 gap-y-[5px] lg:grid lg:grid-cols-[auto,606px]">
+              <div className="max-lg:px-[5px] lg:h-full">
                 <Swiper
                   ref={firstSwiperRef}
                   className="!h-full max-h-[500px]"
@@ -216,7 +214,7 @@ const HeroSection = ({ data }: Props) => {
 
                 <button
                   id="prevNavigationBtn"
-                  className="absolute max-lg:hidden left-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="absolute left-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50 max-lg:hidden"
                 >
                   <ChevronLeft
                     className="size-12 drop-shadow"
@@ -225,7 +223,7 @@ const HeroSection = ({ data }: Props) => {
                 </button>
                 <button
                   id="nextNavigationBtn"
-                  className="absolute max-lg:hidden right-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="absolute right-2 top-1/2 z-20 -translate-y-1/2 text-white disabled:cursor-not-allowed disabled:opacity-50 max-lg:hidden"
                 >
                   <ChevronRight
                     className="size-12 drop-shadow"
@@ -235,7 +233,7 @@ const HeroSection = ({ data }: Props) => {
 
                 <div
                   id="onlyMobilePagination"
-                  className="lg:hidden absolute z-10 flex items-center gap-1.5 left-1/2 -translate-x-1/2 bottom-3"
+                  className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 lg:hidden"
                 ></div>
               </div>
             </div>
@@ -245,7 +243,7 @@ const HeroSection = ({ data }: Props) => {
             <h1 className="__h4 lg:__h1 text-app-black">{data.name}</h1>
             {data.description && (
               <div
-                className="prose-sm lg:prose mt-2 lg:mt-3 max-w-[480px]"
+                className="prose-sm mt-2 max-w-[480px] lg:prose lg:mt-3"
                 dangerouslySetInnerHTML={{
                   __html: data.description || "",
                 }}
@@ -302,7 +300,7 @@ const HeroSection = ({ data }: Props) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[700px,auto] gap-10 max-lg:px-5">
+        <div className="grid grid-cols-1 gap-10 max-lg:px-5 lg:grid-cols-[700px,auto]">
           <Accordion
             type="single"
             collapsible
@@ -376,7 +374,7 @@ const HeroSection = ({ data }: Props) => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-2 lg:pt-5">
-                <div className="flex sm:items-center max-sm:flex-col gap-4 sm:justify-between">
+                <div className="flex gap-4 max-sm:flex-col sm:items-center sm:justify-between">
                   <p className="font-semibold">
                     Algemene rating ({averageRating || "0.00"})
                   </p>
@@ -548,7 +546,7 @@ function ProductVariationSection({
       {data.attributes.map((attribute) => (
         <div key={attribute.id} className="mt-3 lg:mt-5">
           {/* <pre>{JSON.stringify(v?.appearance, null, 2)}</pre> */}
-          <div className="text-sm lg:text-lg font-semibold capitalize">
+          <div className="text-sm font-semibold capitalize lg:text-lg">
             {attribute.name}
           </div>
           {(attribute as any)?.appearance === "dropdown" ? (
@@ -564,7 +562,7 @@ function ProductVariationSection({
                     });
                   });
                 }}
-                className="h-8 lg:h-10 w-auto min-w-[200px] cursor-pointer rounded-md border-[1.5px] border-app-text/40 bg-white px-3 pr-8 text-sm lg:text-base font-bold text-app-black outline-none focus:border-app-black"
+                className="h-8 w-auto min-w-[200px] cursor-pointer rounded-md border-[1.5px] border-app-text/40 bg-white px-3 pr-8 text-sm font-bold text-app-black outline-none focus:border-app-black lg:h-10 lg:text-base"
               >
                 <option value="">Selecteer optie</option>
                 {attribute.terms
@@ -704,8 +702,8 @@ function PriceButtonSection({
   if (!displayPrice) return null;
 
   return (
-    <div className="mt-7 grid grid-cols-2 gap-y-3 md:flex w-full items-center gap-3 border-t md:border-y border-app-black/20 py-4">
-      <p className="font-open-sans text-xl lg:text-4xl font-bold md:font-medium text-app-black">
+    <div className="mt-7 grid w-full grid-cols-2 items-center gap-3 border-t border-app-black/20 py-4 md:flex md:border-y">
+      <p className="font-open-sans text-xl font-bold text-app-black md:font-medium lg:text-4xl">
         {currency_symbol}
         {displayPrice}
       </p>
@@ -718,7 +716,7 @@ function PriceButtonSection({
                 setCounter((prev) => prev - 1);
               }}
               disabled={counter <= 1}
-              className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 disabled:opacity-30 lg:size-9"
+              className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30 lg:size-9"
             >
               <PlusIcon className="size-3.5 lg:size-4" />
             </button>
@@ -728,7 +726,7 @@ function PriceButtonSection({
                 setCounter((prev) => prev + 1);
               }}
               disabled={counter == limit}
-              className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 lg:size-9"
+              className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed lg:size-9"
             >
               <MinusIcon className="size-3.5 lg:size-4" />
             </button>
@@ -739,7 +737,7 @@ function PriceButtonSection({
       <div className="max-md:col-span-2">
         {limit == 0 ? (
           <Button
-            className="pointer-events-none lg:ml-5 px-4 max-md:w-full"
+            className="pointer-events-none px-4 max-md:w-full lg:ml-5"
             intent={"danger"}
             size={"md"}
           >

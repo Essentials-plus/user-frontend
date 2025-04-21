@@ -383,8 +383,8 @@ const GuestCheckoutLoginForm = ({
         </h2>
         <div className="mt-6">
           {isGuestUserIdEmail ? (
-            <div className="sm:flex grid grid-cols-[16px,auto] max-sm:gap-x-2 items-center gap-3 rounded-lg border border-app-black/15 bg-app-black/5 p-3">
-              <FaRegUserCircle className="size-4 lg:size-6 shrink-0" />
+            <div className="grid grid-cols-[16px,auto] items-center gap-3 rounded-lg border border-app-black/15 bg-app-black/5 p-3 max-sm:gap-x-2 sm:flex">
+              <FaRegUserCircle className="size-4 shrink-0 lg:size-6" />
               <div className="text-app-black">{guestUserId}</div>
 
               <button
@@ -405,7 +405,7 @@ const GuestCheckoutLoginForm = ({
                     refetch();
                   }
                 }}
-                className="sm:ml-auto max-sm:col-span-2 rounded-md bg-app-danger px-3 py-1.5 text-sm font-semibold text-white duration-200 hover:opacity-80"
+                className="rounded-md bg-app-danger px-3 py-1.5 text-sm font-semibold text-white duration-200 hover:opacity-80 max-sm:col-span-2 sm:ml-auto"
               >
                 Uitloggen
               </button>

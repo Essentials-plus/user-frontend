@@ -202,7 +202,7 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
                   updateCartItem(id, count - 1);
                 }}
                 disabled={count == 1}
-                className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 disabled:opacity-30 lg:size-9"
+                className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30 lg:size-9"
               >
                 <PlusIcon className="size-3.5 lg:size-4" />
               </button>
@@ -212,7 +212,7 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
                   // handleUpdateCart(product.id, { count: count + 1 }, variationId);
                   updateCartItem(id, count + 1);
                 }}
-                className="flex size-8 items-center justify-center rounded-full text-lg font-medium disabled:cursor-not-allowed enabled:hover:bg-black/5 lg:size-9"
+                className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed lg:size-9"
               >
                 <MinusIcon className="size-3.5 lg:size-4" />
               </button>

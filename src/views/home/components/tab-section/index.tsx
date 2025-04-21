@@ -88,12 +88,12 @@ const TabSection = ({ meals }: Props) => {
   return (
     <>
       <div className="max-lg:px-5">
-        <div className="relative z-50 mx-auto w-full max-w-[1132px] rounded-2xl lg:rounded-3xl border border-black bg-white px-4 py-5 sm:px-6 md:px-12 md:py-10 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)]">
-          <div className="flex flex-col gap-y-6 lg:flex-row md:items-center sm:gap-x-5 lg:gap-x-10">
-            <h3 className="shrink-0 font-oswald text-xl lg:text-2xl uppercase">
+        <div className="relative z-50 mx-auto w-full max-w-[1132px] rounded-2xl border border-black bg-white px-4 py-5 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)] sm:px-6 md:px-12 md:py-10 lg:rounded-3xl">
+          <div className="flex flex-col gap-y-6 sm:gap-x-5 md:items-center lg:flex-row lg:gap-x-10">
+            <h3 className="shrink-0 font-oswald text-xl uppercase lg:text-2xl">
               Laten we starten
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-[1fr,1fr,100px,100px,100px,1fr] max-sm:gap-y-3 gap-4 md:gap-x-2.5 w-full">
+            <div className="grid w-full grid-cols-2 gap-4 max-sm:gap-y-3 md:gap-x-2.5 lg:grid-cols-[1fr,1fr,100px,100px,100px,1fr]">
               <FilterSearchSelect
                 {...register("goal")}
                 label="Doel:"
@@ -170,12 +170,12 @@ const TabSection = ({ meals }: Props) => {
                 <Tabs.List className="flex justify-between gap-4">
                   {homeTabs.map(({ tabKey, trigger: { icon, title } }, i) => (
                     <Tabs.Trigger key={i} value={tabKey} className="group">
-                      <div className="relative h-[100px] lg:h-[180px] text-[#C4C4C4]/[.85] group-data-[state=active]:text-app-darker-green">
+                      <div className="relative h-[100px] text-[#C4C4C4]/[.85] group-data-[state=active]:text-app-darker-green lg:h-[180px]">
                         <div className="mx-auto w-fit">{icon}</div>
-                        <h5 className="mt-3 text-center font-oswald text-base sm:text-xl uppercase">
+                        <h5 className="mt-3 text-center font-oswald text-base uppercase sm:text-xl">
                           {title}
                         </h5>
-                        <PolygonShape className="absolute bottom-0 left-0 hidden w-[80%] translate-y-px lg:w-full group-data-[state=active]:block" />
+                        <PolygonShape className="absolute bottom-0 left-0 hidden w-4/5 translate-y-px group-data-[state=active]:block lg:w-full" />
                       </div>
                     </Tabs.Trigger>
                   ))}
@@ -184,15 +184,15 @@ const TabSection = ({ meals }: Props) => {
             </div>
 
             <div className="relative isolate">
-              <div className="absolute left-0 z-[-1] h-full w-full md:w-[calc(50%+634px+16px+76px)] max-lg:rounded-2xl lg:rounded-r-[80px] bg-app-grey"></div>
-              <div className="container max-lg:px-2 py-2 lg:pb-10 lg:pt-[76px]">
+              <div className="absolute left-0 z-[-1] size-full bg-app-grey max-lg:rounded-2xl md:w-[calc(50%+634px+16px+76px)] lg:rounded-r-[80px]"></div>
+              <div className="container py-2 max-lg:px-2 lg:pb-10 lg:pt-[76px]">
                 {homeTabs.map(({ tabKey, contentKey }, i) => (
                   <Tabs.Content key={i} value={tabKey}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-6 font-montserrat">
+                    <div className="grid grid-cols-1 gap-2 font-montserrat lg:grid-cols-2 lg:gap-6">
                       {filteredMeals?.[contentKey].map((m, cIndex) => (
                         <div
                           key={cIndex}
-                          className="grid grid-cols-1 md:grid-cols-[350px,auto] lg:grid-cols-[200px,auto] items-center overflow-hidden rounded-xl lg:rounded-[20px] bg-white"
+                          className="grid grid-cols-1 items-center overflow-hidden rounded-xl bg-white md:grid-cols-[350px,auto] lg:grid-cols-[200px,auto] lg:rounded-[20px]"
                         >
                           <div className="h-full">
                             <Image
@@ -200,15 +200,15 @@ const TabSection = ({ meals }: Props) => {
                               width={183}
                               height={174}
                               alt={m.mealName}
-                              className="aspect-video lg:aspect-square w-full object-cover"
+                              className="aspect-video w-full object-cover lg:aspect-square"
                             />
                           </div>
 
                           <div className="p-4 sm:p-5">
-                            <h3 className="__h5 font-semibold lg:__h3">
+                            <h3 className="__h5 lg:__h3 font-semibold">
                               {m.mealName}
                             </h3>
-                            <div className="mt-2.5 lg:mt-6 flex flex-wrap sm:justify-between gap-x-7 lg:gap-x-4 gap-y-3">
+                            <div className="mt-2.5 flex flex-wrap gap-x-7 gap-y-3 sm:justify-between lg:mt-6 lg:gap-x-4">
                               {[
                                 {
                                   label: "Calorie",
@@ -232,10 +232,10 @@ const TabSection = ({ meals }: Props) => {
                                 },
                               ].map((item, i) => (
                                 <div key={i} className="flex flex-col">
-                                  <p className="text-xs md:text-sm text-app-black">
+                                  <p className="text-xs text-app-black md:text-sm">
                                     {item.label}
                                   </p>
-                                  <p className="text-xs md:text-sm font-bold text-app-dark-blue mt-1">
+                                  <p className="mt-1 text-xs font-bold text-app-dark-blue md:text-sm">
                                     {item.value}
                                   </p>
                                 </div>

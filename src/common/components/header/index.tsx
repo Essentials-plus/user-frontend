@@ -54,10 +54,10 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className="sticky left-0 top-0 z-[99] border-b border-app-dark-grey/50 bg-white py-3 lg:py-5 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.05)]"
+      className="sticky left-0 top-0 z-[99] border-b border-app-dark-grey/50 bg-white py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.05)] lg:py-5"
     >
       <div className="container relative max-sm:px-3.5">
-        <div className="lg:flex items-center grid grid-cols-[1fr_auto_1fr] lg:justify-between gap-3">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 lg:flex lg:justify-between">
           <div className="flex items-center lg:hidden">
             {/* Mobile Menu Trigger */}
             <div className="flex items-center lg:hidden">
@@ -66,12 +66,12 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="max-lg:flex max-lg:justify-center max-lg:items-center">
-            <Logo className="max-w-[140px] sm:max-w-[221px] flex items-center" />
+          <div className="max-lg:flex max-lg:items-center max-lg:justify-center">
+            <Logo className="flex max-w-[140px] items-center sm:max-w-[221px]" />
           </div>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
             <ul className="flex items-center gap-x-[45px]">
               {navigationItems.map(({ label, url, ...props }, i) => (
                 <li key={i}>
@@ -90,7 +90,7 @@ const Header = () => {
             </ul>
           </nav>
 
-          <div className="flex items-center sm:gap-x-4 justify-end">
+          <div className="flex items-center justify-end sm:gap-x-4">
             <div className="hidden lg:block">
               <SearchProducts />
             </div>
@@ -99,7 +99,7 @@ const Header = () => {
             {!user && (
               <button
                 onClick={() => router.push(routes.logIn)}
-                className="__c_all __fv aspect-square h-9 overflow-hidden rounded-full lg:border border-app-black duration-200 hover:scale-105"
+                className="__c_all __fv aspect-square h-9 overflow-hidden rounded-full border-app-black duration-200 hover:scale-105 lg:border"
               >
                 <LuUser className="size-5 lg:size-4" />
               </button>
@@ -124,10 +124,10 @@ const MobileSearch = () => {
       </button>
 
       {isOpenSearchBar && (
-        <div className="absolute px-3.5 flex items-center w-full h-[calc(100%+24px)] left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-white z-50 gap-2.5">
+        <div className="absolute left-1/2 top-1/2 z-50 flex h-[calc(100%+24px)] w-full -translate-x-1/2 -translate-y-1/2 items-center gap-2.5 bg-white px-3.5">
           <button
             onClick={() => setIsOpenSearchBar(false)}
-            className="__fv __c_all aspect-square h-9 border border-app-black shrink-0 overflow-hidden rounded-full"
+            className="__fv __c_all aspect-square h-9 shrink-0 overflow-hidden rounded-full border border-app-black"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -181,12 +181,12 @@ function ShoppingCartItem() {
   return (
     <button
       onClick={() => router.push(routes.cart)}
-      className="__fv __c_all relative aspect-square h-9 rounded-full lg:border border-black text-lg duration-200 hover:scale-105"
+      className="__fv __c_all relative aspect-square h-9 rounded-full border-black text-lg duration-200 hover:scale-105 lg:border"
     >
       <LuShoppingCart className="size-5 lg:size-4" />
 
       {productCart.length > 0 && (
-        <div className="absolute right-0 top-0 z-10 flex h-[17px] min-w-[17px] lg:h-6 lg:min-w-[24px] -translate-y-[20%] translate-x-[20%] lg:-translate-y-1/2 lg:translate-x-1/2 items-center justify-center rounded-[15px] bg-app-primary px-1.5 max-md:text-[10px] text-sm/[14px] font-medium text-white">
+        <div className="absolute right-0 top-0 z-10 flex h-[17px] min-w-[17px] translate-x-[20%] translate-y-[-20%] items-center justify-center rounded-[15px] bg-app-primary px-1.5 text-sm/[14px] font-medium text-white max-md:text-[10px] lg:h-6 lg:min-w-[24px] lg:-translate-y-1/2 lg:translate-x-1/2">
           {productCart.length}
         </div>
       )}
@@ -245,7 +245,7 @@ const SearchProducts = ({
       <input
         autoFocus={autoFocus}
         type="text"
-        className="h-9 lg:h-10 w-full rounded-full border lg:border-2 border-app-black px-3.5 pr-10 font-medium outline-none"
+        className="h-9 w-full rounded-full border border-app-black px-3.5 pr-10 font-medium outline-none lg:h-10 lg:border-2"
         placeholder="Search.."
         value={query}
         onChange={setQuery}
@@ -267,7 +267,7 @@ const SearchProducts = ({
       </button>
 
       {!!debouncedQuery.trim() && isOpenDropdown && (
-        <div className="absolute right-0 top-full mt-2.5 max-h-[250px] w-full lg:w-[300px] overflow-y-auto rounded-md border border-gray-100 bg-white py-3 shadow-md">
+        <div className="absolute right-0 top-full mt-2.5 max-h-[250px] w-full overflow-y-auto rounded-md border border-gray-100 bg-white py-3 shadow-md lg:w-[300px]">
           {searchProductsQuery.isError ? (
             <p className="px-5 text-center text-sm font-medium text-app-danger">
               {getApiErrorMessage(searchProductsQuery.error)}

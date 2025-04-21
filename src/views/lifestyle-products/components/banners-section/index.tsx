@@ -44,7 +44,7 @@ const BannersSection = () => {
                       __html: banner.title || "",
                     }}
                   />
-                  <Button className="mt-5 px-6 max-md:px-5 max-md:h-9 text-sm font-bold">
+                  <Button className="mt-5 px-6 text-sm font-bold max-md:h-9 max-md:px-5">
                     {banner.buttonText}
                   </Button>
                 </div>
