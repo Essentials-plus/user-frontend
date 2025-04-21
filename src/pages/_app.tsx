@@ -3,7 +3,6 @@ import Layout from "@/common/components/layout";
 import { Toaster } from "@/common/components/ui/sonner";
 import Spinner from "@/common/components/ui/spinner";
 import UserSessionProvider from "@/hooks/useUserSession";
-import ProtectedRoutes from "@/lib/ProtectedRoutes";
 import { getApiErrorMessage } from "@/lib/utils";
 import "@/styles/globals.css";
 import { AppPropsWithLayout } from "@/types/app-props";
@@ -32,12 +31,7 @@ const robotoSerif = Roboto_Serif({
   variable: "--roboto-serif",
 });
 
-export default function App({
-  Component,
-  pageProps,
-  token,
-  user,
-}: AppPropsWithLayout) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -70,7 +64,7 @@ export default function App({
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <HydrationBoundary state={pageProps?.dehydratedState}>
         <NuqsAdapter>
-          <UserSessionProvider session={{ token, user }}>
+          <UserSessionProvider session={pageProps.session}>
             <style jsx global>{`
               :root {
                 --open-sans: ${openSans.style.fontFamily};
@@ -109,5 +103,5 @@ export default function App({
 
 // Route protect
 
-App.getInitialProps = ProtectedRoutes;
+// App.getInitialProps = ProtectedRoutes;
 //

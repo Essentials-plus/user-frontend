@@ -1,3 +1,4 @@
+import { userApiClient } from "@/api-clients/user-api-client";
 import {
   authTokenCookieName,
   authUserCookieName,
@@ -56,7 +57,7 @@ const UserSessionContext = createContext<UserSessionProvider>(
 );
 
 function UserSessionProvider({ children, session }: Props) {
-  const [user, setUser] = useState<UserSession | undefined>(session.user);
+  const [user, setUser] = useState<UserSession | undefined>(session?.user);
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -99,6 +100,26 @@ function UserSessionProvider({ children, session }: Props) {
   useEffect(() => {
     refetchGuestUserId();
   }, [router.pathname, refetchGuestUserId]);
+
+  useEffect(() => {
+    if (!!user) return;
+
+    const abortController = new AbortController();
+    userApiClient
+      .get("/user", {
+        signal: abortController.signal,
+      })
+      .then((res) => {
+        setUser(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return () => {
+      abortController.abort();
+    };
+  }, [user]);
 
   return (
     <UserSessionContext.Provider

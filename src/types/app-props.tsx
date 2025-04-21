@@ -1,4 +1,3 @@
-import { UserSession } from "@/hooks/useUserSession";
 import "@/styles/globals.css";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
@@ -11,6 +10,4 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
-  user: UserSession;
-  token: string;
 };
