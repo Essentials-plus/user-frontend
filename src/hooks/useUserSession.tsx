@@ -146,11 +146,12 @@ export function useUserSession() {
   return useContext(UserSessionContext);
 }
 
-export function parseJson<T>(d?: string): T | undefined {
+export function parseJson<T>(d?: string): T | null {
+  if (!d) return null;
   try {
     return JSON.parse(d || "");
   } catch (error) {
-    return undefined;
+    return null;
   }
 }
 

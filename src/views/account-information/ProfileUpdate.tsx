@@ -5,6 +5,10 @@ import useClientRefetch from "@/hooks/useClientRefetch";
 import { useUserSession } from "@/hooks/useUserSession";
 import { userFormSchema } from "@/lib/schemas";
 import { getClientErrorMsg } from "@/lib/utils";
+import {
+  invalidZipCodeFormatMessage,
+  zipCodeRequiredMessage,
+} from "@/pages/checkout";
 import { User } from "@/types/api-responses/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,16 +20,22 @@ type Props = {
   onClose: () => any;
 };
 
-const validationSchema = userFormSchema.pick({
-  name: true,
-  surname: true,
-  zipCode: true,
-  nr: true,
-  addition: true,
-  city: true,
-  mobile: true,
-  address: true,
-});
+const validationSchema = userFormSchema
+  .pick({
+    name: true,
+    surname: true,
+    nr: true,
+    addition: true,
+    city: true,
+    mobile: true,
+    address: true,
+  })
+  .extend({
+    zipCode: z
+      .string()
+      .min(1, zipCodeRequiredMessage)
+      .regex(/^\d{4}[A-Z]{2}$/, invalidZipCodeFormatMessage),
+  });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
@@ -149,12 +159,14 @@ const ProfileUpdate = ({ data, onClose }: Props) => {
             <Input
               label="Straatnaam:"
               bordered
+              disabled
               {...register("address")}
               error={errors.address?.message?.toString()}
             />
             <Input
               label="Stad:"
               bordered
+              disabled
               {...register("city")}
               error={errors.city?.message?.toString()}
             />

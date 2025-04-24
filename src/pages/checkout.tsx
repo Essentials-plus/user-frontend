@@ -180,8 +180,9 @@ const CheckoutPage = () => {
 
 export default CheckoutPage;
 
-const invalidZipCodeFormatMessage = "Ongeldig postcodeformaat (bijv. 5038EA)";
-const zipCodeRequiredMessage = "Voer een postcode in";
+export const invalidZipCodeFormatMessage =
+  "Ongeldig postcodeformaat (bijv. 5038EA)";
+export const zipCodeRequiredMessage = "Voer een postcode in";
 // const validationSchema = userFormSchema.pick({
 //   name: true,
 //   surname: true,

@@ -17,7 +17,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type="text"
           className={cn(
-            "w-full py-2.5 px-4 rounded-lg outline-none ring-offset-1 focus:ring-1 focus:ring-offset-app-dark-green",
+            "w-full py-2.5 px-4 rounded-lg outline-none ring-offset-1 focus:ring-1 disabled:bg-gray-100 focus:ring-offset-app-dark-green",
             bordered && `border border-black ${error && "!border-red-500"}`,
             className,
           )}
