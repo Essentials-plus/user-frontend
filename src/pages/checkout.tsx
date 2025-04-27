@@ -199,7 +199,7 @@ const shippingAddressValidationSchema = z.object({
   zipCode: z
     .string()
     .min(1, zipCodeRequiredMessage)
-    .regex(/^\d{4}[A-Z]{2}$/, invalidZipCodeFormatMessage),
+    .regex(/^\d{4}[A-Za-z]{2}$/, invalidZipCodeFormatMessage),
   nr: z.string().min(1, "Vul je huisnummer in"),
   city: z.string().min(1, "Voer uw stad in"),
   mobile: z.string().min(1, "Voer uw mobiele nummer in"),

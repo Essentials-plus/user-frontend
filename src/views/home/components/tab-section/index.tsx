@@ -72,7 +72,7 @@ const TabSection = ({ meals }: Props) => {
 
       return mealTypes.reduce((acc, type) => {
         acc[type] = meals
-          .filter((meal) => meal.meal === type)
+          .filter((meal) => meal.meal.startsWith(type))
           .slice(0, 4)
           .map((meal) =>
             extendedMeal(
