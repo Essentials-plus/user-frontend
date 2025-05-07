@@ -50,7 +50,7 @@ const userFormSchema = z.object({
   zipCode: z
     .string()
     .min(1, zipCodeRequiredMessage)
-    .regex(/^\d{4}[A-Z]{2}$/, invalidZipCodeFormatMessage),
+    .regex(/^\d{4}[A-Za-z]{2}$/, invalidZipCodeFormatMessage),
   activityLevel: z.enum(["1.2", "1.375", "1.55", "1.75", "1.9"], {
     message:
       "Verwacht '1,2' | '1.375' | '1,55' | '1,75' | '1.9', nul ontvangen",
@@ -131,6 +131,9 @@ const Step1 = ({ user }: Props) => {
         setValue("city", data.city);
         setValue("address", data.street);
       } catch (error) {
+        setValue("city", "");
+        setValue("address", "");
+
         setIsOpenRegionNotAvailableDialog(true);
         const msg = getClientErrorMsg(error);
         if (msg == "Resource not found") {

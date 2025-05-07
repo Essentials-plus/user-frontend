@@ -9,6 +9,7 @@ import {
   getISODay,
   getISOWeek,
   startOfISOWeek,
+  startOfISOWeekYear,
 } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
@@ -94,7 +95,6 @@ export const getDateFromIsoWeekAndDay = (
   day: number,
   year: number = new Date().getFullYear(),
 ) => {
-  // Validate inputs
   if (week < 1 || week > 53)
     throw new Error("Invalid week number. It should be between 1 and 53.");
   if (day < 1 || day > 7)
@@ -102,9 +102,8 @@ export const getDateFromIsoWeekAndDay = (
       "Invalid day number. It should be between 1 (Monday) and 7 (Sunday).",
     );
 
-  const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
-  const weekStart = addDays(firstDayOfYear, (week - 1) * 7);
-  const date = addDays(weekStart, day - 1);
+  const firstDayOfYear = startOfISOWeekYear(new Date(year, 0, 4)); // ✅ safer
+  const date = addDays(firstDayOfYear, (week - 1) * 7 + (day - 1));
 
   return date;
 };
