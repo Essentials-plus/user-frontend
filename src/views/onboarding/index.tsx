@@ -1,10 +1,10 @@
-import FormWrapper from "@/common/components/form-wrapper";
-import routes from "@/config/routes";
-import { onboardingSteps } from "@/constants/onboarding-steps";
-import { StepKeyValue } from "@/hooks/useOnboardingSteps";
-import { Payment_Method, User } from "@/types/api-responses/users";
-import FacilitiesSection from "@/views/onboarding/components/facilities-section";
-import { useEffect } from "react";
+import FormWrapper from '@/common/components/form-wrapper';
+import routes from '@/config/routes';
+import { onboardingSteps } from '@/constants/onboarding-steps';
+import { StepKeyValue } from '@/hooks/useOnboardingSteps';
+import { Payment_Method, User } from '@/types/api-responses/users';
+import FacilitiesSection from '@/views/onboarding/components/facilities-section';
+import { useEffect } from 'react';
 
 type Props = {
   user: User;
@@ -25,8 +25,9 @@ const Onboarding = ({ page, user, paymentMethod }: Props) => {
   return (
     <>
       <FormWrapper
-        isCornerImgHidden={page === "payment"}
-        wrapperProps={{ className: "mt-0" }}
+        isCornerImgHidden={true}
+        wrapperProps={{ className: 'mt-0' }}
+        isLeftImgHidden
       >
         <activeStep.content user={user} payment_method={paymentMethod} />
       </FormWrapper>

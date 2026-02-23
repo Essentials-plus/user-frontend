@@ -1,8 +1,8 @@
-import ArrowRightIcon from "@/common/components/icons/arrow-right-icon";
-import Logo from "@/common/components/icons/logo";
-import { onboardingSteps } from "@/constants/onboarding-steps";
-import { StepKeyValue } from "@/hooks/useOnboardingSteps";
-import { cn } from "@/lib/utils";
+import ArrowRightIcon from '@/common/components/icons/arrow-right-icon';
+import Logo from '@/common/components/icons/logo';
+import { onboardingSteps } from '@/constants/onboarding-steps';
+import { StepKeyValue } from '@/hooks/useOnboardingSteps';
+import { cn } from '@/lib/utils';
 
 type Props = {
   page: StepKeyValue;
@@ -30,13 +30,13 @@ const OnboardingHeader = ({ page }: Props) => {
                 <button
                   key={i}
                   className={cn(
-                    "flex items-center gap-x-10 text-app-dark-grey",
-                    page === stepKeys[i] && "text-app-darker-green",
+                    'flex items-center gap-x-10 text-app-dark-grey',
+                    page === stepKeys[i] && 'text-app-darker-green',
                   )}
                 >
                   <p className="shrink-0 text-xl font-medium">{title}</p>
                   <ArrowRightIcon
-                    className={cn("w-11", i === steps.length - 1 && "hidden")}
+                    className={cn('w-11', i === steps.length - 1 && 'hidden')}
                   />
                 </button>
               ))}

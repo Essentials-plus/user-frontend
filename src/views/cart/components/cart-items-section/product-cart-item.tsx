@@ -1,12 +1,12 @@
-import Spinner from "@/common/components/ui/spinner";
-import useCartData from "@/hooks/useCartData";
-import { cn, getClientErrorMsg } from "@/lib/utils";
-import { ProductCart } from "@/types/api-responses/product-attribute";
-import { useMediaQuery } from "@mantine/hooks";
-import { MinusIcon, PlusIcon } from "lucide-react";
-import Image from "next/image";
-import { Fragment, useMemo, useState } from "react";
-import { toast } from "sonner";
+import Spinner from '@/common/components/ui/spinner';
+import useCartData from '@/hooks/useCartData';
+import { cn, getClientErrorMsg } from '@/lib/utils';
+import { ProductCart } from '@/types/api-responses/product-attribute';
+import { useMediaQuery } from '@mantine/hooks';
+import { MinusIcon, PlusIcon } from 'lucide-react';
+import Image from 'next/image';
+import { Fragment, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 
 type Props = {
   d: ProductCart;
@@ -16,7 +16,7 @@ type Props = {
 function ProductCartItem({ d, checkOutLayout }: Props) {
   const { id, count, product, variationId } = d;
   const { handleRemoveCart, updateCartItem } = useCartData();
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   const priceSection = useMemo(() => {
     if (variationId) {
@@ -42,7 +42,7 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
       setLoading(true);
 
       await handleRemoveCart(id);
-      toast.success("Artikel uit winkelwagen verwijderd");
+      toast.success('Artikel uit winkelwagen verwijderd');
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -97,19 +97,19 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
     return product.images[0];
   }, [hasVariation, product.images, product.variations, variationId]);
 
-  const Comp = isDesktop ? Fragment : "div";
+  const Comp = isDesktop ? Fragment : 'div';
 
   return (
     <div
       className={cn(
-        "grid lg:grid-cols-[380px,1fr,1fr,1fr] gap-3 lg:gap-5 py-4 lg:py-5 border-b border-[#d8d8d8]/60 items-center",
-        checkOutLayout && "grid-cols-[auto,70px] lg:grid-cols-[auto,90px]",
+        'grid lg:grid-cols-[380px,1fr,1fr,1fr] gap-3 lg:gap-5 py-4 lg:py-5 border-b border-[#d8d8d8]/60 items-center',
+        checkOutLayout && 'grid-cols-[auto,70px] lg:grid-cols-[auto,90px]',
       )}
     >
       <div>
         <div className="flex items-center gap-3 lg:gap-5">
           <Image
-            src={image || "/imgs/placeholders/product.png"}
+            src={image || '/imgs/placeholders/product.png'}
             width={375}
             height={495}
             alt="Product"
@@ -127,15 +127,15 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
                   className="max-lg:text-sm"
                 >
                   <span className="font-semibold capitalize opacity-80">
-                    {term.attribute}:{" "}
+                    {term.attribute}:{' '}
                   </span>
                   {term.term}
                 </div>
               ))}
             </div>
-            <div className={cn(!checkOutLayout && "max-lg:hidden")}>
+            <div className={cn(!checkOutLayout && 'max-lg:hidden')}>
               <span className="font-semibold capitalize opacity-80 max-lg:text-sm">
-                Hoeveelheid:{" "}
+                Hoeveelheid:{' '}
               </span>
               {count}
             </div>
@@ -190,7 +190,7 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
           ? {}
           : {
               className:
-                "mt-2 flex flex-row-reverse items-center justify-between",
+                'mt-2 flex flex-row-reverse items-center justify-between',
             })}
       >
         {!checkOutLayout && (
@@ -204,7 +204,7 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
                 disabled={count == 1}
                 className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30 lg:size-9"
               >
-                <PlusIcon className="size-3.5 lg:size-4" />
+                <MinusIcon className="size-3.5 lg:size-4" />
               </button>
               <div className="font-open-sans max-lg:text-sm">{count}</div>
               <button
@@ -214,14 +214,14 @@ function ProductCartItem({ d, checkOutLayout }: Props) {
                 }}
                 className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed lg:size-9"
               >
-                <MinusIcon className="size-3.5 lg:size-4" />
+                <PlusIcon className="size-3.5 lg:size-4" />
               </button>
             </div>
           </div>
         )}
-        <div className={cn(checkOutLayout && "flex justify-end")}>
+        <div className={cn(checkOutLayout && 'flex justify-end')}>
           <p className="whitespace-nowrap font-bold">
-            €{" "}
+            €{' '}
             {(
               (priceSection.salePrice || priceSection.regularPrice) * count
             ).toFixed(2)}

@@ -735,7 +735,7 @@ function PriceButtonSection({
               disabled={counter <= 1}
               className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30 lg:size-9"
             >
-              <PlusIcon className="size-3.5 lg:size-4" />
+              <MinusIcon className="size-3.5 lg:size-4" />
             </button>
             <div className="font-open-sans max-lg:text-sm">{counter}</div>
             <button
@@ -745,7 +745,7 @@ function PriceButtonSection({
               disabled={counter == limit}
               className="flex size-8 items-center justify-center rounded-full text-lg font-medium enabled:hover:bg-black/5 disabled:cursor-not-allowed lg:size-9"
             >
-              <MinusIcon className="size-3.5 lg:size-4" />
+              <PlusIcon className="size-3.5 lg:size-4" />
             </button>
           </div>
         </div>

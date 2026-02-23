@@ -1,50 +1,50 @@
-import { userApiClient } from "@/api-clients/user-api-client";
-import CheckIcon from "@/common/components/icons/check-icon";
-import ClarnaIcon from "@/common/components/icons/clarna-icon";
-import IDealIcon from "@/common/components/icons/i-deal-icon";
-import MasterCardIcon from "@/common/components/icons/mastercard-icon";
-import PayPalIcon from "@/common/components/icons/paypal-icon";
-import Button from "@/common/components/ui/button";
-import Spinner from "@/common/components/ui/spinner";
-import routes from "@/config/routes";
-import { authTokenCookieName, tempAuthTokenCookieName } from "@/constants";
-import useActiveCurrency from "@/hooks/useActiveCurrency";
-import useFirstRender from "@/hooks/useFirstRender";
-import useTotalCalorie from "@/hooks/useTotalCalorie";
-import { useUserSession } from "@/hooks/useUserSession";
+import { userApiClient } from '@/api-clients/user-api-client';
+import CheckIcon from '@/common/components/icons/check-icon';
+import ClarnaIcon from '@/common/components/icons/clarna-icon';
+import IDealIcon from '@/common/components/icons/i-deal-icon';
+import MasterCardIcon from '@/common/components/icons/mastercard-icon';
+import PayPalIcon from '@/common/components/icons/paypal-icon';
+import Button from '@/common/components/ui/button';
+import Spinner from '@/common/components/ui/spinner';
+import routes from '@/config/routes';
+import { authTokenCookieName, tempAuthTokenCookieName } from '@/constants';
+import useActiveCurrency from '@/hooks/useActiveCurrency';
+import useFirstRender from '@/hooks/useFirstRender';
+import useTotalCalorie from '@/hooks/useTotalCalorie';
+import { useUserSession } from '@/hooks/useUserSession';
 import {
   cn,
   getClientErrorMsg,
   getDateFromIsoWeekAndDay,
   getNextDeliveryDate,
-} from "@/lib/utils";
-import { Payment_Method, User } from "@/types/api-responses/users";
-import { deleteCookie, getCookie } from "cookies-next";
-import { format } from "date-fns";
-import { nl } from "date-fns/locale";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
-import PaymentSuccessModal from "./PaymentSuccessModal";
+} from '@/lib/utils';
+import { Payment_Method, User } from '@/types/api-responses/users';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { format } from 'date-fns';
+import { nl } from 'date-fns/locale';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import PaymentSuccessModal from './PaymentSuccessModal';
 
 const cards = [
   {
     icon: <IDealIcon className="w-8" />,
-    text: "Betaal met Ideal",
+    text: 'Betaal met Ideal',
   },
   {
     icon: <PayPalIcon className="w-14" />,
-    text: "Betaal Paypal",
+    text: 'Betaal Paypal',
   },
   {
     icon: <MasterCardIcon className="w-14" />,
-    text: "Voeg een creditcard",
+    text: 'Voeg een creditcard',
   },
   {
     icon: <ClarnaIcon className="w-14" />,
-    text: "Betaal op factuur",
+    text: 'Betaal op factuur',
   },
 ];
 
@@ -54,7 +54,7 @@ type Props = {
 };
 
 type PaymentMethodType = {
-  type: "card" | "paypal" | "ideal" | "klarna";
+  type: 'card' | 'paypal' | 'ideal' | 'klarna';
   info: string; // currently for dummy
 };
 
@@ -69,19 +69,19 @@ const Step3 = ({ user, payment_method }: Props) => {
   const [paymentMethod] = useState<PaymentMethodType | undefined>(
     payment_method
       ? {
-          info: "Card Added",
+          info: 'Card Added',
           type:
-            payment_method.type == "card"
-              ? "card"
-              : payment_method.type == "paypal"
-              ? "paypal"
-              : "ideal",
+            payment_method.type == 'card'
+              ? 'card'
+              : payment_method.type == 'paypal'
+                ? 'paypal'
+                : 'ideal',
         }
       : undefined,
   );
 
   const { totalPrice } = useMemo(() => {
-    const totalKcal = (totalRequiredCalorie || 0) * plan.numberOfDays;
+    const totalKcal = (totalRequiredCalorie || 0) * plan?.numberOfDays;
     const totalPrice = Number(
       (
         totalKcal * Number(process.env.NEXT_PUBLIC_CALORIE_PRICE || 0.0055)
@@ -108,7 +108,7 @@ const Step3 = ({ user, payment_method }: Props) => {
       const token = (getCookie(tempAuthTokenCookieName) ||
         getCookie(authTokenCookieName)) as string;
 
-      await userApiClient.post("/plan/confirm");
+      await userApiClient.post('/plan/confirm');
 
       login(
         token,
@@ -117,7 +117,7 @@ const Step3 = ({ user, payment_method }: Props) => {
           name: user.name,
           email: user.email,
           profile: user.profile,
-          access: "all",
+          access: 'all',
         },
         true,
       );
@@ -134,10 +134,10 @@ const Step3 = ({ user, payment_method }: Props) => {
     }
   };
 
-  const handleSession = async (t = "card") => {
+  const handleSession = async (t = 'card') => {
     try {
       const { data: cc } = await userApiClient.post(
-        "/plan/payment/session?type=" + t,
+        '/plan/payment/session?type=' + t,
         {},
         {
           headers: {
@@ -155,7 +155,7 @@ const Step3 = ({ user, payment_method }: Props) => {
   const lockdownDate = useMemo(
     () =>
       getDateFromIsoWeekAndDay(
-        user.plan.confirmOrderWeek,
+        user.plan?.confirmOrderWeek,
         user.zipCode?.lockdownDay!,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -177,7 +177,7 @@ const Step3 = ({ user, payment_method }: Props) => {
           </div>
 
           <div className="my-5 grid grid-cols-1 gap-5 gap-y-3 lg:grid-cols-2">
-            {currency_type == "eur" && (
+            {currency_type == 'eur' && (
               // <PaymentMethodModal
               //   onClose={() => {
               //     setPaymentMethod({
@@ -190,12 +190,12 @@ const Step3 = ({ user, payment_method }: Props) => {
               <button
                 disabled={!!paymentMethod}
                 className="relative"
-                onClick={() => handleSession("ideal")}
+                onClick={() => handleSession('ideal')}
               >
                 <div
                   className={cn(
-                    "border border-app-dark-grey cursor-pointer hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
-                    paymentMethod && "pointer-events-none opacity-50",
+                    'border border-app-dark-grey cursor-pointer hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ',
+                    paymentMethod && 'pointer-events-none opacity-50',
                   )}
                 >
                   <div className="flex items-center gap-x-3.5">
@@ -204,7 +204,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                     <p className="text-sm">{cards[0].text}</p>
                   </div>
                 </div>
-                {paymentMethod && paymentMethod.type == "ideal" && (
+                {paymentMethod && paymentMethod.type == 'ideal' && (
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <CheckIcon width={32} height={32} />
                   </div>
@@ -216,12 +216,12 @@ const Step3 = ({ user, payment_method }: Props) => {
             <button
               disabled={!!paymentMethod}
               className="relative"
-              onClick={() => handleSession("paypal")}
+              onClick={() => handleSession('paypal')}
             >
               <div
                 className={cn(
-                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
-                  paymentMethod && "pointer-events-none opacity-50",
+                  'border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ',
+                  paymentMethod && 'pointer-events-none opacity-50',
                 )}
               >
                 <div className="flex items-center gap-x-3.5">
@@ -230,7 +230,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                   <p className="text-sm">{cards[1].text}</p>
                 </div>
               </div>
-              {paymentMethod && paymentMethod.type == "paypal" && (
+              {paymentMethod && paymentMethod.type == 'paypal' && (
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <CheckIcon width={32} height={32} />
                 </div>
@@ -248,12 +248,12 @@ const Step3 = ({ user, payment_method }: Props) => {
             <button
               disabled={!!paymentMethod}
               className="relative"
-              onClick={() => handleSession("card")}
+              onClick={() => handleSession('card')}
             >
               <div
                 className={cn(
-                  "border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ",
-                  paymentMethod && "pointer-events-none opacity-50",
+                  'border cursor-pointer border-app-dark-grey hover:bg-app-primary hover:bg-opacity-25 transition-all duration-200 h-[55px] max-lg:px-4 lg:h-[78px] w-full __c_all justify-start px-6 ',
+                  paymentMethod && 'pointer-events-none opacity-50',
                 )}
               >
                 <div className="flex items-center gap-x-3.5">
@@ -262,7 +262,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                   <p className="text-sm">{cards[2].text}</p>
                 </div>
               </div>
-              {paymentMethod && paymentMethod.type == "card" && (
+              {paymentMethod && paymentMethod.type == 'card' && (
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <CheckIcon width={32} height={32} />
                 </div>
@@ -307,15 +307,15 @@ const Step3 = ({ user, payment_method }: Props) => {
 
           <div className="mb-4 mt-5 max-lg:text-sm lg:mb-3 lg:mt-10">
             <strong>Voorwaarden:</strong> Door op “Bestellen en betalen” te
-            klikken, ga je akkoord met onze{" "}
+            klikken, ga je akkoord met onze{' '}
             <Link
               target="_blank"
               href={routes.privacyPolicy}
               className="text-app-dark-green underline"
             >
               Algemene voorwaarden
-            </Link>{" "}
-            en het{" "}
+            </Link>{' '}
+            en het{' '}
             <Link
               target="_blank"
               href={routes.cookieTerms}
@@ -357,7 +357,7 @@ const Step3 = ({ user, payment_method }: Props) => {
                   Bestellen en betalen...
                 </div>
               ) : (
-                "Bestellen en betalen"
+                'Bestellen en betalen'
               )}
             </Button>
           </div>
@@ -368,7 +368,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             <h4 className="text-base font-bold">Bestel overzicht:</h4>
             <div className="mt-2.5 flex items-center gap-x-5">
               <Image
-                src={"/imgs/afbeelding.png"}
+                src={'/imgs/afbeelding.png'}
                 alt="afbeelding"
                 width={288}
                 height={192}
@@ -380,8 +380,8 @@ const Step3 = ({ user, payment_method }: Props) => {
               </p>
             </div>
             <p className="border-b border-app-dark-grey py-1">
-              {plan.numberOfDays} dagen - {plan.numberOfDays * plan.mealsPerDay}{" "}
-              maaltijden
+              {plan?.numberOfDays} dagen -{' '}
+              {plan?.numberOfDays * plan?.mealsPerDay} maaltijden
             </p>
             <div className="mt-1 flex items-center justify-between">
               <p>Prijs per week:</p>
@@ -402,7 +402,7 @@ const Step3 = ({ user, payment_method }: Props) => {
             </a> */}
             <div className="mt-4"></div>
             <div className="flex items-center justify-between bg-[#f3f3f3] py-1 text-lg">
-              <p> Totaal eerst box:</p>{" "}
+              <p> Totaal eerst box:</p>{' '}
               <p>
                 {currency_symbol}
                 {(totalPrice + 5.99).toFixed(2)}
@@ -414,8 +414,8 @@ const Step3 = ({ user, payment_method }: Props) => {
             <div className="space-y-2.5">
               <h4 className="text-base font-bold">Bezorging</h4>
               <p>Eerste bezorging in uw regio:</p>
-              <p className={cn(isFirstRedner && "opacity-0")}>
-                {format(getNextDeliveryDate(lockdownDate), "EEEE, dd/MM/yyyy", {
+              <p className={cn(isFirstRedner && 'opacity-0')}>
+                {format(getNextDeliveryDate(lockdownDate), 'EEEE, dd/MM/yyyy', {
                   locale: nl,
                 })}
               </p>

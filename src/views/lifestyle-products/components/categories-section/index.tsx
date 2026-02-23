@@ -40,7 +40,7 @@ const CategoriesSection = ({
             Ontdek onze categorieën
           </h2>
         )}
-        <div className="lg:mt-5">
+        <div className="mt-5">
           <Swiper
             breakpoints={{
               0: {
@@ -80,7 +80,7 @@ const CategoriesSection = ({
                   <div className="absolute inset-0 bg-black/40 opacity-20 duration-300 group-hover:opacity-100" />
 
                   <div className="absolute inset-0 flex items-center justify-center text-center">
-                    <h3 className="max-w-[150px] text-2xl font-extrabold uppercase text-white">
+                    <h3 className="max-w-[150px] text-base font-extrabold uppercase text-white max-md:break-words lg:text-2xl">
                       {category.name}
                     </h3>
                   </div>

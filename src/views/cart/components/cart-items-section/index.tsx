@@ -55,7 +55,7 @@ const CartItemsSection = () => {
   return (
     <section className="my-8 w-full overflow-x-hidden lg:my-11">
       <div className="container" ref={ref}>
-        <h1 className="__h4 lg:__h3">Je Winkelwagenssss</h1>
+        <h1 className="__h4 lg:__h3">Je Winkelwagen</h1>
       </div>
 
       <div className="mt-3 grid grid-cols-1 gap-20 gap-y-8 lg:mt-9 lg:grid-cols-[63%,37%]">

@@ -40,15 +40,13 @@ const HeroSection = () => {
           '--headerHeight': `${headerHeight}px`,
         } as CSSProperties
       }
-      className="relative flex max-w-[100vw] overflow-x-hidden max-lg:min-h-[calc(100dvh-var(--headerHeight))] max-lg:flex-col max-lg:bg-app-darker-green lg:min-h-[calc(100vh-93.74px)] lg:items-center"
+      className="relative flex max-w-[100vw] overflow-x-hidden max-lg:min-h-[calc(100dvh-var(--headerHeight))] max-lg:flex-col lg:min-h-[calc(100vh-93.74px)] lg:items-center"
     >
       <div className="container">
-        <div className="max-w-[659px] max-lg:pt-16">
-          <h1 className="lg:__h1 text-4xl font-bold uppercase max-lg:text-white">
-            {title}
-          </h1>
+        <div className="max-w-[659px] max-lg:pb-8 max-lg:pt-16">
+          <h1 className="lg:__h1 text-4xl font-bold uppercase">{title}</h1>
           <div
-            className="__body_16 lg:__body_25 prose mb-10 mt-5 font-medium uppercase text-black max-lg:text-white/90"
+            className="__body_16 lg:__body_25 prose mb-6 mt-5 font-medium uppercase text-black lg:mb-10"
             dangerouslySetInnerHTML={{
               __html: description,
             }}
