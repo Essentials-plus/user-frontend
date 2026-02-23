@@ -75,14 +75,14 @@ const HeroSection = () => {
 
       <Link
         href={buttonUrl}
-        className="block overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:right-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]"
+        className="block flex-col overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:right-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]"
       >
         <Image
           src={image}
           alt={title}
           width={2098}
           height={1708}
-          className="object-cover max-lg:w-full lg:size-full"
+          className="object-cover max-lg:w-full max-lg:grow lg:size-full"
         />
       </Link>
     </section>
