@@ -1,35 +1,38 @@
-import { updateGuestEmailMutationOptions } from "@/api-clients/guest-api-client/mutations";
-import publicApiClient from "@/api-clients/public-api-client";
-import Button from "@/common/components/ui/button";
-import Input from "@/common/components/ui/input";
-import PasswordInput from "@/common/components/ui/password-input";
-import routes from "@/config/routes";
+import { updateGuestEmailMutationOptions } from '@/api-clients/guest-api-client/mutations';
+import publicApiClient from '@/api-clients/public-api-client';
+import { getRawDataByIdentifierQueryOptions } from '@/api-clients/user-api-client/queries';
+import Button from '@/common/components/ui/button';
+import Input from '@/common/components/ui/input';
+import PasswordInput from '@/common/components/ui/password-input';
+import routes from '@/config/routes';
 import {
   guestLoginQueryKey,
   redirectUriQueryKey,
   tempAuthTokenCookieName,
-} from "@/constants";
-import useCartData from "@/hooks/useCartData";
-import { useUserSession } from "@/hooks/useUserSession";
-import { cn, getClientErrorMsg } from "@/lib/utils";
-import { User } from "@/types/api-responses/users";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { deleteCookie } from "cookies-next";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaApple, FaFacebookF } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
-import { toast } from "sonner";
-import { z } from "zod";
+} from '@/constants';
+import useCartData from '@/hooks/useCartData';
+import { useUserSession } from '@/hooks/useUserSession';
+import { cn, getClientErrorMsg } from '@/lib/utils';
+import { User } from '@/types/api-responses/users';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { deleteCookie } from 'cookies-next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { FaApple, FaFacebookF } from 'react-icons/fa6';
+import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+export const loginHeroSectionApiIdentifier = 'login-page.hero-section';
 
 const formSchema = z.object({
-  email: z.string().min(1, "E-mail is vereist"),
-  password: z.string().min(8, "Wachtwoord moet 8 tekens zijn"),
+  email: z.string().min(1, 'E-mail is vereist'),
+  password: z.string().min(8, 'Wachtwoord moet 8 tekens zijn'),
 });
 
 type LoginFormType = z.infer<typeof formSchema>;
@@ -52,16 +55,26 @@ const LogIn = () => {
   const { login, guestUserId, deleteGuestUserId } = useUserSession();
 
   const hasGuestLogin =
-    router.query[guestLoginQueryKey] === "true" ||
+    router.query[guestLoginQueryKey] === 'true' ||
     z.string().email().safeParse(guestUserId).success;
 
   const [remember, setRemember] = useState(false);
+
+  const heroSectionQuery = useQuery(
+    getRawDataByIdentifierQueryOptions({
+      identifier: loginHeroSectionApiIdentifier,
+    }),
+  );
+  const data = heroSectionQuery.data?.data?.data;
+
+  // Fallback to hardcoded image when API data is not available
+  const heroImage = data?.image ?? '/imgs/log-in-page-img.png';
 
   const onSubmit: SubmitHandler<LoginFormType> = async (d) => {
     if (isSubmitting) return;
 
     try {
-      const { data } = await publicApiClient.post("/auth/user/login", d);
+      const { data } = await publicApiClient.post('/auth/user/login', d);
 
       const token: string = data.data;
 
@@ -69,8 +82,8 @@ const LogIn = () => {
 
       const status = user.status;
 
-      if (status != "active") {
-        toast.error("Je bent geblokkeerd door autoriteit");
+      if (status != 'active') {
+        toast.error('Je bent geblokkeerd door autoriteit');
         return;
       }
 
@@ -124,7 +137,7 @@ const LogIn = () => {
         url.pathname = redirectUriValue;
         router.push(url);
         return;
-      } else if (router.query[guestLoginQueryKey] === "true") {
+      } else if (router.query[guestLoginQueryKey] === 'true') {
         await router.push(routes.checkout);
         return;
       } else {
@@ -170,22 +183,22 @@ const LogIn = () => {
         )}
         <div
           className={cn(
-            "grid grid-cols-1 lg:grid-cols-[520px,auto] gap-x-[120px] gap-8",
-            hasGuestLogin && "lg:grid-cols-2 gap-x-16",
+            'grid grid-cols-1 lg:grid-cols-[520px,auto] gap-x-[120px] gap-8',
+            hasGuestLogin && 'lg:grid-cols-2 gap-x-16',
           )}
         >
           <div>
             <div
               className={cn(
-                "lg:py-[56px] p-6 rounded-3xl lg:px-20 lg:rounded-r-[80px] bg-app-yellow",
+                'px-6 rounded-3xl lg:px-20 lg:rounded-r-[80px]',
                 hasGuestLogin &&
-                  "!rounded bg-white border border-[#d8d8d8] lg:px-10 lg:py-7",
+                  '!rounded bg-white border border-[#d8d8d8] lg:px-10 lg:py-7',
               )}
             >
               <h2
                 className={cn(
-                  hasGuestLogin && "text-xl lg:text-3xl",
-                  "text-left uppercase text-xl lg:text-2xl font-extrabold",
+                  hasGuestLogin && 'text-xl lg:text-3xl',
+                  'text-left uppercase text-xl lg:text-2xl font-extrabold',
                 )}
               >
                 Inloggen
@@ -198,12 +211,12 @@ const LogIn = () => {
                   <Input
                     label="E-mailadres"
                     className="bg-[#F1F1F1]"
-                    {...register("email")}
+                    {...register('email')}
                     error={errors.email?.message?.toString()}
                   />
                   <div>
                     <PasswordInput
-                      {...register("password")}
+                      {...register('password')}
                       error={errors.password?.message?.toString()}
                       label="Wachtwoord"
                       className="bg-[#F1F1F1]"
@@ -291,7 +304,7 @@ const LogIn = () => {
             <GuestCheckoutLoginForm hasGuestLogin={hasGuestLogin} />
           ) : (
             <Image
-              src={"/imgs/log-in-page-img.png"}
+              src={heroImage}
               alt="log-in-page-img"
               width={1022}
               className="max-lg:hidden"
@@ -307,7 +320,7 @@ const LogIn = () => {
 export default LogIn;
 
 const guestCheckoutFormSchema = z.object({
-  email: z.string().min(1, "E-mail is vereist"),
+  email: z.string().min(1, 'E-mail is vereist'),
 });
 type GuestCheckoutFormType = z.infer<typeof guestCheckoutFormSchema>;
 
@@ -329,7 +342,7 @@ const GuestCheckoutLoginForm = ({
   } = useForm<GuestCheckoutFormType>({
     resolver: zodResolver(guestCheckoutFormSchema),
     values: {
-      email: "",
+      email: '',
     },
   });
 
@@ -366,20 +379,20 @@ const GuestCheckoutLoginForm = ({
     <div>
       <div
         className={cn(
-          "py-[56px] px-20 rounded-r-[80px] bg-app-yellow",
+          'px-6 lg:px-20 rounded-r-[80px]',
           hasGuestLogin &&
-            "rounded bg-white border border-[#d8d8d8] p-6 lg:px-10 lg:py-7",
+            'rounded bg-white border border-[#d8d8d8] p-6 lg:px-10 lg:py-7',
         )}
       >
         <h2
           className={cn(
-            hasGuestLogin && "text-xl lg:text-3xl",
-            "text-left uppercase text-xl lg:text-2xl font-extrabold",
+            hasGuestLogin && 'text-xl lg:text-3xl',
+            'text-left uppercase text-xl lg:text-2xl font-extrabold',
           )}
         >
           {isGuestUserIdEmail
-            ? "U bent momenteel ingelogd als gastgebruiker"
-            : "Nieuw bij EssentialsPlus?"}
+            ? 'U bent momenteel ingelogd als gastgebruiker'
+            : 'Nieuw bij EssentialsPlus?'}
         </h2>
         <div className="mt-6">
           {isGuestUserIdEmail ? (
@@ -392,7 +405,7 @@ const GuestCheckoutLoginForm = ({
                   if (productCart.length > 0) {
                     if (
                       confirm(
-                        "U bent momenteel ingelogd als gastgebruiker en hebt producten in uw winkelwagen. Als u uitlogt, worden uw winkelwagenproducten ook verwijderd. Weet u zeker dat u wilt doorgaan?",
+                        'U bent momenteel ingelogd als gastgebruiker en hebt producten in uw winkelwagen. Als u uitlogt, worden uw winkelwagenproducten ook verwijderd. Weet u zeker dat u wilt doorgaan?',
                       )
                     ) {
                       deleteGuestUserId();
@@ -415,7 +428,7 @@ const GuestCheckoutLoginForm = ({
               <Input
                 label="E-mailadres"
                 className="bg-[#F1F1F1]"
-                {...register("email")}
+                {...register('email')}
                 error={errors.email?.message?.toString()}
               />
 

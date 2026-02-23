@@ -1,22 +1,22 @@
-import { getHomeMealsQueryOptions } from "@/api-clients/user-api-client/queries";
-import StartTotdayButton from "@/common/components/start-totday-button";
+import { getHomeMealsQueryOptions } from '@/api-clients/user-api-client/queries';
+import StartTotdayButton from '@/common/components/start-totday-button';
 import {
   FilterInputSelect,
   FilterSearchSelect,
-} from "@/common/components/ui/select";
-import Spinner from "@/common/components/ui/spinner";
-import { activityLevels, genders, goals } from "@/constants/form-select-data";
-import { homeTabs } from "@/constants/home-tabs";
-import { FilterFormSchema, filterFormSchema } from "@/lib/schemas";
-import { calculateUserCalorie } from "@/lib/utils";
-import { ExtendMeal, Ingredient, Meal } from "@/types/api-responses/meal";
-import { UserGenderEnum } from "@/types/api-responses/users";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as Tabs from "@radix-ui/react-tabs";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { SVGProps, useMemo } from "react";
-import { useForm } from "react-hook-form";
+} from '@/common/components/ui/select';
+import Spinner from '@/common/components/ui/spinner';
+import { activityLevels, genders, goals } from '@/constants/form-select-data';
+import { homeTabs } from '@/constants/home-tabs';
+import { FilterFormSchema, filterFormSchema } from '@/lib/schemas';
+import { calculateUserCalorie } from '@/lib/utils';
+import { ExtendMeal, Ingredient, Meal } from '@/types/api-responses/meal';
+import { UserGenderEnum } from '@/types/api-responses/users';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as Tabs from '@radix-ui/react-tabs';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import { SVGProps, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 
 export const TabSectionWrapper = () => {
   const { data: mealsData, isLoading } = useQuery(getHomeMealsQueryOptions());
@@ -43,10 +43,10 @@ const TabSection = ({ meals }: Props) => {
   } = useForm<FilterFormSchema>({
     resolver: zodResolver(filterFormSchema),
     defaultValues: {
-      activityLevel: "1.55",
+      activityLevel: '1.55',
       age: 30,
-      gender: UserGenderEnum["male"],
-      goal: "-500",
+      gender: UserGenderEnum['male'],
+      goal: '-500',
       height: 180,
       weight: 85,
     },
@@ -62,7 +62,7 @@ const TabSection = ({ meals }: Props) => {
     useMemo(() => {
       if (!userKcalForAWeek || !meals) return undefined;
 
-      const mealTypes = ["dinner", "breakfast", "lunch", "snack"];
+      const mealTypes = ['dinner', 'breakfast', 'lunch', 'snack'];
       const mealPercentages = {
         dinner: 28,
         breakfast: 18,
@@ -70,21 +70,23 @@ const TabSection = ({ meals }: Props) => {
         snack: 27,
       };
 
-      return mealTypes.reduce((acc, type) => {
-        acc[type] = meals
-          .filter((meal) => meal.meal.startsWith(type))
-          .slice(0, 4)
-          .map((meal) =>
-            extendedMeal(
-              meal,
-              (userKcalForAWeek / 100) *
-                mealPercentages[type as keyof typeof mealPercentages],
-            ),
-          );
-        return acc;
-      }, {} as Record<string, ExtendMeal[]>);
+      return mealTypes.reduce(
+        (acc, type) => {
+          acc[type] = meals
+            .filter((meal) => meal.meal.startsWith(type))
+            .slice(0, 4)
+            .map((meal) =>
+              extendedMeal(
+                meal,
+                (userKcalForAWeek / 100) *
+                  mealPercentages[type as keyof typeof mealPercentages],
+              ),
+            );
+          return acc;
+        },
+        {} as Record<string, ExtendMeal[]>,
+      );
     }, [meals, userKcalForAWeek]);
-
   return (
     <>
       <div className="max-lg:px-5">
@@ -95,7 +97,7 @@ const TabSection = ({ meals }: Props) => {
             </h3>
             <div className="grid w-full grid-cols-2 gap-4 max-sm:gap-y-3 md:gap-x-2.5 lg:grid-cols-[1fr,1fr,100px,100px,100px,1fr]">
               <FilterSearchSelect
-                {...register("goal")}
+                {...register('goal')}
                 label="Doel:"
                 error={errors.goal?.message?.toString()}
               >
@@ -106,7 +108,7 @@ const TabSection = ({ meals }: Props) => {
                 ))}
               </FilterSearchSelect>
               <FilterSearchSelect
-                {...register("gender")}
+                {...register('gender')}
                 label="Geslacht:"
                 error={errors.gender?.message?.toString()}
               >
@@ -117,28 +119,28 @@ const TabSection = ({ meals }: Props) => {
                 ))}
               </FilterSearchSelect>
               <FilterInputSelect
-                {...register("age")}
+                {...register('age')}
                 label="Leeftijd:"
                 className="pr-5"
                 error={errors.age?.message?.toString()}
                 type="number"
               />
               <FilterInputSelect
-                {...register("weight")}
+                {...register('weight')}
                 label="Gewicht (kg):"
                 className="pr-5"
                 error={errors.weight?.message?.toString()}
                 type="number"
               />
               <FilterInputSelect
-                {...register("height")}
+                {...register('height')}
                 label="Lengte (cm):"
                 className="pr-5"
                 error={errors.height?.message?.toString()}
                 type="number"
               />
               <FilterSearchSelect
-                {...register("activityLevel")}
+                {...register('activityLevel')}
                 label="Activiteit"
                 error={errors.activityLevel?.message?.toString()}
               >
@@ -151,14 +153,14 @@ const TabSection = ({ meals }: Props) => {
             </div>
           </div>
           <p className="mt-4 text-right text-sm font-semibold text-app-black">
-            Je calorie behoefte per dag is:{" "}
-            {typeof userKcalForAWeek === "number" ? (
+            Je calorie behoefte per dag is:{' '}
+            {typeof userKcalForAWeek === 'number' ? (
               <span className="text-base font-bold">
                 {userKcalForAWeek.toFixed(2)}
               </span>
             ) : (
-              "_____"
-            )}{" "}
+              '_____'
+            )}{' '}
             kcal
           </p>
         </div>
@@ -189,61 +191,64 @@ const TabSection = ({ meals }: Props) => {
                 {homeTabs.map(({ tabKey, contentKey }, i) => (
                   <Tabs.Content key={i} value={tabKey}>
                     <div className="grid grid-cols-1 gap-2 font-montserrat lg:grid-cols-2 lg:gap-6">
-                      {filteredMeals?.[contentKey].map((m, cIndex) => (
-                        <div
-                          key={cIndex}
-                          className="grid grid-cols-1 items-center overflow-hidden rounded-xl bg-white md:grid-cols-[350px,auto] lg:grid-cols-[200px,auto] lg:rounded-[20px]"
-                        >
-                          <div className="h-full">
-                            <Image
-                              src={m.image}
-                              width={183}
-                              height={174}
-                              alt={m.mealName}
-                              className="aspect-video w-full object-cover lg:aspect-square"
-                            />
-                          </div>
+                      {filteredMeals?.[contentKey].map((m, cIndex) => {
+                        const isSnack = m.meal.startsWith('snack');
+                        return (
+                          <div
+                            key={cIndex}
+                            className="grid grid-cols-1 items-center overflow-hidden rounded-xl bg-white md:grid-cols-[350px,auto] lg:grid-cols-[200px,auto] lg:rounded-[20px]"
+                          >
+                            <div className="h-full">
+                              <Image
+                                src={m.image}
+                                width={183}
+                                height={174}
+                                alt={m.mealName}
+                                className="aspect-video w-full object-cover lg:aspect-square"
+                              />
+                            </div>
 
-                          <div className="p-4 sm:p-5">
-                            <h3 className="__h5 lg:__h3 font-semibold">
-                              {m.mealName}
-                            </h3>
-                            <div className="mt-2.5 flex flex-wrap gap-x-7 gap-y-3 sm:justify-between lg:mt-6 lg:gap-x-4">
-                              {[
-                                {
-                                  label: "Calorie",
-                                  value: `${m.totalNeedOfKCal} kcal`,
-                                },
-                                {
-                                  label: "Proteine",
-                                  value: `${m.totalNeedOfProteins} gr`,
-                                },
-                                {
-                                  label: "Koolhydraten",
-                                  value: `${m.totalNeedOfCarbohydrates} gr`,
-                                },
-                                {
-                                  label: "Vetten",
-                                  value: `${m.totalNeedOfFats} gr`,
-                                },
-                                {
-                                  label: "Vezels",
-                                  value: `${m.totalNeedOfFiber} gr`,
-                                },
-                              ].map((item, i) => (
-                                <div key={i} className="flex flex-col">
-                                  <p className="text-xs text-app-black md:text-sm">
-                                    {item.label}
-                                  </p>
-                                  <p className="mt-1 text-xs font-bold text-app-dark-blue md:text-sm">
-                                    {item.value}
-                                  </p>
-                                </div>
-                              ))}
+                            <div className="p-4 sm:p-5">
+                              <h3 className="__h5 lg:__h3 font-semibold">
+                                {m.mealName}
+                              </h3>
+                              <div className="mt-2.5 flex flex-wrap gap-x-7 gap-y-3 sm:justify-between lg:mt-6 lg:gap-x-4">
+                                {[
+                                  {
+                                    label: 'Calorie',
+                                    value: `${isSnack ? m.totalNeedOfKCal / 2 : m.totalNeedOfKCal} kcal`,
+                                  },
+                                  {
+                                    label: 'Proteine',
+                                    value: `${isSnack ? m.totalNeedOfProteins / 2 : m.totalNeedOfProteins} gr`,
+                                  },
+                                  {
+                                    label: 'Koolhydraten',
+                                    value: `${isSnack ? m.totalNeedOfCarbohydrates / 2 : m.totalNeedOfCarbohydrates} gr`,
+                                  },
+                                  {
+                                    label: 'Vetten',
+                                    value: `${isSnack ? m.totalNeedOfFats / 2 : m.totalNeedOfFats} gr`,
+                                  },
+                                  {
+                                    label: 'Vezels',
+                                    value: `${isSnack ? m.totalNeedOfFiber / 2 : m.totalNeedOfFiber} gr`,
+                                  },
+                                ].map((item, i) => (
+                                  <div key={i} className="flex flex-col">
+                                    <p className="text-xs text-app-black md:text-sm">
+                                      {item.label}
+                                    </p>
+                                    <p className="mt-1 text-xs font-bold text-app-dark-blue md:text-sm">
+                                      {item.value}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </Tabs.Content>
                 ))}

@@ -1,26 +1,26 @@
-import publicApiClient from "@/api-clients/public-api-client";
-import FormWrapper from "@/common/components/form-wrapper";
-import PasswordStrengthBar from "@/common/components/password-strength-bar";
-import Button from "@/common/components/ui/button";
-import Input from "@/common/components/ui/input";
-import routes from "@/config/routes";
-import { redirectUriQueryKey } from "@/constants";
-import { strongPasswordSchema } from "@/constants/zod";
-import { getClientErrorMsg } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import publicApiClient from '@/api-clients/public-api-client';
+import FormWrapper from '@/common/components/form-wrapper';
+import PasswordStrengthBar from '@/common/components/password-strength-bar';
+import Button from '@/common/components/ui/button';
+import Input from '@/common/components/ui/input';
+import routes from '@/config/routes';
+import { redirectUriQueryKey } from '@/constants';
+import { strongPasswordSchema } from '@/constants/zod';
+import { getClientErrorMsg } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/router';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 const signupSchema = z.object({
-  name: z.string().min(1, "Voer uw voornaam in"),
-  surname: z.string().min(1, "Voer uw achternaam in"),
+  name: z.string().min(1, 'Voer uw voornaam in'),
+  surname: z.string().min(1, 'Voer uw achternaam in'),
   email: z
     .string({
-      message: "Voer uw e-mailadres in",
+      message: 'Voer uw e-mailadres in',
     })
-    .email("Ongeldig e-mailadres"),
+    .email('Ongeldig e-mailadres'),
   password: strongPasswordSchema,
 });
 
@@ -43,12 +43,12 @@ const Register = () => {
   const onSubmit: SubmitHandler<SignupFormType> = async (d) => {
     if (isSubmitting) return;
     try {
-      await publicApiClient.post("/auth/user/signup", {
+      await publicApiClient.post('/auth/user/signup', {
         ...d,
         redirect: redirectUriValue,
       });
 
-      toast.success("Bevestig alstublieft uw e-mail!");
+      toast.success('Bevestig alstublieft uw e-mail!');
 
       await router.push(routes.logIn);
     } catch (err: any) {
@@ -56,9 +56,9 @@ const Register = () => {
     }
   };
 
-  const password = watch("password");
+  const password = watch('password');
   return (
-    <FormWrapper>
+    <FormWrapper isCornerImgHidden isLeftImgHidden>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="__h3 lg:__h1 font-medium">Registreren</h1>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-[auto,250px]">
@@ -66,20 +66,20 @@ const Register = () => {
             <Input
               label="Voornaam:"
               bordered
-              {...register("name")}
+              {...register('name')}
               error={errors.name?.message?.toString()}
             />
             <Input
               label="Achternaam:"
               bordered
-              {...register("surname")}
+              {...register('surname')}
               error={errors.surname?.message?.toString()}
             />
 
             <Input
               label="Email:"
               bordered
-              {...register("email")}
+              {...register('email')}
               error={errors.email?.message?.toString()}
             />
             <div>
@@ -87,7 +87,7 @@ const Register = () => {
                 type="password"
                 label="Wachtwoord:"
                 bordered
-                {...register("password")}
+                {...register('password')}
                 error={errors.password?.message?.toString()}
               />
               {!!password && (

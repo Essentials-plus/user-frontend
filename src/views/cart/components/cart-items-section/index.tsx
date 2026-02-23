@@ -1,24 +1,24 @@
-import guestApiClient from "@/api-clients/guest-api-client";
-import Button, { button } from "@/common/components/ui/button";
-import Spinner from "@/common/components/ui/spinner";
-import routes from "@/config/routes";
-import { guestLoginQueryKey } from "@/constants";
-import useActiveCurrency from "@/hooks/useActiveCurrency";
-import useCartData from "@/hooks/useCartData";
-import { useUserSession } from "@/hooks/useUserSession";
-import { cn, getClientErrorMsg } from "@/lib/utils";
-import { ApiResponseSuccessBase } from "@/types/api-responses";
-import { CouponCode } from "@/types/api-responses/coupon-code";
-import useAppliedCoupon from "@/views/cart/hooks/useAppliedCoupon";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ShoppingCart } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import useMeasure from "react-use-measure";
-import { toast } from "sonner";
-import { z } from "zod";
-import ProductCartItem from "./product-cart-item";
+import guestApiClient from '@/api-clients/guest-api-client';
+import Button, { button } from '@/common/components/ui/button';
+import Spinner from '@/common/components/ui/spinner';
+import routes from '@/config/routes';
+import { guestLoginQueryKey } from '@/constants';
+import useActiveCurrency from '@/hooks/useActiveCurrency';
+import useCartData from '@/hooks/useCartData';
+import { useUserSession } from '@/hooks/useUserSession';
+import { cn, getClientErrorMsg } from '@/lib/utils';
+import { ApiResponseSuccessBase } from '@/types/api-responses';
+import { CouponCode } from '@/types/api-responses/coupon-code';
+import useAppliedCoupon from '@/views/cart/hooks/useAppliedCoupon';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import useMeasure from 'react-use-measure';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import ProductCartItem from './product-cart-item';
 
 const CartItemsSection = () => {
   const [ref, bounds] = useMeasure();
@@ -55,7 +55,7 @@ const CartItemsSection = () => {
   return (
     <section className="my-8 w-full overflow-x-hidden lg:my-11">
       <div className="container" ref={ref}>
-        <h1 className="__h4 lg:__h3">Je Winkelwagen</h1>
+        <h1 className="__h4 lg:__h3">Je Winkelwagenssss</h1>
       </div>
 
       <div className="mt-3 grid grid-cols-1 gap-20 gap-y-8 lg:mt-9 lg:grid-cols-[63%,37%]">
@@ -64,7 +64,7 @@ const CartItemsSection = () => {
             style={{
               paddingLeft: bounds.left + 24,
             }}
-            className="grid grid-cols-[380px,1fr,1fr,1fr] gap-5 rounded-r-full bg-app-yellow py-4 font-bold max-lg:hidden"
+            className="grid grid-cols-[380px,1fr,1fr,1fr] gap-5 rounded-r-full py-4 font-bold max-lg:hidden"
           >
             <p>Artikel</p>
             <p>Artikelprijs</p>
@@ -82,7 +82,7 @@ const CartItemsSection = () => {
 
                 <Link
                   href={routes.lifestyleProduct}
-                  className={cn(button({ className: "mt-5 lg:mt-8" }))}
+                  className={cn(button({ className: 'mt-5 lg:mt-8' }))}
                 >
                   VERDER WINKELEN
                 </Link>
@@ -105,7 +105,7 @@ const CartItemsSection = () => {
           {/* {!user && (
             <div className="inset-0 absolute bg-black/10 z-10 rounded-l-[30px] cursor-not-allowed backdrop-blur-[1px]"></div>
           )} */}
-          <div className="p-5 max-lg:border max-lg:border-app-dark-grey/50 lg:rounded-l-[30px] lg:bg-app-yellow lg:px-8 lg:py-6">
+          <div className="p-5 max-lg:border max-lg:border-app-dark-grey/50 lg:rounded-l-[30px] lg:px-8 lg:py-6">
             <div
               style={{
                 paddingRight: bounds.left,
@@ -139,10 +139,10 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<{ code: string }>({
     resolver: zodResolver(
-      z.object({ code: z.string().min(1, "coupon vereist") }),
+      z.object({ code: z.string().min(1, 'coupon vereist') }),
     ),
     values: {
-      code: coupon?.code || "",
+      code: coupon?.code || '',
     },
   });
 
@@ -153,22 +153,23 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
         try {
           const { data } = await guestApiClient.post<
             ApiResponseSuccessBase<CouponCode>
-          >("/product/cart/coupon", d);
+          >('/product/cart/coupon', d);
           onValidateCoupon(data.data);
         } catch (err) {
           toast.error(getClientErrorMsg(err));
         }
       })}
-      className={cn("mt-3 space-y-3.5")}
+      className={cn('mt-3 space-y-3.5')}
     >
       <div>
         <input
           type="text"
           className={cn(
-            "w-full bg-app-grey border-2 border-app-grey outline-none h-10 px-4",
-            errors.code && "!border-red-500",
+            'w-full bg-app-grey border-2 border-app-grey outline-none h-10 px-4',
+            errors.code && '!border-red-500',
           )}
-          {...register("code")}
+          placeholder="Voer kortingscode in"
+          {...register('code')}
         />
         {errors.code && (
           <div className="text-sm text-red-500">
@@ -178,19 +179,19 @@ function CouponForm({ onValidateCoupon, coupon }: Props) {
       </div>
       {coupon ? (
         <Button
-          size={"md"}
+          size={'md'}
           type="button"
           onClick={removeCoupon}
-          intent={"orange"}
+          intent={'orange'}
           className="w-full rounded-none"
         >
           Verwijderen
         </Button>
       ) : (
         <Button
-          size={"md"}
+          size={'md'}
           loading={isSubmitting}
-          intent={"black"}
+          intent={'black'}
           className="w-full rounded-none"
         >
           Toepassen
@@ -231,8 +232,8 @@ export const CartOverViewCard = ({
 
       <div
         className={cn(
-          "my-4 space-y-3 border-y py-4 border-app-black/20",
-          checkOutLayout && "border-[#d8d8d8]/60",
+          'my-4 space-y-3 border-y py-4 border-app-black/20',
+          checkOutLayout && 'border-[#d8d8d8]/60',
         )}
       >
         <div className="__h5 flex items-center justify-between font-normal">
@@ -270,8 +271,8 @@ export const CartOverViewCard = ({
 
       {router.pathname === routes.cart && (
         <Button
-          size={"md"}
-          intent={"black"}
+          size={'md'}
+          intent={'black'}
           onClick={() => {
             if (productCart.length <= 0) {
               router.push(routes.products);

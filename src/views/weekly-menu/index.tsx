@@ -1,35 +1,35 @@
-import { getWeeklyNumberQueryOptions } from "@/api-clients/public-api-client/queries";
-import { userApiClient } from "@/api-clients/user-api-client";
+import { getWeeklyNumberQueryOptions } from '@/api-clients/public-api-client/queries';
+import { userApiClient } from '@/api-clients/user-api-client';
 import {
   getUserQueryOptions,
   getWeeklyMealQueryOptions,
-} from "@/api-clients/user-api-client/queries";
-import MealCard from "@/common/components/meal-card";
+} from '@/api-clients/user-api-client/queries';
+import MealCard from '@/common/components/meal-card';
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@/common/components/ui/alert";
-import Button from "@/common/components/ui/button";
-import Spinner from "@/common/components/ui/spinner";
-import useClientRefetch from "@/hooks/useClientRefetch";
+} from '@/common/components/ui/alert';
+import Button from '@/common/components/ui/button';
+import Spinner from '@/common/components/ui/spinner';
+import useClientRefetch from '@/hooks/useClientRefetch';
 import {
   getClientErrorMsg,
   getNextLockdownDate,
   rootWeekNumber,
   sortMealsByMealType,
-} from "@/lib/utils";
-import { ExtendMeal } from "@/types/api-responses/meal";
-import { PlanOrder } from "@/types/api-responses/product-attribute";
-import { User } from "@/types/api-responses/users";
-import HeroSection from "@/views/weekly-menu/components/hero-section";
-import MealsForPublicUsers from "@/views/weekly-menu/components/meals-for-public-users";
-import { useQuery } from "@tanstack/react-query";
-import { Calendar, Clock } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { toast } from "sonner";
-import { mealPlans } from "../onboarding/components/step-2";
-import SelectedDays from "./components/selected-days";
+} from '@/lib/utils';
+import { ExtendMeal } from '@/types/api-responses/meal';
+import { PlanOrder } from '@/types/api-responses/product-attribute';
+import { User } from '@/types/api-responses/users';
+import HeroSection from '@/views/weekly-menu/components/hero-section';
+import MealsForPublicUsers from '@/views/weekly-menu/components/meals-for-public-users';
+import { useQuery } from '@tanstack/react-query';
+import { Calendar, Clock } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import { mealPlans } from '../onboarding/components/step-2';
+import SelectedDays from './components/selected-days';
 
 const WeeklyMenu = () => {
   const { data: weeklyMenuRawData, isLoading: menuRawLoading } = useQuery(
@@ -190,10 +190,10 @@ function WeeklyMenuComponent({
         meals: v.meals.map((m) => ({ id: m.id })),
       }));
 
-      await userApiClient.post("/plan/order/confirm", newSelectedMeals);
-      await clientRefetch(["get-user"]);
-      await clientRefetch(["get-weekly-meals"]);
-      toast.success("Order bevestigd");
+      await userApiClient.post('/plan/order/confirm', newSelectedMeals);
+      await clientRefetch(['get-user']);
+      await clientRefetch(['get-weekly-meals']);
+      toast.success('Order bevestigd');
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -281,6 +281,10 @@ function OrderNotification({
   weekNumber,
   confirmOrderWeek,
 }: OrderNotificationProps) {
+  console.log({
+    weekNumber,
+    confirmOrderWeek,
+  });
   if (weekNumber !== confirmOrderWeek) {
     return (
       <Alert className="border-yellow-200 bg-yellow-50">
@@ -289,7 +293,7 @@ function OrderNotification({
           Bestelling niet mogelijk
         </AlertTitle>
         <AlertDescription>
-          Deze week kunt u niet bestellen. Selecteer week{" "}
+          Deze week kunt u niet bestellen. Selecteer week{' '}
           <span className="font-semibold">{confirmOrderWeek}</span> om uw
           bestelling te plaatsen.
         </AlertDescription>
@@ -356,7 +360,7 @@ const MealOrderHistory = ({ data }: { data: PlanOrder }) => {
         <Alert className="border-blue-200 bg-blue-50">
           <Calendar className="size-5 text-blue-600" />
           <AlertTitle className="text-blue-700">
-            U heeft al een bestelling geplaatst voor week{" "}
+            U heeft al een bestelling geplaatst voor week{' '}
             <span className="font-semibold">{data.week}</span>
           </AlertTitle>
           <AlertDescription>

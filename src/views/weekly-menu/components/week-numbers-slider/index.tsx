@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { cn } from '@/lib/utils';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const WeekNumbersSlider = ({
   weekNumber,
@@ -13,16 +13,22 @@ const WeekNumbersSlider = ({
   // eslint-disable-next-line no-unused-vars
   onWeekChange: (week: number) => void;
 }) => {
+  // Find the correct index of the current week in the array
+  const activeIndex = weekNumberList.findIndex((w) => w === weekNumber);
+  const initialSlideIndex = activeIndex !== -1 ? activeIndex : 0;
+
   return (
     <div className="relative border-2 border-app-black">
       <Swiper
         slidesPerView={3.97}
-        initialSlide={weekNumber - 1}
-        slidesPerGroup={2}
+        initialSlide={initialSlideIndex}
+        centeredSlides={true}
+        centeredSlidesBounds={true}
+        slidesPerGroup={1}
         modules={[Navigation]}
         navigation={{
-          prevEl: "#prevBtn",
-          nextEl: "#nextBtn",
+          prevEl: '#prevBtn',
+          nextEl: '#nextBtn',
         }}
       >
         {weekNumberList.map((w) => {
@@ -30,13 +36,13 @@ const WeekNumbersSlider = ({
           return (
             <SwiperSlide
               key={w.toString()}
-              className={cn("shadow-[-2px_0px_0px_black]")}
+              className={cn('shadow-[-2px_0px_0px_black]')}
             >
               <div
                 onClick={() => onWeekChange(w)}
                 className={cn(
-                  "cursor-pointer text-center py-3 lg:py-4",
-                  w === weekNumber && "bg-app-yellow",
+                  'cursor-pointer text-center py-3 lg:py-4',
+                  w === weekNumber && 'bg-app-yellow',
                 )}
               >
                 <p className="lg:__body_18 text-sm font-semibold uppercase lg:font-bold">

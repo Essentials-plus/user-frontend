@@ -1,9 +1,9 @@
-import { getSingleProductQueryOptions } from "@/api-clients/public-api-client/queries";
-import Spinner from "@/common/components/ui/spinner";
-import ProductCard from "@/views/lifestyle-products/components/product-card";
-import HeroSection from "@/views/single-product/components/hero-section";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { getSingleProductQueryOptions } from '@/api-clients/public-api-client/queries';
+import Spinner from '@/common/components/ui/spinner';
+import ProductCard from '@/views/lifestyle-products/components/product-card';
+import HeroSection from '@/views/single-product/components/hero-section';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 
 const SingleProduct = () => {
   const router = useRouter();

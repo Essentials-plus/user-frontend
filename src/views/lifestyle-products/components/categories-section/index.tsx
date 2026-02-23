@@ -1,16 +1,16 @@
-import { getCategoryQueryOptions } from "@/api-clients/user-api-client/queries";
-import routes from "@/config/routes";
-import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import Link from "next/link";
-import { ComponentPropsWithoutRef } from "react";
-import "swiper/css";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { getCategoryQueryOptions } from '@/api-clients/user-api-client/queries';
+import routes from '@/config/routes';
+import { cn } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ComponentPropsWithoutRef } from 'react';
+import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 type CategoriesSectionProps = {
   disableTitle?: boolean;
-  section?: ComponentPropsWithoutRef<"div">;
+  section?: ComponentPropsWithoutRef<'div'>;
   categoryLinkHref?: string;
   swiperSlideClassName?: string;
 };
@@ -26,14 +26,14 @@ const CategoriesSection = ({
       axiosReqConfig: {
         params: {
           where: {
-            parentCategoryId: "null",
+            parentCategoryId: 'null',
           },
         },
       },
     }),
   );
   return (
-    <section {...section} className={cn("mt-12 lg:mt-20", section?.className)}>
+    <section {...section} className={cn('mt-12 lg:mt-20', section?.className)}>
       <div className="mx-auto max-w-[1920px]">
         {!disableTitle && (
           <h2 className="text-center text-xl font-extrabold uppercase lg:text-2xl">
@@ -64,11 +64,14 @@ const CategoriesSection = ({
             {categoriesQuery.data?.data.map((category) => (
               <SwiperSlide
                 key={category.id}
-                className={cn("!aspect-square", swiperSlideClassName)}
+                className={cn(
+                  '!h-[150px] [&_img]:object-cover',
+                  swiperSlideClassName,
+                )}
               >
                 <Link
                   href={`${routes.productByCategory(category.slug)}${
-                    categoryLinkHref || ""
+                    categoryLinkHref || ''
                   }`}
                   className="group relative isolate block size-full"
                 >

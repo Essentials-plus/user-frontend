@@ -1,34 +1,34 @@
-import Button, { button } from "@/common/components/ui/button";
-import useCartData from "@/hooks/useCartData";
-import { cn, getApiErrorMessage, getClientErrorMsg } from "@/lib/utils";
-import { ProductType } from "@/types/api-responses/product-attribute";
-import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
+import Button, { button } from '@/common/components/ui/button';
+import useCartData from '@/hooks/useCartData';
+import { cn, getApiErrorMessage, getClientErrorMsg } from '@/lib/utils';
+import { ProductType } from '@/types/api-responses/product-attribute';
+import Image from 'next/image';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'sonner';
 // Import Swiper React components
-import ReactRatingComponent from "react-rating";
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import ReactRatingComponent from 'react-rating';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 const ReactRating = ReactRatingComponent as unknown as any;
 // Import Swiper styles
 import {
   getCanGiveReviewQueryOptions,
   getProductReviewsQueryOptions,
-} from "@/api-clients/user-api-client/queries";
+} from '@/api-clients/user-api-client/queries';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/common/components/ui/accordion";
-import Spinner from "@/common/components/ui/spinner";
-import routes from "@/config/routes";
-import useActiveCurrency from "@/hooks/useActiveCurrency";
-import useFirstRender from "@/hooks/useFirstRender";
-import usePaginatedQuery from "@/hooks/usePaginatedQuery";
-import DataTablePagination from "@/views/data-table-pagination";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
+} from '@/common/components/ui/accordion';
+import Spinner from '@/common/components/ui/spinner';
+import routes from '@/config/routes';
+import useActiveCurrency from '@/hooks/useActiveCurrency';
+import useFirstRender from '@/hooks/useFirstRender';
+import usePaginatedQuery from '@/hooks/usePaginatedQuery';
+import DataTablePagination from '@/views/data-table-pagination';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import {
   BadgeCheck,
   ChevronDown,
@@ -38,14 +38,14 @@ import {
   MinusIcon,
   PlusIcon,
   Star,
-} from "lucide-react";
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import "swiper/css";
-import { Controller, Navigation, Pagination } from "swiper/modules";
+} from 'lucide-react';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import 'swiper/css';
+import { Controller, Navigation, Pagination } from 'swiper/modules';
 
 const ProductReviewForm = dynamic(
-  () => import("@/views/single-product/components/product-review-form"),
+  () => import('@/views/single-product/components/product-review-form'),
 );
 
 type Props = {
@@ -119,23 +119,23 @@ const HeroSection = ({ data }: Props) => {
                   grabCursor
                   breakpoints={{
                     0: {
-                      direction: "horizontal",
+                      direction: 'horizontal',
                       slidesPerView: 5,
                       spaceBetween: 5,
                     },
                     600: {
-                      direction: "horizontal",
+                      direction: 'horizontal',
                       slidesPerView: 8,
                       spaceBetween: 5,
                     },
                     768: {
-                      direction: "horizontal",
+                      direction: 'horizontal',
                       slidesPerView: 12,
                       spaceBetween: 5,
                     },
                     1024: {
-                      direction: "vertical",
-                      slidesPerView: "auto",
+                      direction: 'vertical',
+                      slidesPerView: 'auto',
                       spaceBetween: 24,
                     },
                   }}
@@ -146,7 +146,7 @@ const HeroSection = ({ data }: Props) => {
                   {sliderImages.map((image, i) => (
                     <SwiperSlide
                       className={cn(
-                        "lg:!w-full lg:!h-auto !aspect-square cursor-pointer",
+                        'lg:!w-full lg:!h-auto !aspect-square cursor-pointer',
                       )}
                       key={`slide_${i}`}
                       onClick={() => {
@@ -158,12 +158,12 @@ const HeroSection = ({ data }: Props) => {
                       )}
                       <div
                         className={cn(
-                          activeSlide !== i && "opacity-70",
-                          "size-full",
+                          activeSlide !== i && 'opacity-70',
+                          'size-full',
                         )}
                       >
                         <Image
-                          src={image.src || "/imgs/placeholders/product.png"}
+                          src={image.src || '/imgs/placeholders/product.png'}
                           width={375}
                           height={495}
                           alt="Product"
@@ -180,7 +180,7 @@ const HeroSection = ({ data }: Props) => {
                 <Swiper
                   modules={[Controller, Navigation, Pagination]}
                   pagination={{
-                    el: "#onlyMobilePagination",
+                    el: '#onlyMobilePagination',
                   }}
                   onSwiper={setSecondSwiper}
                   controller={{ control: firstSwiper }}
@@ -191,21 +191,22 @@ const HeroSection = ({ data }: Props) => {
                     setActiveSlide(swiper.activeIndex);
                   }}
                   navigation={{
-                    prevEl: "#prevNavigationBtn",
-                    nextEl: "#nextNavigationBtn",
+                    prevEl: '#prevNavigationBtn',
+                    nextEl: '#nextNavigationBtn',
                   }}
                 >
                   {sliderImages.map((image, i) => (
                     <SwiperSlide key={`slide_${i}`}>
                       <div>
                         <Image
-                          src={image.src || "/imgs/placeholders/product.png"}
+                          src={image.src || '/imgs/placeholders/product.png'}
                           width={375}
                           height={495}
                           alt="Product"
                           // className="max-w-[323px] ml-auto"
                           className="w-full"
                           priority
+                          unoptimized
                         />
                       </div>
                     </SwiperSlide>
@@ -245,11 +246,11 @@ const HeroSection = ({ data }: Props) => {
               <div
                 className="prose-sm mt-2 max-w-[480px] lg:prose lg:mt-3"
                 dangerouslySetInnerHTML={{
-                  __html: data.description || "",
+                  __html: data.description || '',
                 }}
               />
             )}
-            {data.type === "variable" && (
+            {data.type === 'variable' && (
               <ProductVariationSection
                 data={data}
                 onVariationSelect={(variationId, imageSameAsVariationId) => {
@@ -265,15 +266,15 @@ const HeroSection = ({ data }: Props) => {
               />
             )}
 
-            {data.type === "simple" && (
+            {data.type === 'simple' && (
               <>
                 <div className="pt-5"></div>
                 <div>
                   <div className="font-bold">
-                    Voorraad:{" "}
+                    Voorraad:{' '}
                     <span>
-                      {data.stock == null ? "Unlimited" : data?.stock}
-                    </span>{" "}
+                      {data.stock == null ? 'Unlimited' : data?.stock}
+                    </span>{' '}
                   </div>
                   {/* {data.stock === 0 && (
                     <div className="font-bold text-red-500">
@@ -327,8 +328,16 @@ const HeroSection = ({ data }: Props) => {
                   <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
                     {faq.title}
                   </AccordionTrigger>
-                  <AccordionContent className="whitespace-pre-line">
-                    {faq.content}
+                  <AccordionContent>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: faq.content,
+                      }}
+                      className={cn(
+                        'prose',
+                        'prose-td:px-2 prose-table:border',
+                      )}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -339,8 +348,16 @@ const HeroSection = ({ data }: Props) => {
                   <AccordionTrigger className="py-4 text-base max-lg:font-semibold lg:text-xl">
                     {spec.label}
                   </AccordionTrigger>
-                  <AccordionContent className="whitespace-pre-line">
-                    {spec.value}
+                  <AccordionContent>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: spec.value,
+                      }}
+                      className={cn(
+                        'prose',
+                        'prose-td:px-2 prose-table:border',
+                      )}
+                    />
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -366,7 +383,7 @@ const HeroSection = ({ data }: Props) => {
                       readonly
                     />
                   </div>
-                  {typeof totalReviewsCount === "number" && (
+                  {typeof totalReviewsCount === 'number' && (
                     <span className="text-sm font-normal text-app-text">
                       ({totalReviewsCount})
                     </span>
@@ -376,17 +393,17 @@ const HeroSection = ({ data }: Props) => {
               <AccordionContent className="pt-2 lg:pt-5">
                 <div className="flex gap-4 max-sm:flex-col sm:items-center sm:justify-between">
                   <p className="font-semibold">
-                    Algemene rating ({averageRating || "0.00"})
+                    Algemene rating ({averageRating || '0.00'})
                   </p>
 
                   {(canGiveReview || openReviewForm) && (
                     <Button
-                      intent={"outline-primary"}
-                      size={"md"}
+                      intent={'outline-primary'}
+                      size={'md'}
                       className="font-semibold"
                       onClick={() => setOpenReviewForm(!openReviewForm)}
                     >
-                      {openReviewForm ? "ANNULEREN" : "SCHRIJF JE RECENSIE"}
+                      {openReviewForm ? 'ANNULEREN' : 'SCHRIJF JE RECENSIE'}
                     </Button>
                   )}
                 </div>
@@ -422,7 +439,7 @@ const HeroSection = ({ data }: Props) => {
                           </p>
                           <Dot className="size-3.5 opacity-30" />
                           <p className="text-sm capitalize text-app-text">
-                            {format(review.createdAt, "MMM dd, yyyy")}
+                            {format(review.createdAt, 'MMM dd, yyyy')}
                           </p>
                         </div>
                         <div className="mt-1 flex items-center gap-2.5">
@@ -444,7 +461,7 @@ const HeroSection = ({ data }: Props) => {
                           </div>
                           <div className="h-3.5 w-px bg-app-text/30"></div>
                           <div className="flex items-center gap-1 text-sm font-semibold text-app-primary">
-                            <BadgeCheck className="size-5 fill-app-primary stroke-white" />{" "}
+                            <BadgeCheck className="size-5 fill-app-primary stroke-white" />{' '}
                             Geverifieerde aankoop
                           </div>
                         </div>
@@ -549,7 +566,7 @@ function ProductVariationSection({
           <div className="text-sm font-semibold capitalize lg:text-lg">
             {attribute.name}
           </div>
-          {(attribute as any)?.appearance === "dropdown" ? (
+          {(attribute as any)?.appearance === 'dropdown' ? (
             <div className="relative mt-1 w-fit">
               <select
                 onChange={(e) => {
@@ -597,9 +614,9 @@ function ProductVariationSection({
                       });
                     }}
                     className={cn(
-                      "border-2 duration-200 max-lg:text-sm max-lg:px-3 max-lg:h-8 ring-offset-1 outline-none focus-visible:ring-1 flex items-center gap-2   border-app-darker-green  text-app-darker-green focus-visible:ring-app-darker-green text-base font-medium h-10 rounded-lg px-4 disabled:opacity-70",
+                      'border-2 duration-200 max-lg:text-sm max-lg:px-3 max-lg:h-8 ring-offset-1 outline-none focus-visible:ring-1 flex items-center gap-2   border-app-darker-green  text-app-darker-green focus-visible:ring-app-darker-green text-base font-medium h-10 rounded-lg px-4 disabled:opacity-70',
                       selectedTerms.find((vv) => vv.attributeTermId == t.id) &&
-                        "bg-app-darker-green text-white",
+                        'bg-app-darker-green text-white',
                     )}
                   >
                     {t.name}
@@ -612,7 +629,7 @@ function ProductVariationSection({
 
       {hasAllTermsSelected && getVariation?.stock && (
         <div className="mt-3 font-bold">
-          Voorraad: <span>{getVariation?.stock}</span>{" "}
+          Voorraad: <span>{getVariation?.stock}</span>{' '}
         </div>
       )}
       {hasAllTermsSelected ? (
@@ -689,7 +706,7 @@ function PriceButtonSection({
 
       await onButtonClick(counter);
 
-      toast.success("Artikel toegevoegd aan winkelwagen");
+      toast.success('Artikel toegevoegd aan winkelwagen');
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -738,8 +755,8 @@ function PriceButtonSection({
         {limit == 0 ? (
           <Button
             className="pointer-events-none px-4 max-md:w-full lg:ml-5"
-            intent={"danger"}
-            size={"md"}
+            intent={'danger'}
+            size={'md'}
           >
             Geen voorraad meer
           </Button>
@@ -748,8 +765,8 @@ function PriceButtonSection({
             {isDisabled ? (
               <Link
                 className={button({
-                  className: "lg:ml-5 px-4 max-md:w-full",
-                  size: "md",
+                  className: 'lg:ml-5 px-4 max-md:w-full',
+                  size: 'md',
                 })}
                 href={routes.cart}
               >
@@ -761,9 +778,9 @@ function PriceButtonSection({
                 disabled={loading || isDisabled}
                 onClick={onAddItem}
                 className="px-4 max-md:w-full"
-                size={"md"}
+                size={'md'}
               >
-                {isDisabled ? "Al in winkelwagen" : "In Winkelmandje"}
+                {isDisabled ? 'Al in winkelwagen' : 'In Winkelmandje'}
               </Button>
             )}
           </>

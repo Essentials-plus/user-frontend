@@ -1,16 +1,39 @@
-import StartTotdayButton from "@/common/components/start-totday-button";
-import useHeaderHeight from "@/hooks/useHeaderHeight";
-import Image from "next/image";
-import { CSSProperties } from "react";
+import { getRawDataByIdentifierQueryOptions } from '@/api-clients/user-api-client/queries';
+import { button } from '@/common/components/ui/button';
+import useHeaderHeight from '@/hooks/useHeaderHeight';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import Link from 'next/link';
+import { CSSProperties } from 'react';
+
+export const homeHeroSectionApiIdentifier = 'home-page.hero-section';
 
 const HeroSection = () => {
   const { headerHeight } = useHeaderHeight();
+
+  const heroSectionQuery = useQuery(
+    getRawDataByIdentifierQueryOptions({
+      identifier: homeHeroSectionApiIdentifier,
+    }),
+  );
+  const data = heroSectionQuery.data?.data?.data;
+
+  // Fallback values when API data is not available
+  const title = data?.title ?? 'Gezond eten <br /> makkelijk gemaakt';
+  const description =
+    data?.description ??
+    'Complete dagpakketen afgestemd op <br /> jou unieke behoeftes';
+  const buttonText = data?.buttonText ?? 'Begin Vandaag';
+  const buttonUrl = data?.buttonUrl ?? '/onboarding/credentials';
+  const image = data?.image ?? '/imgs/home-hero-img.jpg';
+  const buttonBackgroundColor = data?.buttonBackgroundColor;
+  const buttonTextColor = data?.buttonTextColor;
 
   return (
     <section
       style={
         {
-          "--headerHeight": `${headerHeight}px`,
+          '--headerHeight': `${headerHeight}px`,
         } as CSSProperties
       }
       className="relative flex max-w-[100vw] overflow-x-hidden max-lg:min-h-[calc(100dvh-var(--headerHeight))] max-lg:flex-col max-lg:bg-app-darker-green lg:min-h-[calc(100vh-93.74px)] lg:items-center"
@@ -18,27 +41,48 @@ const HeroSection = () => {
       <div className="container">
         <div className="max-w-[659px] max-lg:pt-16">
           <h1 className="lg:__h1 text-4xl font-bold uppercase max-lg:text-white">
-            Gezond eten <br /> makkelijk gemaakt{" "}
+            {title}
           </h1>
-          <p className="__body_16 lg:__body_25 mb-10 mt-5 font-medium uppercase text-black max-lg:text-white/90">
-            Complete dagpakketen afgestemd op <br /> jou unieke behoeftes
-          </p>
+          <div
+            className="__body_16 lg:__body_25 prose mb-10 mt-5 font-medium uppercase text-black max-lg:text-white/90"
+            dangerouslySetInnerHTML={{
+              __html: description,
+            }}
+          />
           <div className="flex lg:justify-center">
-            <StartTotdayButton className="max-lg:bg-white max-lg:text-app-darker-green lg:-translate-x-10" />
+            <Link
+              href={buttonUrl}
+              className={button({
+                className:
+                  'w-fit max-lg:bg-white max-lg:text-app-darker-green lg:-translate-x-10 border-none hover:brightness-110 duration-150',
+              })}
+              style={{
+                ...(buttonBackgroundColor && {
+                  backgroundColor: buttonBackgroundColor,
+                }),
+                ...(buttonTextColor && {
+                  color: buttonTextColor,
+                }),
+              }}
+            >
+              {buttonText}
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:right-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]">
-        {/* <div className="absolute right-0 top-0 h-full max-w-[50%] overflow-hidden bg-app-darker-green"> */}
+      <Link
+        href={buttonUrl}
+        className="block overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:right-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]"
+      >
         <Image
-          src={"/imgs/home-hero-img.jpg"}
-          alt="HERO IMAGE"
+          src={image}
+          alt={title}
           width={2098}
           height={1708}
           className="object-cover max-lg:w-full lg:size-full"
         />
-      </div>
+      </Link>
     </section>
   );
 };
