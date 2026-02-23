@@ -2,6 +2,9 @@
   "name": "essentials-plus",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "dev": "next dev",
     "dev2": "yarn dev -p 3005",
