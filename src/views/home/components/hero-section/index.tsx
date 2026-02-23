@@ -19,7 +19,11 @@ const HeroSection = () => {
   const data = heroSectionQuery.data?.data?.data;
 
   // Fallback values when API data is not available
-  const title = data?.title ?? 'Gezond eten <br /> makkelijk gemaakt';
+  const title = data?.title ?? (
+    <>
+      Gezond eten <br /> makkelijk gemaakt
+    </>
+  );
   const description =
     data?.description ??
     'Complete dagpakketen afgestemd op <br /> jou unieke behoeftes';

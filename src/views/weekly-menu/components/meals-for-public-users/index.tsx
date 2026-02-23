@@ -1,12 +1,12 @@
-import { getUnauthenticatedWeeklyMealsQueryOptions } from "@/api-clients/public-api-client/queries";
-import Spinner from "@/common/components/ui/spinner";
-import { mealTypeOptions } from "@/constants/meal";
-import useFetchInfinitely from "@/hooks/useFetchInfinitely";
-import { cn, getApiErrorMessage, rootWeekNumber } from "@/lib/utils";
-import WeekNumbersSlider from "@/views/weekly-menu/components/week-numbers-slider";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useMemo, useState } from "react";
+import { getUnauthenticatedWeeklyMealsQueryOptions } from '@/api-clients/public-api-client/queries';
+import Spinner from '@/common/components/ui/spinner';
+import { mealTypeOptions } from '@/constants/meal';
+import useFetchInfinitely from '@/hooks/useFetchInfinitely';
+import { cn, getApiErrorMessage, rootWeekNumber } from '@/lib/utils';
+import WeekNumbersSlider from '@/views/weekly-menu/components/week-numbers-slider';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useMemo, useState } from 'react';
 
 const MealsForPublicUsers = ({
   weekNumberList,
@@ -74,9 +74,9 @@ const MealsForPublicUsers = ({
                     }
                     key={option.value}
                     className={cn(
-                      "h-8 lg:h-9 border-2 text-sm lg:text-base border-app-black rounded-lg px-3 lg:px-4 __c_all",
+                      'h-8 lg:h-9 border-2 text-sm lg:text-base border-app-black rounded-lg px-3 lg:px-4 __c_all',
                       activeMealType === option.value &&
-                        "text-white bg-app-darker-green border-app-darker-green",
+                        'text-white bg-app-darker-green border-app-darker-green',
                     )}
                   >
                     {option.label}
@@ -89,7 +89,7 @@ const MealsForPublicUsers = ({
 
         <div className="absolute right-0 top-0 h-full w-[45%] overflow-hidden bg-app-darker-green max-lg:hidden">
           <Image
-            src={"/imgs/women-cooking.jpg"}
+            src={'/imgs/women-cooking.jpg'}
             alt="women-cooking"
             width={1039}
             height={840}
