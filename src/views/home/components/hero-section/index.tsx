@@ -44,7 +44,9 @@ const HeroSection = () => {
     >
       <div className="container">
         <div className="max-w-[659px] max-lg:pb-8 max-lg:pt-16">
-          <h1 className="lg:__h1 text-4xl font-bold uppercase">{title}</h1>
+          <h1 className="lg:__h1 break-words text-4xl font-bold uppercase">
+            {title}
+          </h1>
           <div
             className="__body_16 lg:__body_25 prose mb-6 mt-5 font-medium uppercase text-black lg:mb-10"
             dangerouslySetInnerHTML={{

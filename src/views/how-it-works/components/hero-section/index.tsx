@@ -36,13 +36,15 @@ const HeroSection = () => {
           '--headerHeight': `${headerHeight}px`,
         } as CSSProperties
       }
-      className="relative flex max-w-[100vw] overflow-x-hidden max-lg:min-h-[calc(100dvh-var(--headerHeight))] max-lg:flex-col max-lg:bg-app-darker-green lg:min-h-[calc(100vh-93.74px)] lg:items-center"
+      className="relative flex max-w-[100vw] overflow-x-hidden max-lg:min-h-[calc(100dvh-var(--headerHeight))] max-lg:flex-col lg:min-h-[calc(100vh-93.74px)] lg:items-center"
     >
       <div className="container">
-        <div className="ml-auto max-w-[659px] max-lg:py-20 lg:pl-28">
-          <h1 className="__h2 lg:__h1 uppercase max-lg:text-white">{title}</h1>
+        <div className="ml-auto max-w-[659px]  max-lg:pb-8 max-lg:pt-16 lg:pl-28">
+          <h1 className="lg:__h1 break-words text-4xl font-bold uppercase">
+            {title}
+          </h1>
           <div
-            className="__body_16 lg:__body_18 prose mb-10 mt-5 font-medium max-lg:text-white/80 lg:max-w-[60%]"
+            className="__body_16 lg:__body_18 prose mb-6 mt-5 break-words font-medium lg:max-w-[60%]"
             dangerouslySetInnerHTML={{
               __html: description,
             }}
@@ -69,14 +71,14 @@ const HeroSection = () => {
 
       <Link
         href={buttonUrl}
-        className="block overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:left-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]"
+        className="block flex-col overflow-hidden bg-app-darker-green max-lg:flex max-lg:min-h-[250px] max-lg:grow max-lg:items-end lg:absolute lg:left-0 lg:top-0 lg:h-full lg:max-w-[50%] lg:shadow-[1px_4px_10px_0px_rgba(0,0,0,0.25)]"
       >
         <Image
           src={image}
           alt={title}
           width={2078}
           height={1680}
-          className="object-cover max-lg:w-full lg:size-full"
+          className="object-cover max-lg:w-full max-lg:grow lg:size-full"
         />
       </Link>
     </section>
