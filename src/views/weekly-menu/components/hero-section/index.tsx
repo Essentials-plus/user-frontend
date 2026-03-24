@@ -1,10 +1,10 @@
-import { cn, getNextDeliveryDate, getWeekDate } from "@/lib/utils";
-import WeekNumbersSlider from "@/views/weekly-menu/components/week-numbers-slider";
-import { format } from "date-fns";
-import { nl } from "date-fns/locale";
-import { useMemo } from "react";
-import useMeasure from "react-use-measure";
-import "swiper/css";
+import { cn, getNextDeliveryDate, getWeekDate } from '@/lib/utils';
+import WeekNumbersSlider from '@/views/weekly-menu/components/week-numbers-slider';
+import { format } from 'date-fns';
+import { nl } from 'date-fns/locale';
+import { useMemo } from 'react';
+import useMeasure from 'react-use-measure';
+import 'swiper/css';
 
 type Props = {
   totalNeedOfData: {
@@ -32,14 +32,14 @@ const HeroSection = ({
 
   const currentWeekDates = useMemo(() => getWeekDate(weekNumber), [weekNumber]);
   const roundedContainerStyle =
-    "rounded-lg lg:rounded-[10px] bg-white px-2 py-1 lg:px-9 lg:py-1.5 text-center max-lg:flex max-lg:items-center max-lg:gap-1.5";
+    'rounded-lg lg:rounded-[10px] bg-white px-2 py-1 lg:px-9 lg:py-1.5 text-center max-lg:flex max-lg:items-center max-lg:gap-1.5';
   const heroSectionTitleClass =
-    "text-sm lg:text-lg max-lg:font-semibold font-bold";
+    'text-sm lg:text-lg max-lg:font-semibold font-bold';
 
   return (
     <section
       className={cn(
-        "mt-[55px] duration-200",
+        'mt-[55px] duration-200',
         // !bounds.left && "opacity-0 pointer-events-none",
       )}
     >
@@ -61,7 +61,7 @@ const HeroSection = ({
 
             <div className="rounded-b-2xl bg-[#D9D9D9] px-4 py-3 text-sm font-medium lg:rounded-b-[40px] lg:px-8 lg:py-4 lg:text-xl lg:font-semibold">
               <p>
-                Reeks: <br /> {currentWeekDates.start.toLocaleDateString()} tm{" "}
+                Reeks: <br /> {currentWeekDates.start.toLocaleDateString()} tm{' '}
                 {currentWeekDates.end.toLocaleDateString()}
               </p>
             </div>
@@ -110,16 +110,16 @@ const HeroSection = ({
                   Uw eerst volgende lockdown en bezorgmomenten zijn:
                 </p>
                 <p className="mt-2 flex items-center gap-4 text-base font-semibold text-white lg:text-3xl">
-                  Lockdowndatum:{" "}
-                  {format(new Date(lockdownDate), "EEEE, dd/MM/yyyy", {
+                  Lockdowndatum:{' '}
+                  {format(new Date(lockdownDate), 'EEEE, dd/MM/yyyy', {
                     locale: nl,
                   })}
                 </p>
                 <p className="mt-1 flex items-center gap-4 text-base font-semibold text-white lg:mt-2 lg:text-3xl">
-                  Leverdatum:{" "}
+                  Leverdatum:{' '}
                   {format(
                     getNextDeliveryDate(lockdownDate),
-                    "EEEE, dd/MM/yyyy",
+                    'EEEE, dd/MM/yyyy',
                     { locale: nl },
                   )}
                 </p>
