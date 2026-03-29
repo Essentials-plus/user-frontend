@@ -2,7 +2,7 @@ import { getUnauthenticatedWeeklyMealsQueryOptions } from '@/api-clients/public-
 import Spinner from '@/common/components/ui/spinner';
 import { mealTypeOptions } from '@/constants/meal';
 import useFetchInfinitely from '@/hooks/useFetchInfinitely';
-import { cn, getApiErrorMessage, rootWeekNumber } from '@/lib/utils';
+import { cn, currentISOWeek, getApiErrorMessage } from '@/lib/utils';
 import WeekNumbersSlider from '@/views/weekly-menu/components/week-numbers-slider';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -13,7 +13,7 @@ const MealsForPublicUsers = ({
 }: {
   weekNumberList: number[];
 }) => {
-  const [activeWeekNumber, setActiveWeekNumber] = useState(rootWeekNumber);
+  const [activeWeekNumber, setActiveWeekNumber] = useState(currentISOWeek);
   const [activeMealType, setActiveMealType] = useState<string | null>(null);
 
   const unauthenticatedWeeklyMealsQuery = useInfiniteQuery({

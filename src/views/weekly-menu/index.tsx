@@ -14,9 +14,9 @@ import Button from '@/common/components/ui/button';
 import Spinner from '@/common/components/ui/spinner';
 import useClientRefetch from '@/hooks/useClientRefetch';
 import {
+  currentISOWeek,
   getClientErrorMsg,
   getNextLockdownDate,
-  rootWeekNumber,
   sortMealsByMealType,
 } from '@/lib/utils';
 import { ExtendMeal } from '@/types/api-responses/meal';
@@ -36,12 +36,12 @@ const WeeklyMenu = () => {
     getWeeklyNumberQueryOptions(),
   );
 
-  const [weekNumber, setWeekNumber] = useState(rootWeekNumber);
+  const [weekNumber, setWeekNumber] = useState(currentISOWeek);
 
   const weeklyNumber = useMemo(() => {
     return (
       weeklyMenuRawData?.data.map((v) => v.week).sort((a, b) => a - b) || [
-        rootWeekNumber,
+        currentISOWeek,
       ]
     );
   }, [weeklyMenuRawData]);
@@ -111,6 +111,7 @@ function WeeklyMenuComponent({
   isOrder,
   orderHistory,
 }: Props) {
+  console.log({ isOrder });
   const [selectedDay, setSelectedDay] = useState(1);
 
   const [selectedMeals, setSelectedMeals] = useState(() =>
@@ -211,7 +212,11 @@ function WeeklyMenuComponent({
         meals: v.meals.map((m) => ({ id: m.id })),
       }));
 
-      await userApiClient.post('/plan/order/confirm', newSelectedMeals);
+      await userApiClient.post('/plan/order/confirm', newSelectedMeals, {
+        params: {
+          week: weekNumber,
+        },
+      });
       await clientRefetch(['get-user']);
       await clientRefetch(['get-weekly-meals']);
       toast.success('Order bevestigd');
@@ -299,6 +304,7 @@ function OrderNotification({
   weekNumber,
   confirmOrderWeek,
 }: OrderNotificationProps) {
+  console.log({ confirmOrderWeek, weekNumber });
   if (weekNumber !== confirmOrderWeek) {
     return (
       <Alert className="border-yellow-200 bg-yellow-50">

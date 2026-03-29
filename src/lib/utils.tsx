@@ -1,7 +1,7 @@
-import { mealTypeOptions } from "@/constants/meal";
-import type { FilterFormSchema } from "@/lib/schemas";
-import type { ProductTaxPercentType } from "@/types/api-responses/tax";
-import clsx, { type ClassValue } from "clsx";
+import { mealTypeOptions } from '@/constants/meal';
+import type { FilterFormSchema } from '@/lib/schemas';
+import type { ProductTaxPercentType } from '@/types/api-responses/tax';
+import clsx, { type ClassValue } from 'clsx';
 import {
   addDays,
   endOfISOWeek,
@@ -10,9 +10,9 @@ import {
   getISOWeek,
   startOfISOWeek,
   startOfISOWeekYear,
-} from "date-fns";
-import { twMerge } from "tailwind-merge";
-import { ZodError } from "zod";
+} from 'date-fns';
+import { twMerge } from 'tailwind-merge';
+import { ZodError } from 'zod';
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 export const cx = clsx;
@@ -22,7 +22,7 @@ export const getApiErrorMessage = (
   fallbackErrorMessage?: string,
 ) => {
   const defaultErrorMessage =
-    fallbackErrorMessage || "Something went wrong. Please try again.";
+    fallbackErrorMessage || 'Something went wrong. Please try again.';
 
   if (error instanceof ZodError) {
     try {
@@ -36,8 +36,8 @@ export const getApiErrorMessage = (
             {errors.map((error) => (
               <li className="list-item list-disc" key={error.field}>
                 <span className="font-medium">
-                  {error.field} {"->"}
-                </span>{" "}
+                  {error.field} {'->'}
+                </span>{' '}
                 <span className="opacity-80">{error.message}</span>
               </li>
             ))}
@@ -52,7 +52,7 @@ export const getApiErrorMessage = (
   let errorMessage = defaultErrorMessage;
   try {
     const data = error.response?.data;
-    errorMessage = typeof data === "string" ? data : data?.message;
+    errorMessage = typeof data === 'string' ? data : data?.message;
   } catch (error) {}
 
   return errorMessage || defaultErrorMessage;
@@ -64,16 +64,16 @@ export const getClientErrorMsg = (err: any) => {
 
 export const normalizeZodError = (errors: ZodError) => {
   return errors.errors.map((error) => ({
-    field: error.path.join("."),
+    field: error.path.join('.'),
     message: `${error.message}`,
   }));
 };
 
-export function getWeekNumber() {
+export function getCurrentISOWeek() {
   return getISOWeek(new Date());
 }
 
-export const rootWeekNumber = getWeekNumber();
+export const currentISOWeek = getCurrentISOWeek();
 
 export function getNextLockdownDate(lockDownDay: number) {
   const today = new Date(); // Current date
@@ -96,10 +96,10 @@ export const getDateFromIsoWeekAndDay = (
   year: number = new Date().getFullYear(),
 ) => {
   if (week < 1 || week > 53)
-    throw new Error("Invalid week number. It should be between 1 and 53.");
+    throw new Error('Invalid week number. It should be between 1 and 53.');
   if (day < 1 || day > 7)
     throw new Error(
-      "Invalid day number. It should be between 1 (Monday) and 7 (Sunday).",
+      'Invalid day number. It should be between 1 (Monday) and 7 (Sunday).',
     );
 
   const firstDayOfYear = startOfISOWeekYear(new Date(year, 0, 4)); // ✅ safer
@@ -136,11 +136,11 @@ export const getProductPrice = (product: any, variationId: string | null) => {
     const variation = product.variations.find(
       (variation: any) => variation.id === variationId,
     );
-    return typeof variation?.salePrice === "number"
+    return typeof variation?.salePrice === 'number'
       ? variation?.salePrice
       : variation?.regularPrice;
   } else {
-    return typeof product.salePrice === "number"
+    return typeof product.salePrice === 'number'
       ? product.salePrice
       : product.regularPrice;
   }
@@ -153,7 +153,7 @@ export const getShippingAmount = (amount: number) => {
   const shippingCharge = Number(process.env.NEXT_PUBLIC_SHIPPING_CHARGE);
 
   if (
-    typeof amount === "number" &&
+    typeof amount === 'number' &&
     amount > 0 &&
     amount < minimumOrderValueForFreeShipping
   ) {
@@ -177,11 +177,11 @@ export const getProductTaxAmount = ({
   productPrice: number;
   taxPercent: ProductTaxPercentType;
 }) => {
-  const taxAmount = Number(taxPercent.split("TAX")[1]);
+  const taxAmount = Number(taxPercent.split('TAX')[1]);
 
-  if (typeof taxAmount !== "number") return 0;
+  if (typeof taxAmount !== 'number') return 0;
 
-  if (typeof productPrice !== "number") return 0;
+  if (typeof productPrice !== 'number') return 0;
 
   return (productPrice / 100) * taxAmount;
 };
@@ -189,7 +189,7 @@ export const getProductTaxAmount = ({
 export const calculateUserCalorie = (user: FilterFormSchema) => {
   const { weight, height, age, gender, activityLevel, goal } = user;
   if (weight && height && age && gender && activityLevel && goal) {
-    const s = gender === "male" ? 5 : -161;
+    const s = gender === 'male' ? 5 : -161;
     const bmr = 10 * weight + 6.25 * height - 5 * age + s;
     const factor = bmr * Number(activityLevel);
     return factor + Number(goal);
@@ -204,7 +204,7 @@ export function calculateDiscount(
 ): number {
   if (!regularPrice || !salePrice) return 0;
   if (regularPrice <= 0) {
-    throw new Error("Regular price must be greater than 0.");
+    throw new Error('Regular price must be greater than 0.');
   }
   return ((regularPrice - salePrice) / regularPrice) * 100;
 }
