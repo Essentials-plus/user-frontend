@@ -1,35 +1,37 @@
-import GlobalDialogs from "@/common/components/GlobalDialogs";
-import Layout from "@/common/components/layout";
-import { Toaster } from "@/common/components/ui/sonner";
-import Spinner from "@/common/components/ui/spinner";
-import UserSessionProvider from "@/hooks/useUserSession";
-import { getApiErrorMessage } from "@/lib/utils";
-import "@/styles/globals.css";
-import { AppPropsWithLayout } from "@/types/app-props";
+import GlobalDialogs from '@/common/components/GlobalDialogs';
+import Layout from '@/common/components/layout';
+import { Toaster } from '@/common/components/ui/sonner';
+import Spinner from '@/common/components/ui/spinner';
+import UserSessionProvider from '@/hooks/useUserSession';
+import { getApiErrorMessage } from '@/lib/utils';
+import '@/styles/globals.css';
+import { AppPropsWithLayout } from '@/types/app-props';
+import { GoogleTagManager } from '@next/third-parties/google';
+import Script from 'next/script';
 
 import {
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Check, Info, OctagonAlert, TriangleAlert } from "lucide-react";
-import { Montserrat, Open_Sans, Oswald, Roboto_Serif } from "next/font/google";
-import { NuqsAdapter } from "nuqs/adapters/next/pages";
-import { useState } from "react";
-import ScrollToTop from "react-scroll-to-top";
-import { toast } from "sonner";
+import { Check, Info, OctagonAlert, TriangleAlert } from 'lucide-react';
+import { Montserrat, Open_Sans, Oswald, Roboto_Serif } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/pages';
+import { useState } from 'react';
+import ScrollToTop from 'react-scroll-to-top';
+import { toast } from 'sonner';
 
 const openSans = Open_Sans({
-  subsets: ["latin"],
-  variable: "--open-sans",
-  weight: ["300", "400", "500", "700", "800"],
+  subsets: ['latin'],
+  variable: '--open-sans',
+  weight: ['300', '400', '500', '700', '800'],
 });
-const oswald = Oswald({ subsets: ["latin"], variable: "--oswald" });
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--montserrat" });
+const oswald = Oswald({ subsets: ['latin'], variable: '--oswald' });
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--montserrat' });
 const robotoSerif = Roboto_Serif({
-  subsets: ["latin"],
-  variable: "--roboto-serif",
+  subsets: ['latin'],
+  variable: '--roboto-serif',
 });
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
@@ -61,44 +63,59 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </>
     ));
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      <HydrationBoundary state={pageProps?.dehydratedState}>
-        <NuqsAdapter>
-          <UserSessionProvider session={pageProps.session}>
-            <style jsx global>{`
-              :root {
-                --open-sans: ${openSans.style.fontFamily};
-                --oswald: ${oswald.style.fontFamily};
-                --montserrat: ${montserrat.style.fontFamily};
-                --roboto-serif: ${robotoSerif.style.fontFamily};
-              }
-            `}</style>
-            {getLayout(<Component {...pageProps} />)}
-            <ScrollToTop className="max-lg:!bottom-5 max-lg:!right-5" smooth />
-            <Toaster
-              visibleToasts={5}
-              toastOptions={{
-                classNames: {
-                  description: "text-xs opacity-80",
-                  closeButton:
-                    "static shrink-0 order-3 ml-auto translate-y-0 rounded-sm bg-muted hover:!bg-muted border-none hover:ring-1 ring-muted-foreground/50 duration-100",
-                },
-              }}
-              closeButton
-              icons={{
-                error: <OctagonAlert className="size-4" />,
-                info: <Info className="size-4" />,
-                warning: <TriangleAlert className="size-4" />,
-                success: <Check className="size-4" />,
-                loading: <Spinner className="size-4" />,
-              }}
-            />
-            <GlobalDialogs />
-          </UserSessionProvider>
-        </NuqsAdapter>
-      </HydrationBoundary>
-    </QueryClientProvider>
+    <>
+      <GoogleTagManager gtmId="GTM-P85DBF4X" />
+      <Script id="microsoft-clarity" strategy="afterInteractive">
+        {`
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "wshzp4y171");
+        `}
+      </Script>
+      <QueryClientProvider client={queryClient}>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <HydrationBoundary state={pageProps?.dehydratedState}>
+          <NuqsAdapter>
+            <UserSessionProvider session={pageProps.session}>
+              <style jsx global>{`
+                :root {
+                  --open-sans: ${openSans.style.fontFamily};
+                  --oswald: ${oswald.style.fontFamily};
+                  --montserrat: ${montserrat.style.fontFamily};
+                  --roboto-serif: ${robotoSerif.style.fontFamily};
+                }
+              `}</style>
+              {getLayout(<Component {...pageProps} />)}
+              <ScrollToTop
+                className="max-lg:!bottom-5 max-lg:!right-5"
+                smooth
+              />
+              <Toaster
+                visibleToasts={5}
+                toastOptions={{
+                  classNames: {
+                    description: 'text-xs opacity-80',
+                    closeButton:
+                      'static shrink-0 order-3 ml-auto translate-y-0 rounded-sm bg-muted hover:!bg-muted border-none hover:ring-1 ring-muted-foreground/50 duration-100',
+                  },
+                }}
+                closeButton
+                icons={{
+                  error: <OctagonAlert className="size-4" />,
+                  info: <Info className="size-4" />,
+                  warning: <TriangleAlert className="size-4" />,
+                  success: <Check className="size-4" />,
+                  loading: <Spinner className="size-4" />,
+                }}
+              />
+              <GlobalDialogs />
+            </UserSessionProvider>
+          </NuqsAdapter>
+        </HydrationBoundary>
+      </QueryClientProvider>
+    </>
   );
 }
 
